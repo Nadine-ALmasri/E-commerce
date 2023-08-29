@@ -5,10 +5,10 @@ namespace E_commerce.Models.Interface
     public interface IProduct
     {
 
-        Task<ProductDTO> Create(Product product);
-        Task<List<Product>> GetAllProducts();
-        Task<Product> GetProductById(int Id);
-        Task<ProductDTO> Update(int Id, Product product);
+        Task<ProductCategoryDTO> Create(ProductDTO product);
+        Task<List<ProductCategoryDTO>> GetAllProducts();
+        Task<ProductCategoryDTO> GetProductById(int Id);
+        Task<ProductDTO> Update(int Id, ProductDTO product);
         Task Delete(int id);
     }
 }

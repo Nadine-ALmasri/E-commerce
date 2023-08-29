@@ -5,10 +5,10 @@ namespace E_commerce.Models.Interface
     public interface ICategory
     {
 
-        Task<CategoryDTO> Create(Category category);
-        Task<List<GetAllCategoryDTO>> GetAllCategories();
+        Task<CategoryDTO> Create(CategoryDTO category);
+        Task<List<CategoryDTO>> GetAllCategories();
         Task<GetAllCategoryDTO> GetCategoryById(int id);
-        Task<Category> Update(int id, CategoryDTO category);
+        Task<CategoryDTO> Update(int id, CategoryDTO category);
         Task Delete(int id);
     }
 }

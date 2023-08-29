@@ -13,59 +13,100 @@ namespace E_commerce.Models.Services
             _context = context;
 
         }
-        public async Task<ProductDTO> Create(Product product)
+        public async Task<ProductCategoryDTO> Create(ProductDTO product)
         {
-        _context.Entry(product).State= EntityState.Added;
-
-            await _context.SaveChangesAsync();
-            ProductDTO productDTO = new ProductDTO()
+            var pro = new Product
             {
-                Id = product.Id,
-                Name = product.Name,
-                CategoryId = product.CategoryId,
-                Description = product.Description,
-                Price = product.Price,
+                Name= product.Name,
+                Price= product.Price,
+                Description= product.Description,
+                CategoryId=product.CategoryId
+            };
+            _context.Entry(pro).State= EntityState.Added;
+            await _context.SaveChangesAsync();
+            var productc = await _context.Product.Include(c=>c.Category).FirstOrDefaultAsync(x=>x.Id==pro.Id);
 
-
+            var productDTO = new ProductCategoryDTO()
+            {
+                Id = pro.Id,
+                Name = pro.Name,
+                CategoryId = pro.CategoryId,
+                Description = pro.Description,
+                Price = pro.Price,
+                categoryname= productc.Category.Name
             };
             return productDTO;
         }
 
         public async Task Delete(int id)
         {
-            Product product = await _context.Product.FindAsync(id);
-            _context.Entry(product ).State= EntityState.Deleted;
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<List<Product>> GetAllProducts()
-        {
-           var products = await _context.Product.Select(pr => new Product()
-           { Id = pr.Id, Name = pr.Name, CategoryId = pr.CategoryId, Description = pr.Description, Price = pr.Price }).ToListAsync();
-            return products;
-        }
-
-        public async Task<Product> GetProductById(int Id)
-        {
-            var products = await _context.Product.Select(pr => new Product()
-            { Id = pr.Id, Name = pr.Name, CategoryId = pr.CategoryId, Description = pr.Description, Price = pr.Price }).FirstOrDefaultAsync((x => x.Id == Id));
-            return products;
-        }
-
-        public async Task<ProductDTO> Update(int Id, Product product)
-        {
-            ProductDTO productDto = new ProductDTO
+            var product = await _context.Product.FindAsync(id);
+            if(product != null)
             {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                CategoryId = product.CategoryId,
-            };
-                _context.Entry(product).State = EntityState.Modified;
-            await _context.SaveChangesAsync(); 
+                _context.Entry(product).State = EntityState.Deleted;
+                await _context.SaveChangesAsync();
+            }
+        }
 
-            return productDto;
+        public async Task<List<ProductCategoryDTO>> GetAllProducts()
+        {
+           var products = await _context.Product.Include(c=>c.Category).Select(pr => new ProductCategoryDTO()
+           { 
+               Id = pr.Id, 
+               Name = pr.Name, 
+               CategoryId = pr.CategoryId, 
+               Description = pr.Description, 
+               Price = pr.Price,
+               categoryname=pr.Category.Name
+           }).ToListAsync();
+            return products;
+        }
+
+        public async Task<ProductCategoryDTO> GetProductById(int Id)
+        {
+            var product=await _context.Product.Include(c=>c.Category).FirstOrDefaultAsync(x=>x.Id==Id);
+            if (product == null)
+                return null;
+            var products = await _context.Product.Select(pr => new ProductCategoryDTO()
+            { 
+                Id = pr.Id, 
+                Name = pr.Name, 
+                CategoryId = pr.CategoryId, 
+                Description = pr.Description, 
+                Price = pr.Price, 
+                categoryname=pr.Category.Name
+                }).FirstOrDefaultAsync((x => x.Id == Id));
+            return products;
+        }
+
+        public async Task<ProductDTO> Update(int Id, ProductDTO product)
+        {
+            var UpdateProduct = await _context.Product.FindAsync(Id);
+            if(UpdateProduct != null)
+            {
+                UpdateProduct.Name=product.Name;
+                UpdateProduct.Price=product.Price;
+                UpdateProduct.Description=product.Description;
+                UpdateProduct.CategoryId = product.CategoryId;
+                _context.Entry(UpdateProduct).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                return null;
+            }
+
+            var upddateProductDTO = new ProductDTO
+            {
+                Id = UpdateProduct.Id,
+                Name = UpdateProduct.Name,
+                Price=UpdateProduct.Price,
+                Description=UpdateProduct.Description,
+                CategoryId=UpdateProduct.CategoryId
+            };
+                
+
+            return upddateProductDTO;
         }
     }
 }
