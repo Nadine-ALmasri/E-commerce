@@ -14,16 +14,21 @@ namespace E_commerce.Models.Services
             _context = context;
 
         }
-        public async Task<CategoryDTO> Create(Category category)
+        public async Task<CategoryDTO> Create(CategoryDTO category)
         {
-            _context.Entry(category).State = EntityState.Added;
+            var newCategory = new Category
+            {
+                Name=category.Name
+            };
+
+            _context.Entry(newCategory).State = EntityState.Added;
 
             await _context.SaveChangesAsync();
 
-            CategoryDTO categorydto = new CategoryDTO()
+            var categorydto = new CategoryDTO()
             {
-                Id = category.Id,
-                Name = category.Name
+                Id = newCategory.Id,
+                Name = newCategory.Name
             };
 
             return categorydto;
@@ -37,21 +42,12 @@ namespace E_commerce.Models.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<GetAllCategoryDTO>> GetAllCategories()
+        public async Task<List<CategoryDTO>> GetAllCategories()
         {
-            var TheCategory= await _context.Categories.Select(category => new GetAllCategoryDTO
+            var TheCategory= await _context.Categories.Select(category => new CategoryDTO
             {
                 Id = category.Id,
                 Name = category.Name,
-                Products = category.Products.Select(p => new Product
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Price = p.Price,
-                    Description = p.Description,
-                    CategoryId = p.CategoryId
-
-                }).ToList()
             }).ToListAsync();
             return TheCategory;
 
@@ -67,7 +63,7 @@ namespace E_commerce.Models.Services
             {
                 Id = category.Id,
                 Name = category.Name,
-                Products = category.Products.Select(p => new Product
+                Products = category.Products.Select(p => new ProductDTO
                 {
                     Id = p.Id,
                     Name = p.Name,
@@ -79,17 +75,28 @@ namespace E_commerce.Models.Services
             return TheCategory;
         }
 
-        public async Task<Category> Update(int id, CategoryDTO category)
+        public async Task<CategoryDTO> Update(int id, CategoryDTO category)
         {
-            Category UpdatedCategory = await _context.Categories.FindAsync(id);
+            var UpdatedCategory = await _context.Categories.FindAsync(id);
+            
             if (UpdatedCategory != null)
             {
                 UpdatedCategory.Name = category.Name;
-                UpdatedCategory.Id = category.Id;
                 _context.Entry(UpdatedCategory).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
-            return UpdatedCategory;
+            else
+            {
+                return null;
+            }
+
+            var UpdatedCategoryDTO = new CategoryDTO
+            {
+                Id= UpdatedCategory.Id,
+                Name = UpdatedCategory.Name
+            };
+
+            return UpdatedCategoryDTO;
 
         }
     }
