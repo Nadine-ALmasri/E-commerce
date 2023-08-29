@@ -1,4 +1,7 @@
 using E_commerce.Data;
+using E_commerce.Models.Interface;
+using E_commerce.Models.Services;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_commerce
@@ -16,6 +19,9 @@ namespace E_commerce
             builder.Services
                 .AddDbContext<E_commerceDbContext>
                 (opions => opions.UseSqlServer(connString));
+            builder.Services.AddTransient<ICategory, CategoryServices>();
+            builder.Services.AddTransient<IProduct, ProductServices>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -25,6 +31,7 @@ namespace E_commerce
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+         
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

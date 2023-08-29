@@ -1,0 +1,48 @@
+﻿﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Models.DTOs
+@model CategoryDTO
+
+
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    <table border=1 class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Description
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Products) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-controller="Category" asp-action="Index">Back to List</a>
+</div>

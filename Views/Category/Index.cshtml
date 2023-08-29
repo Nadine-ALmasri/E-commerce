@@ -1,0 +1,42 @@
+﻿﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Models.DTOs
+@model List<GetAllCategoryDTO>
+
+
+    <h4>Category Page</h4>
+    <hr />
+    <p>
+        <a href="#">Create New</a>
+    </p>
+    <table border=1 class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Name
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a href="#">Edit</a> |
+                    <a asp-controller="Category" asp-action="Details" asp-route-id=@item.Id>Details</a> |
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+}
+        </tbody>
+    </table>
+    <div>
+        <a asp-controller="Home" asp-action="Index">Back to home page</a>
+    </div>
