@@ -56,7 +56,11 @@ namespace E_commerce.Models.Services
             return TheCategory;
 
         }
-
+        /// <summary>
+        /// /
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<GetAllCategoryDTO> GetCategoryById(int id)
         {
            var TheCategory=  await _context.Categories.Select(category => new GetAllCategoryDTO
