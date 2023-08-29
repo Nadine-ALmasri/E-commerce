@@ -1,10 +1,10 @@
-﻿@model List<GetAllCategoryDTO>
+﻿@model List<CategoryDTO>
 
 
     <h4>Category Page</h4>
     <hr />
     <p>
-        <a href="#">Create New</a>
+        <a asp-action="Create">Create New</a>
     </p>
     <table border=1 class="table">
         <thead>
@@ -27,9 +27,13 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    <a href="#">Edit</a> |
-                    <a asp-controller="Category" asp-action="Details" asp-route-id=@item.Id>Details</a> |
-                    <a href="#">Delete</a>
+               
+                    <a asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+              
+
+                <a asp-controller="Category" asp-action="Details" asp-route-id=@item.Id>Details</a> |
+                <a asp-controller="Category" asp-action="Delete" asp-route-id=@item.Id>Delete</a> |
+
                 </td>
             </tr>
 }

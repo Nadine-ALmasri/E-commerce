@@ -1,0 +1,22 @@
+﻿@model ProductDTO
+
+<h4>Edit Product</h4>
+<hr />
+<form asp-controller="Product" asp-action="Edit" method="post">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label" ></label>
+        <input asp-for="Name" placeholder="@Html.DisplayFor(model => model.Name)" class="form-control" />
+        <label asp-for="Price" class="control-label">@Html.DisplayFor(model => model.Price)</label>
+        <input asp-for="Price" class="form-control" />
+        <label asp-for="Description" class="control-label"></label>
+        <input asp-for="Description" class="form-control" />
+        <label asp-for="CategoryId" class="control-label"></label>
+        <input asp-for="CategoryId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>
+<p>
+    <a asp-action="Index">Back to List</a>
+</p>
