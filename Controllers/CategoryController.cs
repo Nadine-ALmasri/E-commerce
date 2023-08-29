@@ -15,13 +15,13 @@ namespace E_commerce.Controllers
             }
 
 
-            public async Task<ActionResult<CategoryDTO>> Index()
+            public async Task<ActionResult<List<GetAllCategoryDTO>>> Index()
             {
                 List<GetAllCategoryDTO> categories = await _category.GetAllCategories();
                 return View(categories);
             }
 
-            public async Task<ActionResult<CategoryDTO>> Details(int id)
+            public async Task<ActionResult<GetAllCategoryDTO>> Details(int id)
             {
             GetAllCategoryDTO category = await _category.GetCategoryById(id);
 
