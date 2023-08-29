@@ -1,0 +1,65 @@
+﻿@model List<ProductCategoryDTO>
+
+<h4>Category Page</h4>
+<hr />
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table border=1 class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                CategoryName
+            </th>
+            <th>
+                CategoryId
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.categoryname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryId)
+                </td>
+                <td>
+                    <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-controller="Product" asp-action="Details" asp-route-id=@item.Id>Details</a> |
+                    <a asp-controller="Product" asp-action="Delete" asp-route-id=@item.Id>Delete</a> |
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-controller="Home" asp-action="Index">Back to home page</a>
+</div>

@@ -5,28 +5,86 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_commerce.Controllers
 {
-  
-        public class ProductController : Controller
+
+    public class ProductController : Controller
+    {
+        private readonly IProduct _prouduct;
+
+        public ProductController(IProduct prouduct)
         {
-            private readonly IProduct _prouduct;
+            _prouduct = prouduct;
+        }
 
-            public ProductController(IProduct prouduct)
+        public async Task<ActionResult<ProductCategoryDTO>> Index()
+        {
+            List<ProductCategoryDTO> products = await _prouduct.GetAllProducts();
+            return View(products);
+        }
+
+        public async Task<ActionResult<ProductCategoryDTO>> Details(int id)
+        {
+            ProductCategoryDTO product = await _prouduct.GetProductById(id);
+
+            return View(product);
+        }
+        public async Task<ActionResult<List<ProductCategoryDTO>>> Create(ProductDTO product)
+        {
+            if (ModelState.IsValid)
             {
-                _prouduct = prouduct;
-            }
+                // Create the new category using _category service
+                await _prouduct.Create(product);
 
-            public async Task<ActionResult<Product>> Index()
+                return RedirectToAction(nameof(Index));
+            }
+           
+            var productCategoryDTO = new ProductCategoryDTO
+            { CategoryId = product.CategoryId ,
+            Price = product.Price ,
+            Name = product.Name ,
+            Description = product.Description ,
+            Id = product.Id 
+            
+     
+            
+            
+            };
+
+            // If model state is invalid, return the view with validation errors
+            return View(productCategoryDTO);
+        }
+        public async Task<ActionResult<ProductDTO>> Delete(int id)
+        {
+            ProductCategoryDTO product = await _prouduct.GetProductById(id);
+            await _prouduct.Delete(product.Id);
+            ProductDTO newPro = new ProductDTO
             {
-                List<Product> products = await _prouduct.GetAllProducts();
-                return View(products);
-            }
+Name= product.Name ,
+Description= product.Description ,
+Id = product.Id,
+Price = product.Price ,
+CategoryId = product.CategoryId ,
 
-            public async Task<ActionResult<Product>> Details(int id)
+            };
+            View(newPro);
+            return View();
+
+        }
+        public async Task<ActionResult<ProductDTO>> Edit(int id, ProductDTO product)
+        {
+            if (id !=product.Id)
             {
-                Product product = await _prouduct.GetProductById(id);
-
-                return View(product);
+                return null;
             }
+            if (ModelState.IsValid)
+            {
+                ProductDTO updated = await _prouduct.Update(id, product);
+
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+
         }
     }
+}
 

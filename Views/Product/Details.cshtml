@@ -1,0 +1,51 @@
+﻿
+@using E_commerce.Models.DTOs
+@model ProductCategoryDTO 
+
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    <table border=1 class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                CategoryName
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+     <tr>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.Description)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => modelItem.categoryname)
+            </td>
+     </tr>
+    </tbody>
+</table>
+</div>
+<div>
+    <a asp-controller="Product" asp-action="Index" >Back to List</a>
+</div>
