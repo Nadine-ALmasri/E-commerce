@@ -23,4 +23,12 @@ The main goal of this project is to create an admin dashboard for managing produ
 - Views: Contains the Razor views that define the user interface for different actions. Views are organized by controller and action names.
 
 ## Visulazation
+![](./lab26.PNG)
+![](./lab26-2.PNG)
+![](./lab26-3.PNG)
+
+## Contact
+If you have any questions or need assistance, feel free to contact the project contributors.
+
+
 
