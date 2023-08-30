@@ -4,7 +4,7 @@
     <h4>Category Page</h4>
     <hr />
     <p>
-        <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
     </p>
     <table border=1 class="table">
         <thead>
@@ -14,6 +14,9 @@
                 </th>
                 <th>
                     Name
+                </th>
+                <th>
+                    Details
                 </th>
             </tr>
         </thead>
@@ -27,18 +30,12 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-               
-                    <a asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-              
-
-                <a asp-controller="Category" asp-action="Details" asp-route-id=@item.Id>Details</a> |
-                <a asp-controller="Category" asp-action="Delete" asp-route-id=@item.Id>Delete</a> |
-
+                    <a asp-controller="Category" asp-action="Details" asp-route-id=@item.Id class="btn btn-info">Details</a>
                 </td>
             </tr>
 }
         </tbody>
     </table>
     <div>
-        <a asp-controller="Home" asp-action="Index">Back to home page</a>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to home page</a>
     </div>
