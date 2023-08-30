@@ -10,5 +10,9 @@ namespace E_commerce.Controllers
         {
             return View();
         }
+        public IActionResult Privacy()
+        {
+            return View();
+        }
     }
     }

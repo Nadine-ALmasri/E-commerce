@@ -27,26 +27,32 @@ namespace E_commerce.Controllers
 
             return View(product);
         }
+
+        [HttpGet]
+        public async Task<ActionResult<List<ProductCategoryDTO>>> Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public async Task<ActionResult<List<ProductCategoryDTO>>> Create(ProductDTO product)
         {
+            ProductCategoryDTO result = null;
             if (ModelState.IsValid)
             {
                 // Create the new category using _category service
-                await _prouduct.Create(product);
+                result=await _prouduct.Create(product);
 
                 return RedirectToAction(nameof(Index));
             }
            
             var productCategoryDTO = new ProductCategoryDTO
-            { CategoryId = product.CategoryId ,
-            Price = product.Price ,
-            Name = product.Name ,
-            Description = product.Description ,
-            Id = product.Id 
-            
-     
-            
-            
+            { 
+            CategoryId = result.CategoryId ,
+            Price = result.Price ,
+            Name = result.Name ,
+            Description = result.Description ,
+            Id = result.Id 
             };
 
             // If model state is invalid, return the view with validation errors

@@ -1,6 +1,4 @@
-﻿
-@using E_commerce.Models.DTOs
-@model ProductCategoryDTO 
+﻿@model ProductCategoryDTO 
 
 <div>
     <h4>@Model.Name</h4>
@@ -40,12 +38,15 @@
                 @Html.DisplayFor(modelItem => modelItem.Description)
             </td>
             <td>
-                    @Html.DisplayFor(modelItem => modelItem.categoryname)
+                @Html.DisplayFor(modelItem => modelItem.categoryname)
             </td>
      </tr>
     </tbody>
 </table>
 </div>
+<br />
 <div>
-    <a asp-controller="Product" asp-action="Index" >Back to List</a>
+    <a asp-controller="Category" asp-action="Details" asp-route-id="@Model.CategoryId" class="btn btn-secondary">Back to List</a> |
+    <a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Edit</a> |
+    <a asp-controller="Product" asp-action="Delete" asp-route-id=@Model.Id class="btn btn-danger">Delete</a>
 </div>
