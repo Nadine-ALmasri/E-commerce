@@ -15,13 +15,13 @@ namespace E_commerce.Controllers
             }
 
 
-            public async Task<ActionResult<List<CategoryDTO>>> Index()
+            public async Task<IActionResult> Index()
             {
                 List<CategoryDTO> categories = await _category.GetAllCategories();
                 return View(categories);
             }
 
-            public async Task<ActionResult<GetAllCategoryDTO>> Details(int id)
+            public async Task<IActionResult> Details(int id)
             {
             GetAllCategoryDTO category = await _category.GetCategoryById(id);
 
@@ -30,7 +30,7 @@ namespace E_commerce.Controllers
 
         [HttpGet]
         [ActionName("Delete")]
-        public async Task<ActionResult> DeleteGet(int id)
+        public async Task<IActionResult> DeleteGet(int id)
         {
             GetAllCategoryDTO category = await _category.GetCategoryById(id);
             CategoryDTO categoryDTO = new CategoryDTO
@@ -45,18 +45,18 @@ namespace E_commerce.Controllers
           List<CategoryDTO> categories = await _category.GetAllCategories();
           return View(categories);*/
         [HttpPost]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             GetAllCategoryDTO category = await _category.GetCategoryById(id);
             if(category==null)
-                return RedirectToAction(nameof(NotFound));
+                return RedirectToAction("notFound", "Home");
             await _category.Delete(category.Id);
             return RedirectToAction(nameof(Index));
         }
 
 
         [HttpGet]
-        public async Task<ActionResult<CategoryDTO>> Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var category = await _category.GetCategoryById(id);
             var CategoryDTO = new CategoryDTO
@@ -68,32 +68,32 @@ namespace E_commerce.Controllers
             {
                     return View(CategoryDTO);
             }
-            return RedirectToAction(nameof(notFound));
+            return RedirectToAction("notFound","Home");
         }
 
         [HttpPost]
-        public async Task<ActionResult<CategoryDTO>> Edit(int id, CategoryDTO category)
+        public async Task<IActionResult> Edit(int id, CategoryDTO category)
         {
             if (id != category.Id)
             {
-                return null;
+                return RedirectToAction("notFound", "Home");
             }
             if (ModelState.IsValid)
             {
                 CategoryDTO updated = await _category.Update(id, category);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), updated);
             }
             return View(category);
 
         }
         [HttpGet]
-        public async Task<ActionResult<List<CategoryDTO>>> Create()
+        public async Task<IActionResult> Create()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<CategoryDTO>>> Create(CategoryDTO category)
+        public async Task<IActionResult> Create(CategoryDTO category)
         {
             /* var newCat=  await _category.Create(category);
                if (newCat == null)
@@ -114,11 +114,6 @@ namespace E_commerce.Controllers
             return View(category);
 
 
-        }
-
-        public async Task<ActionResult> notFound()
-        {
-            return View();
         }
     }
     }

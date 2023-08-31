@@ -6,11 +6,16 @@ namespace E_commerce.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> notFound()
         {
             return View();
         }

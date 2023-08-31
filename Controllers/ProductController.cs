@@ -2,6 +2,7 @@
 using E_commerce.Models.DTOs;
 using E_commerce.Models.Interface;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace E_commerce.Controllers
 {
@@ -9,19 +10,21 @@ namespace E_commerce.Controllers
     public class ProductController : Controller
     {
         private readonly IProduct _prouduct;
+        private readonly ICategory _category;
 
-        public ProductController(IProduct prouduct)
+        public ProductController(IProduct prouduct, ICategory category)
         {
             _prouduct = prouduct;
+            _category = category;
         }
 
-        public async Task<ActionResult<ProductCategoryDTO>> Index()
+        public async Task<IActionResult> Index()
         {
             List<ProductCategoryDTO> products = await _prouduct.GetAllProducts();
             return View(products);
         }
 
-        public async Task<ActionResult<ProductCategoryDTO>> Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
             ProductCategoryDTO product = await _prouduct.GetProductById(id);
 
@@ -29,21 +32,34 @@ namespace E_commerce.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<ProductCategoryDTO>>> Create()
+        public async Task<IActionResult> Create()
         {
+            var CategoriesDTO = await _category.GetAllCategories();
+            ViewBag.CategoriesDTO = new SelectList(CategoriesDTO, "Id", "Name");
             return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<ProductCategoryDTO>>> Create(ProductDTO product)
+        public async Task<IActionResult> Create(ProductDTO product)
         {
             ProductCategoryDTO result = null;
             if (ModelState.IsValid)
             {
                 // Create the new category using _category service
                 result=await _prouduct.Create(product);
+                var categoryResult = await _category.GetCategoryById(result.CategoryId);
+                return RedirectToAction(nameof(Details),"Category", categoryResult);
+            }
 
-                return RedirectToAction(nameof(Index));
+            List<CategoryDTO> CategoriesDTO;
+
+            if ( result==null)
+            {
+                CategoriesDTO = await _category.GetAllCategories();
+                ViewBag.CategoriesDTO = new SelectList(CategoriesDTO, "Id", "Name");
+
+                // If model state is invalid, return the view with validation errors
+                return View();
             }
            
             var productCategoryDTO = new ProductCategoryDTO
@@ -54,42 +70,80 @@ namespace E_commerce.Controllers
             Description = result.Description ,
             Id = result.Id 
             };
+            CategoriesDTO = await _category.GetAllCategories();
+            ViewBag.CategoriesDTO = new SelectList(CategoriesDTO, "Id", "Name");
 
             // If model state is invalid, return the view with validation errors
             return View(productCategoryDTO);
         }
-        public async Task<ActionResult<ProductDTO>> Delete(int id)
+
+        [HttpGet]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeleteGet(int id)
+        {
+            var product = await _prouduct.GetProductById(id);
+            return View(product);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
         {
             ProductCategoryDTO product = await _prouduct.GetProductById(id);
+            if(product==null)
+                return RedirectToAction("notFound", "Home");
+            var category = await _category.GetCategoryById(product.CategoryId);
             await _prouduct.Delete(product.Id);
-            ProductDTO newPro = new ProductDTO
-            {
-Name= product.Name ,
-Description= product.Description ,
-Id = product.Id,
-Price = product.Price ,
-CategoryId = product.CategoryId ,
-
-            };
-            View(newPro);
-            return View();
-
+            return RedirectToAction(nameof(Details), "Category", category);
         }
-        public async Task<ActionResult<ProductDTO>> Edit(int id, ProductDTO product)
-        {
-            if (id !=product.Id)
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {   
+
+            var Product = await _prouduct.GetProductById(id);
+            var CategoriesDTO = await _category.GetAllCategories();
+            ViewBag.CategoriesDTO = new SelectList(CategoriesDTO, "Id", "Name");
+            var ProductDTO = new ProductDTO
             {
-                return null;
+                Id = Product.Id,
+                Name= Product.Name,
+                Price= Product.Price,
+                Description= Product.Description,
+                CategoryId= Product.CategoryId
+            };
+            if (ProductDTO != null)
+            {
+                return View(ProductDTO);
+            }
+            return RedirectToAction("notFound", "Home");
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, ProductDTO product)
+        {
+            if (id != product.Id)
+            {
+                return RedirectToAction("notFound", "Home");
             }
             if (ModelState.IsValid)
             {
-                ProductDTO updated = await _prouduct.Update(id, product);
-
-
-                return RedirectToAction(nameof(Index));
+                var updated = await _prouduct.Update(id, product);
+                var category = await _category.GetCategoryById(updated.CategoryId);
+                var updatedDTO = new ProductCategoryDTO
+                {
+                    Id= updated.Id,
+                    Name= updated.Name,
+                    Price= updated.Price,
+                    Description = updated.Description,
+                    CategoryId = updated.CategoryId,
+                    categoryname= category.Name
+                };
+                return RedirectToAction(nameof(Details), updatedDTO);
             }
-            return View();
-
+            var CategoriesDTO = await _category.GetAllCategories();
+            ViewBag.CategoriesDTO = new SelectList(CategoriesDTO, "Id", "Name");
+            return View(product);
         }
     }
 }
