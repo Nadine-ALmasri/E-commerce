@@ -2,7 +2,7 @@
 
 <h4>Create Product</h4>
 <hr />
-<form asp-controller="Product" asp-action="Create">
+<form asp-controller="Product" asp-action="Create" method="post">
     <div class="form-group">
         <label asp-for="Name" class="control-label"></label>
         <input asp-for="Name" class="form-control" />
@@ -11,13 +11,20 @@
         <label asp-for="Description" class="control-label"></label>
         <input asp-for="Description" class="form-control" />
         <label asp-for="CategoryId" class="control-label"></label>
-        <input asp-for="CategoryId" class="form-control" />
+        <select asp-for="CategoryId" class="select2 form-control">
+            @foreach (var category in ViewBag.CategoriesDTO as SelectList)
+            {
+                <option value="@category.Value">@category.Text</option>
+            }
+        </select>
     </div>
+    <br />
     <div class="form-group">
         <input type="submit" value="Create" class="btn btn-primary" />
     </div>
 </form>
+<br />
 <p>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index"  class="btn btn-dark">Back to List</a>
 </p>
 
