@@ -32,16 +32,28 @@ namespace E_commerce.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int id)
         {
+            if(id != 0)
+            {
+                var category = await _category.GetCategoryById(id);
+                ViewBag.CategoryID = category.Id;
+                ViewBag.CategoryName = category.Name;
+            }
             var CategoriesDTO = await _category.GetAllCategories();
             ViewBag.CategoriesDTO = new SelectList(CategoriesDTO, "Id", "Name");
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProductDTO product)
+        public async Task<IActionResult> Create(int id,ProductDTO product)
         {
+            if(id!=0)
+            {
+                var category = await _category.GetCategoryById(id);
+                ViewBag.CategoryID = category.Id;
+                ViewBag.CategoryName = category.Name;
+            }
             ProductCategoryDTO result = null;
             if (ModelState.IsValid)
             {
