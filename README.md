@@ -21,12 +21,27 @@ The main goal of this project is to create an admin dashboard for managing produ
 - Services: Contains service classes that implement interfaces for managing categories and products.
 
 - Views: Contains the Razor views that define the user interface for different actions. Views are organized by controller and action names.
+## Testing CRUD Capabilities
+
+Testing the CRUD (Create, Read, Update, Delete) capabilities of our controllers is a crucial step in ensuring the functionality and reliability of our application's API. These tests help us confirm that our endpoints respond correctly to various HTTP requests and that they handle data operations effectively.
+
+- Create:
+
+During testing, we verify that our "Create" functionality accurately adds new data to our system. This includes testing the validation of input data, handling duplicate entries, and ensuring that the created data matches our expectations.
+- Read:
+
+Testing the "Read" operations involves retrieving data from our API. We check if our endpoints return the expected data when queried and handle scenarios like filtering, pagination, and sorting.
+- Update:
+
+For "Update" operations, we confirm that our endpoints correctly modify existing data. This involves testing the ability to update specific fields, handling edge cases, and ensuring that data consistency is maintained.
+- Delete:
+
+"Delete" operations verify that our API can remove data as intended. We check that the endpoints correctly identify and delete the specified records, and that any associated data or references are appropriately managed.
 
 ## Visulazation
-![](./lab26.PNG)
-![](./lab26-2.PNG)
-![](./lab26-3.PNG)
-
+![](./Images/lab26.PNG)
+![](./Images/lab26-2.PNG)
+![](./Images/lab26-3.PNG)
 ## Contact
 If you have any questions or need assistance, feel free to contact the project contributors.
 
