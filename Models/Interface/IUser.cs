@@ -10,5 +10,6 @@ namespace E_commerce.Models.Interface
         public Task<UserDTO> Authenticate(string username, string password);
 
         public Task<UserDTO> GetUser(string username);
+        public Task Logout();
     }
 }

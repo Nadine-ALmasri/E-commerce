@@ -81,5 +81,9 @@ namespace E_commerce.Models.Services
 
             return null;
         }
+        public async Task Logout()
+        {
+            await _signInManager.SignOutAsync();
+        }
     }
 }

@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
 namespace E_commerce.Controllers
-{
+{ 
     public class CategoryController : Controller
     {
-        
+       
             private readonly ICategory _category;
 
             public CategoryController(ICategory category)
