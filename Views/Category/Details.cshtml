@@ -1,14 +1,20 @@
 ﻿@model GetAllCategoryDTO
-
+@using Microsoft.AspNetCore.Identity;
+@using E_commerce.Models ; 
+@inject SignInManager<ApplicationUser> signInManager
 
 <div>
     <h4>@Model.Name</h4>
     <div>
-        <a asp-controller="Category" asp-action="Index" class="btn btn-secondary">Back to List</a>   |
-        <a asp-controller="Category" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Edit</a> |
-        <a asp-controller="Category" asp-action="Delete" asp-route-id=@Model.Id class="btn btn-danger">Delete</a>
-    </div>
-    <hr />
+     
+  <a asp-controller="Category" asp-action="Index" class="btn btn-secondary">Back to List</a>   |
+        @if (signInManager.IsSignedIn(User))
+        {
+            <a asp-controller="Category" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Edit</a>
+            <a asp-controller="Category" asp-action="Delete" asp-route-id=@Model.Id class="btn btn-danger">Delete</a>
+        } </div>
+        
+        <hr />
     <table border=1 class="table">
         <thead>
             <tr>

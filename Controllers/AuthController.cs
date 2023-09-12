@@ -30,10 +30,10 @@ namespace E_commerce.Controllers
 
             data.Roles = new List<string>() { "Editor" };
 
-            var user = userService.Register(data, this.ModelState);
+            var user = await userService.Register(data, this.ModelState);
             if (!ModelState.IsValid)
             {
-                return View (user);
+                return View(user);
             }
             return RedirectToAction("Index", "Home");
         }
@@ -65,6 +65,12 @@ namespace E_commerce.Controllers
             ViewData["name"] = name;
             ViewBag.Name = name;
             return View();
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await userService.Logout();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

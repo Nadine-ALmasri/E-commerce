@@ -7,7 +7,7 @@ namespace E_commerce.Controllers
 {
     public class HomeController : Controller
     {
-        [Authorize]
+      
         public async Task<IActionResult> Index()
         {
             return View();

@@ -8,7 +8,7 @@ using System.Data;
 
 namespace E_commerce.Controllers
 {
-
+    
     public class ProductController : Controller
     {
         private readonly IProduct _prouduct;
