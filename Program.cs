@@ -1,6 +1,9 @@
 using E_commerce.Data;
+using E_commerce.Models;
 using E_commerce.Models.Interface;
 using E_commerce.Models.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.Options;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +24,18 @@ namespace E_commerce
                 (opions => opions.UseSqlServer(connString));
             builder.Services.AddTransient<ICategory, CategoryServices>();
             builder.Services.AddTransient<IProduct, ProductServices>();
+            builder.Services.AddTransient<IUser, IdentityUserService>();
+            /// regstor the identty
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+      .AddEntityFrameworkStores<E_commerceDbContext>()
+;
 
+            builder.Services.AddAuthentication();
+            builder.Services.AddAuthorization();
+            builder.Services.ConfigureApplicationCookie(options => {
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.LoginPath = "/auth/LogIn";
+            }) ;
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -37,7 +51,7 @@ namespace E_commerce
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

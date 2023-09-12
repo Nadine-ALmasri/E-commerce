@@ -1,13 +1,14 @@
 ﻿using E_commerce.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace E_commerce.Data
 {
-    public class E_commerceDbContext : DbContext
+    public class E_commerceDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Product> Product { get; set; }
-        public DbSet<Category> Categories { get; set; }
+       
         public E_commerceDbContext(DbContextOptions options) : base(options)
         {
 
@@ -15,7 +16,9 @@ namespace E_commerce.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            SeedRoles(modelBuilder, "Administrator");
+            SeedRoles(modelBuilder, "Editor");
+            SeedRoles(modelBuilder, "User");
             modelBuilder.Entity<Category>().HasData(
              new Category { Id = 1, Name = "Electronics" },
              new Category { Id = 2, Name = "Computers & Tablets" },
@@ -32,6 +35,19 @@ namespace E_commerce.Data
             new Product { Id = 8, Name = "NYX PROFESSIONAL MAKEUP Epic Ink Liner", Price =9.00, Description = ", Waterproof Liquid Eyeliner - Black, Vegan Formula", CategoryId = 3 }
             );
         }
+        private void SeedRoles(ModelBuilder modelBuilder, string roleName)
+        {
+            var role = new IdentityRole
+            {
+                Id = roleName.ToLower(),
+                Name = roleName,
+                NormalizedName = roleName.ToUpper(),
+                ConcurrencyStamp = Guid.Empty.ToString()
+            };
+            modelBuilder.Entity<IdentityRole>().HasData(role);
+        }
+        public DbSet<Product> Product { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }
 
