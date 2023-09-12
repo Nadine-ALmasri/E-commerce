@@ -1,6 +1,8 @@
 ﻿using E_commerce.Models.DTOs;
 using E_commerce.Models.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace E_commerce.Controllers
 {
@@ -27,7 +29,7 @@ namespace E_commerce.Controllers
 
                 return View(category);
             }
-
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
         [ActionName("Delete")]
         public async Task<IActionResult> DeleteGet(int id)
@@ -56,6 +58,7 @@ namespace E_commerce.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "Editor")]
         public async Task<IActionResult> Edit(int id)
         {
             var category = await _category.GetCategoryById(id);
@@ -70,7 +73,7 @@ namespace E_commerce.Controllers
             }
             return RedirectToAction("notFound","Home");
         }
-
+        [Authorize(Roles = "Editor")]
         [HttpPost]
         public async Task<IActionResult> Edit(int id, CategoryDTO category)
         {
@@ -91,7 +94,7 @@ namespace E_commerce.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> Create(CategoryDTO category)
         {

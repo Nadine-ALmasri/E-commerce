@@ -1,0 +1,15 @@
+﻿<form method="post" action="/auth/LogIn">
+    <div class="form-group">
+        <label class="sr-only" for="username">username:</label>
+        <input type="text" name="username" class="form-control" id="username">
+    </div>
+
+    <div class="form-group">
+        <label class="sr-only" for="password">Password:</label>
+        <input type="password" name="password" class="form-control" id="password">
+    </div>
+
+    <button type="submit" class="btn btn-default">Sign in</button>
+</form>
+
+<div asp-validation-summary="All"></div>

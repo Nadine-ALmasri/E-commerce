@@ -1,8 +1,10 @@
 ﻿using E_commerce.Models;
 using E_commerce.Models.DTOs;
 using E_commerce.Models.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Data;
 
 namespace E_commerce.Controllers
 {
@@ -30,7 +32,7 @@ namespace E_commerce.Controllers
 
             return View(product);
         }
-
+        [Authorize(Roles = "Administrator,Editor")]
         [HttpGet]
         public async Task<IActionResult> Create(int id)
         {
@@ -46,6 +48,7 @@ namespace E_commerce.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator,Editor")]
         public async Task<IActionResult> Create(int id,ProductDTO product)
         {
             if(id!=0)
@@ -91,12 +94,13 @@ namespace E_commerce.Controllers
 
         [HttpGet]
         [ActionName("Delete")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteGet(int id)
         {
             var product = await _prouduct.GetProductById(id);
             return View(product);
         }
-
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
@@ -108,6 +112,7 @@ namespace E_commerce.Controllers
             return RedirectToAction(nameof(Details), "Category", category);
         }
         [HttpGet]
+        [Authorize(Roles = "Editor")]
         public async Task<IActionResult> Edit(int id)
         {   
 
@@ -132,6 +137,7 @@ namespace E_commerce.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Editor")]
         public async Task<IActionResult> Edit(int id, ProductDTO product)
         {
             if (id != product.Id)

@@ -1,0 +1,23 @@
+﻿﻿<form class="form-inline" method="post" action="/auth/Signup">
+    <div class="form-group">
+        <label class="sr-only" for="username">username:</label>
+        <input type="text" name="username" class="form-control" id="username">
+    </div>
+    <div class="form-group">
+        <label class="sr-only" for="email">email:</label>
+        <input type="text" name="email" class="form-control" id="email">
+    </div>
+
+    <div class="form-group">
+        <label class="sr-only" for="password">Password:</label>
+        <input type="password" name="password" class="form-control" id="password">
+    </div>
+    <div class="form-group">
+        <label class="sr-only" for="phone">Phone:</label>
+        <input type="text" name="phone" class="form-control" id="phone">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Sign up</button>
+</form>
+
+<div asp-validation-summary="All"></div>
