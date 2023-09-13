@@ -1,9 +1,14 @@
 ﻿@model List<ProductCategoryDTO>
-
+@using Microsoft.AspNetCore.Identity;
+@using E_commerce.Models ;
+@inject SignInManager<ApplicationUser> signInManager
 <h4>Category Page</h4>
 <hr />
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New Product</a>
+    @if (signInManager.IsSignedIn(User) && (User.IsInRole("Administrator")))
+    {
+        <a asp-action="Create" class="btn btn-primary">Create New Product</a>
+    }
 </p>
 <table border=1 class="table">
     <thead>
@@ -33,7 +38,7 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => item.Name) 
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)

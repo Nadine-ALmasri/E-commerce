@@ -89,6 +89,7 @@ namespace E_commerce.Controllers
             return View(category);
 
         }
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
         public async Task<IActionResult> Create()
         {

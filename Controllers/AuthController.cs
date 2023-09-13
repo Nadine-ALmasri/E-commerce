@@ -1,6 +1,9 @@
 ﻿using E_commerce.Models.DTOs;
 using E_commerce.Models.Interface;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace E_commerce.Controllers
 {
@@ -28,13 +31,14 @@ namespace E_commerce.Controllers
         public async Task<ActionResult<UserDTO>> SignUp(RegisterUserDTO data)
         {
 
-            data.Roles = new List<string>() { "Editor" };
+            data.Roles = new List<string>() { "Administrator" };
 
             var user = await userService.Register(data, this.ModelState);
             if (!ModelState.IsValid)
             {
                 return View(user);
             }
+           
             return RedirectToAction("Index", "Home");
         }
         [HttpPost]
@@ -49,29 +53,41 @@ namespace E_commerce.Controllers
 
                 return RedirectToAction("LogIn");
             }
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name , user.UserName)
+            };
+            var claimsIdentity = new ClaimsIdentity(claims , "LogIn");
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
 
             return RedirectToAction("Index", "Home");
         }
-        public IActionResult Remmber (string name)
+      /*  public IActionResult Remmber (string name)
         {
             CookieOptions cookie = new CookieOptions();
             cookie.Expires = DateTime.Now.AddMinutes(5);
             HttpContext.Response.Cookies.Append("name", name, cookie);
             return Content("Ok , i save it ");
         }
-        public IActionResult ThisIsMe()
+       /* public IActionResult ThisIsMe()
         {
             string name = HttpContext.Request.Cookies["name"];
             ViewData["name"] = name;
             ViewBag.Name = name;
             return View();
-        }
+        }*/
         public async Task<IActionResult> Logout()
         {
             await userService.Logout();
 
             return RedirectToAction("Index", "Home");
         }
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
     }
 }
 

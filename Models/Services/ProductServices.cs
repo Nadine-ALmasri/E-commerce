@@ -33,7 +33,8 @@ namespace E_commerce.Models.Services
                 CategoryId = pro.CategoryId,
                 Description = pro.Description,
                 Price = pro.Price,
-                categoryname= productc.Category.Name
+                categoryname = productc.Category.Name,
+                ImageUrl = pro.imageUrl // Set the ImageUrl property here
             };
             return productDTO;
         }
@@ -74,6 +75,7 @@ namespace E_commerce.Models.Services
                 CategoryId = pr.CategoryId, 
                 Description = pr.Description, 
                 Price = pr.Price, 
+                ImageUrl=pr.imageUrl,
                 categoryname=pr.Category.Name
                 }).FirstOrDefaultAsync((x => x.Id == Id));
             return products;
@@ -88,7 +90,9 @@ namespace E_commerce.Models.Services
                 UpdateProduct.Price=product.Price;
                 UpdateProduct.Description=product.Description;
                 UpdateProduct.CategoryId = product.CategoryId;
+                UpdateProduct.imageUrl = product.ImageUrl;
                 _context.Entry(UpdateProduct).State = EntityState.Modified;
+                
                 await _context.SaveChangesAsync();
             }
             else

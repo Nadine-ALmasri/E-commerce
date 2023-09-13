@@ -7,6 +7,7 @@
         public double Price { get; set; }
         public string Description { get; set; }
         public int CategoryId { get; set; }
+        public string ImageUrl { get; set; }
     }
 
     public class ProductCategoryDTO
@@ -17,6 +18,7 @@
         public string Description { get; set; }
         public int CategoryId { get; set; }
         public string categoryname { get; set; }
+        public string ImageUrl { get; set; }
     }
 
 }
