@@ -8,12 +8,19 @@
     <div>
      
   <a asp-controller="Category" asp-action="Index" class="btn btn-secondary">Back to List</a>   |
-        @if (signInManager.IsSignedIn(User))
+        @if (signInManager.IsSignedIn(User) && User.IsInRole("Editor"))
+
         {
             <a asp-controller="Category" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Edit</a>
-            <a asp-controller="Category" asp-action="Delete" asp-route-id=@Model.Id class="btn btn-danger">Delete</a>
-        } </div>
-        
+        }
+        @if (signInManager.IsSignedIn(User) && (User.IsInRole("Administrator")))
+            {
+                <a asp-controller="Category" asp-action="Delete" asp-route-id=@Model.Id class="btn btn-danger">Delete</a>
+            }
+
+        }
+    </div>
+
         <hr />
     <table border=1 class="table">
         <thead>

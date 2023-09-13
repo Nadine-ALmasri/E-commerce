@@ -1,5 +1,7 @@
 ﻿@model ProductCategoryDTO 
-
+@using Microsoft.AspNetCore.Identity;
+@using E_commerce.Models ;
+@inject SignInManager<ApplicationUser> signInManager
 <div>
     <h4>@Model.Name</h4>
     <hr />
@@ -27,12 +29,42 @@
                 <td>Category's Name</td>
                 <td>@Html.DisplayFor(modelItem => modelItem.categoryname)</td>
             </tr>
+            <tr>
+                <form asp-controller="Product" asp-action="UploadFile" method="post" enctype="multipart/form-data">
+                    <div>
+                        <!-- Add a hidden field to store Model.Name -->
+                        <input type="hidden" name="productId" value="@Model.Id" />
+
+                        <input type="text" name="name" />
+                        <input type="file" name="file" />
+
+                        <button>Upload the image</button>
+                    </div>
+                    <div class="form-group">
+                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                        {
+                            <img src="@(Model.ImageUrl)" alt="Product Image" />
+                        }
+                        else
+                        {
+                            <p>No image available.</p>
+                        }
+                    </div>
+                </form>
+            </tr>
         </tbody>
     </table>
 </div>
 <br />
 <div>
-    <a asp-controller="Category" asp-action="Details" asp-route-id="@Model.CategoryId" class="btn btn-secondary">Back to List</a> |
-    <a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Edit</a> |
-    <a asp-controller="Product" asp-action="Delete" asp-route-id=@Model.Id class="btn btn-danger">Delete</a>
+    <a asp-controller="Category" asp-action="Details" asp-route-id="@Model.CategoryId" class="btn btn-secondary">Back to List</a>
+    |@if (signInManager.IsSignedIn(User) &&  User.IsInRole("Editor"))
+    {
+        <a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Edit</a>
+    }
+    |@if (signInManager.IsSignedIn(User) && (User.IsInRole("Administrator")))
+    {
+
+        <a asp-controller="Product" asp-action="Delete" asp-route-id=@Model.Id class="btn btn-danger">Delete</a>
+    }
 </div>

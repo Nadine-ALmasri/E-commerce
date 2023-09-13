@@ -1,11 +1,11 @@
 ﻿@model List<CategoryDTO>
 @using Microsoft.AspNetCore.Identity;
-@using E_commerce.Models ;
+@using E_commerce.Models ; 
 @inject SignInManager<ApplicationUser> signInManager
 
     <h4>Category Page</h4>
     <hr />
-       @if (signInManager.IsSignedIn(User))
+@if (signInManager.IsSignedIn(User) && (User.IsInRole("Administrator")))
 {
     <p>
         <a asp-action="Create" class="btn btn-primary">Create New</a>

@@ -2,6 +2,7 @@ using E_commerce.Data;
 using E_commerce.Models;
 using E_commerce.Models.Interface;
 using E_commerce.Models.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.Options;
 using Microsoft.Data.SqlClient;
@@ -29,13 +30,23 @@ namespace E_commerce
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
       .AddEntityFrameworkStores<E_commerceDbContext>()
 ;
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                    options.LoginPath = "/auth/LogIn"; // Set the login path
+                    options.AccessDeniedPath = "/auth/AccessDenied"; // Set the access denied path
+                });
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdministratorPolicy", policy =>
+                    policy.RequireRole("Administrator"));
+                options.AddPolicy("EditorPolicy", policy =>
+                    policy.RequireRole("Editor"));
+                options.AddPolicy("UserPolicy", policy =>
+                    policy.RequireRole("User"));
+            });
 
-            builder.Services.AddAuthentication();
-            builder.Services.AddAuthorization();
-            builder.Services.ConfigureApplicationCookie(options => {
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
-                options.LoginPath = "/auth/LogIn";
-            }) ;
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -45,19 +56,16 @@ namespace E_commerce
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-         
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
-
+            app.UseAuthentication(); // Place UseAuthentication before UseAuthorization
+            app.UseAuthorization(); // Place UseAuthorization here
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-
             app.Run();
         }
     }
