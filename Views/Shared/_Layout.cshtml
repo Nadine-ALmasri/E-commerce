@@ -32,6 +32,12 @@
             font-size: 28px; /* Adjust font size */
             margin-top: 10px; /* Adjust top margin */
         }
+        /* Custom CSS class for the "Sign Out" link */
+        .sign-out-link {
+            color: red !important;
+            text-decoration: none !important;
+        }
+
 
         /* Move logout link to the end */
         .navbar-nav.flex-grow-1 {
@@ -47,14 +53,15 @@
                 color: #f8f9fa !important; /* Change color on hover */
             }
 
-        /* Background image for the body */
-      
+       
 
         /* Style for the welcome message */
         .welcome-message {
             color: brown; /* Text color */
-            font-size: 28px; /* Font size */
+            font-size: 16px;/* Font size */
             text-align: center; /* Center align */
+            display: inline-block; /* Display inline with the navbar */
+            margin-left: 10px; /* Adjust left margin */
         }
 
         /* Adjust footer style */
@@ -91,7 +98,12 @@
                             <li class="nav-item">
                                 <a class="nav-link text-white" asp-area="" asp-controller="Product" asp-action="Index">Products</a>
                             </li>
-                            <li class="nav-link text-white logout-link">@Html.ActionLink("Sign Out", "LogOut", "Auth")</li>
+                            <li style="list-style: none; display: flex; align-items: center;">
+                                <span class="welcome-message">Welcome, @User.Identity.Name!</span>
+                                @Html.ActionLink("Sign Out", "LogOut", "Auth", new { @class = "sign-out-link", style = "margin-left: 10px;" })
+                            </li>
+
+
                         }
                         else
                         {
@@ -102,18 +114,6 @@
                 </div>
             </div>
         </nav>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    @if (signInManager.IsSignedIn(User))
-                    {
-                        <div class="welcome-message">
-                            Welcome, @User.Identity.Name!
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
