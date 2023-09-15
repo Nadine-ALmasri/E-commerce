@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Configuration;
 using System.Data;
+using System.IO;
+using System.Reflection.Metadata;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace E_commerce.Controllers
 {
@@ -130,7 +133,7 @@ namespace E_commerce.Controllers
                 Name = Product.Name,
                 Price = Product.Price,
                 Description = Product.Description,
-                CategoryId = Product.CategoryId
+                CategoryId = Product.CategoryId, ImageUrl = Product.ImageUrl,
             };
             if (ProductDTO != null)
             {
@@ -160,7 +163,8 @@ namespace E_commerce.Controllers
                     Price = updated.Price,
                     Description = updated.Description,
                     CategoryId = updated.CategoryId,
-                    categoryname = category.Name
+                    categoryname = category.Name,
+                    ImageUrl = updated.ImageUrl,
                 };
                 return RedirectToAction(nameof(Details), updatedDTO);
             }
@@ -168,9 +172,7 @@ namespace E_commerce.Controllers
             ViewBag.CategoriesDTO = new SelectList(CategoriesDTO, "Id", "Name");
             return View(product);
         }
-        [HttpPost]
-
-        [HttpPost]
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> UploadFile(IFormFile file, int productId)
         {
@@ -185,8 +187,22 @@ namespace E_commerce.Controllers
 
                 BlobContainerClient blobContainerClient =
                                new BlobContainerClient(_configuration.GetConnectionString("StorageAccount"), containerName);
+              
                 BlobClient blobClient = blobContainerClient.GetBlobClient(blobName);
+               
                 string contentType = GetContentType(Path.GetExtension(file.FileName));
+               
+
+
+
+
+
+
+
+
+
+
+               
                 BlobHttpHeaders blobHttpHeaders = new BlobHttpHeaders
                 {
                     ContentType = file.ContentType // Set the content type from the uploaded file
@@ -198,24 +214,27 @@ namespace E_commerce.Controllers
                 }
 
                 // Set the product's image URL
-                if (product != null)
-                {
-                    ProductDTO newpro = new ProductDTO()
-                    {
-                        CategoryId = product.CategoryId,
-
-                        Description = product.Description,
-                        ImageUrl = product.ImageUrl,
-                        Name = product.Name,
-                        Price = product.Price
-                    ,
-                        Id = product.Id
-                    };
+               
 
 
                     product.ImageUrl = GetAzureBlobStorageImageUrl(containerName, blobName);
+                    if (product != null)
+                    {
+                        ProductDTO newpro = new ProductDTO()
+                        {
+                            CategoryId = product.CategoryId,
 
+                            Description = product.Description,
+                            ImageUrl = product.ImageUrl,
+                            Name = product.Name,
+                            Price = product.Price
+                        ,
+                            Id = product.Id
+                        };
+
+                        await _prouduct.Update(newpro.Id, newpro);
                 }
+               
 
                 return RedirectToAction(nameof(Details), new { id = productId });
             }

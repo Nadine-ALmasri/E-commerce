@@ -33,9 +33,9 @@ namespace E_commerce
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
                     options.LoginPath = "/auth/LogIn"; // Set the login path
-                    options.AccessDeniedPath = "/auth/AccessDenied"; // Set the access denied path
+                    options.AccessDeniedPath = "/Account/auth/AccessDenied"; // Set the access denied path
                 });
             builder.Services.AddAuthorization(options =>
             {
