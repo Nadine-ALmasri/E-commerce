@@ -20,7 +20,8 @@ namespace E_commerce.Models.Services
                 Name= product.Name,
                 Price= product.Price,
                 Description= product.Description,
-                CategoryId=product.CategoryId
+                CategoryId=product.CategoryId,
+                imageUrl=product.ImageUrl
             };
             _context.Entry(pro).State= EntityState.Added;
             await _context.SaveChangesAsync();
@@ -58,7 +59,8 @@ namespace E_commerce.Models.Services
                CategoryId = pr.CategoryId, 
                Description = pr.Description, 
                Price = pr.Price,
-               categoryname=pr.Category.Name
+               categoryname=pr.Category.Name,
+               ImageUrl = pr.imageUrl
            }).ToListAsync();
             return products;
         }
@@ -75,8 +77,9 @@ namespace E_commerce.Models.Services
                 CategoryId = pr.CategoryId, 
                 Description = pr.Description, 
                 Price = pr.Price, 
-                ImageUrl=pr.imageUrl,
+                ImageUrl=pr.ImageUrl,
                 categoryname=pr.Category.Name
+                
                 }).FirstOrDefaultAsync((x => x.Id == Id));
             return products;
         }
@@ -90,7 +93,8 @@ namespace E_commerce.Models.Services
                 UpdateProduct.Price=product.Price;
                 UpdateProduct.Description=product.Description;
                 UpdateProduct.CategoryId = product.CategoryId;
-                UpdateProduct.imageUrl = product.ImageUrl;
+                UpdateProduct.ImageUrl= product.ImageUrl;
+                
                 _context.Entry(UpdateProduct).State = EntityState.Modified;
                 
                 await _context.SaveChangesAsync();
@@ -106,7 +110,8 @@ namespace E_commerce.Models.Services
                 Name = UpdateProduct.Name,
                 Price=UpdateProduct.Price,
                 Description=UpdateProduct.Description,
-                CategoryId=UpdateProduct.CategoryId
+                CategoryId=UpdateProduct.CategoryId,
+                ImageUrl = UpdateProduct.ImageUrl
             };
                 
 

@@ -31,7 +31,7 @@ namespace E_commerce.Controllers
         public async Task<ActionResult<UserDTO>> SignUp(RegisterUserDTO data)
         {
 
-            data.Roles = new List<string>() { "Administrator" };
+            data.Roles = new List<string>() { "Editor" };
 
             var user = await userService.Register(data, this.ModelState);
             if (!ModelState.IsValid)
@@ -63,26 +63,14 @@ namespace E_commerce.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-      /*  public IActionResult Remmber (string name)
-        {
-            CookieOptions cookie = new CookieOptions();
-            cookie.Expires = DateTime.Now.AddMinutes(5);
-            HttpContext.Response.Cookies.Append("name", name, cookie);
-            return Content("Ok , i save it ");
-        }
-       /* public IActionResult ThisIsMe()
-        {
-            string name = HttpContext.Request.Cookies["name"];
-            ViewData["name"] = name;
-            ViewBag.Name = name;
-            return View();
-        }*/
+      
         public async Task<IActionResult> Logout()
         {
             await userService.Logout();
 
             return RedirectToAction("Index", "Home");
         }
+        [HttpGet("Account/AccessDenied")]
         public IActionResult AccessDenied()
         {
             return View();

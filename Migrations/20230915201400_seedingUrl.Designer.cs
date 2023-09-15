@@ -4,6 +4,7 @@ using E_commerce.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_commerce.Migrations
 {
     [DbContext(typeof(E_commerceDbContext))]
-    partial class E_commerceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230915201400_seedingUrl")]
+    partial class seedingUrl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -159,7 +162,7 @@ namespace E_commerce.Migrations
                             Id = 1,
                             CategoryId = 1,
                             Description = "Great , Large ,A++ electricity consuming",
-                            ImageUrl = "https://m.media-amazon.com/images/I/71qaGnOxACL._AC_UF1000,1000_QL80_.jpg",
+                            ImageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.lg.com%2Fin%2Fmicrowave-ovens%2Flg-MC2846SL&psig=AOvVaw0wWRH-SLvcEveCKtg15vHV&ust=1694894954464000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCKie3--1rYEDFQAAAAAdAAAAABAJ",
                             Name = "LG Microwave",
                             Price = 155.0
                         },
