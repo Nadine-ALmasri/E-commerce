@@ -1,45 +1,33 @@
 ﻿@model List<CategoryDTO>
 @using Microsoft.AspNetCore.Identity;
-@using E_commerce.Models ; 
+@using E_commerce.Models;
 @inject SignInManager<ApplicationUser> signInManager
 
-    <h4>Category Page</h4>
-    <hr />
+<h4>Category Page</h4>
+<hr />
+
 @if (signInManager.IsSignedIn(User) && (User.IsInRole("Administrator")))
 {
     <p>
         <a asp-action="Create" class="btn btn-primary">Create New</a>
-    </p> }
-    <table border=1 class="table">
-        <thead>
-            <tr>
-                <th>
-                    Id
-                </th>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Details
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    <a asp-controller="Category" asp-action="Details" asp-route-id=@item.Id class="btn btn-info">Details</a>
-                </td>
-            </tr>
+    </p>
 }
-        </tbody>
-    </table>
-    <div>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-3">
+            <div class="card" style="background-color: #343a40;">
+                <div class="card-body">
+                    <h5 class="card-title text-white">@item.Name</h5>
+                    <p class="card-text text-white">@item.Id</p>
+                    <a asp-controller="Category" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div>
     <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to home page</a>
-    </div>
+</div>
