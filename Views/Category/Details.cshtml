@@ -1,69 +1,40 @@
 ﻿@model GetAllCategoryDTO
 @using Microsoft.AspNetCore.Identity;
-@using E_commerce.Models ; 
+@using E_commerce.Models;
 @inject SignInManager<ApplicationUser> signInManager
 
 <div>
     <h4>@Model.Name</h4>
     <div>
-     
-  <a asp-controller="Category" asp-action="Index" class="btn btn-secondary">Back to List</a>   |
+        <a asp-controller="Category" asp-action="Index" class="btn btn-secondary">Back to List</a> |
         @if (signInManager.IsSignedIn(User) && User.IsInRole("Editor"))
-
         {
             <a asp-controller="Category" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Edit</a>
         }
-        @if (signInManager.IsSignedIn(User) && (User.IsInRole("Administrator")))
-            {
-                <a asp-controller="Category" asp-action="Delete" asp-route-id=@Model.Id class="btn btn-danger">Delete</a>
-            }
-
+        @if (signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
+        {
+            <a asp-controller="Category" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
         }
     </div>
 
-        <hr />
-    <table border=1 class="table">
-        <thead>
-            <tr>
-                <th>
-                    Id
-                </th>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Price
-                </th>
-                <th>
-                    Description
-                </th>
-                <th>
-                    Detalis
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Products) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                   <a class="btn btn-info" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">Detalis</a>
-                </td>
-            </tr>
+    <hr />
+
+    <div class="row">
+        @foreach (var item in Model.Products)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card h-100" style="background-color: #343a40;">
+                    <div class="card-body">
+                        <h5 class="card-title text-white">@item.Name</h5>
+                        <p class="card-text text-white">Price: $@item.Price</p>
+                        <p class="card-text text-muted">@item.Description</p>
+                        <a class="btn btn-info" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    </div>
+                </div>
+            </div>
         }
-        </tbody>
-    </table>
+    </div>
+
     <div>
         <a class="btn btn-primary" asp-controller="Product" asp-action="Create" asp-route-id="@Model.Id">Add new Product</a>
     </div>
