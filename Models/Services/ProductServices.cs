@@ -49,7 +49,10 @@ namespace E_commerce.Models.Services
                 await _context.SaveChangesAsync();
             }
         }
-
+        /// <summary>
+        /// this method is to get all the products
+        /// </summary>
+        /// <returns><List<ProductCategoryDTO></returns>
         public async Task<List<ProductCategoryDTO>> GetAllProducts()
         {
            var products = await _context.Product.Include(c=>c.Category).Select(pr => new ProductCategoryDTO()
@@ -64,7 +67,11 @@ namespace E_commerce.Models.Services
            }).ToListAsync();
             return products;
         }
-
+        /// <summary>
+        /// this method is to get a product by its id 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns>name="ProductCategoryDTO"</returns>
         public async Task<ProductCategoryDTO> GetProductById(int Id)
         {
             var product=await _context.Product.Include(c=>c.Category).FirstOrDefaultAsync(x=>x.Id==Id);
@@ -83,7 +90,12 @@ namespace E_commerce.Models.Services
                 }).FirstOrDefaultAsync((x => x.Id == Id));
             return products;
         }
-
+        /// <summary>
+        /// this method is to update the data of spicfic product
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="product"></param>
+        /// <returns>ProductDTO</returns>
         public async Task<ProductDTO> Update(int Id, ProductDTO product)
         {
             var UpdateProduct = await _context.Product.FindAsync(Id);

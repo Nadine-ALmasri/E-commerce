@@ -14,6 +14,11 @@ namespace E_commerce.Models.Services
             _context = context;
 
         }
+        /// <summary>
+        /// this method is to create new category 
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns>CategoryDTO</returns>
         public async Task<CategoryDTO> Create(CategoryDTO category)
         {
             var newCategory = new Category
@@ -34,14 +39,21 @@ namespace E_commerce.Models.Services
             return categorydto;
 
         }
-
+        /// <summary>
+        /// this method is to delete a category 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task Delete(int id)
         {
             Category category = await _context.Categories.FindAsync(id);
             _context.Entry(category).State = EntityState.Deleted;
             await _context.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// this methode is to get all the categories
+        /// </summary>
+        /// <returns>List<CategoryDTO></returns>
         public async Task<List<CategoryDTO>> GetAllCategories()
         {
             var TheCategory= await _context.Categories.Select(category => new CategoryDTO
@@ -53,10 +65,10 @@ namespace E_commerce.Models.Services
 
         }
         /// <summary>
-        /// /
+        /// / this methode is to get category by id
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns> spasafic category</returns>
         public async Task<GetAllCategoryDTO> GetCategoryById(int id)
         {
            var TheCategory=  await _context.Categories.Select(category => new GetAllCategoryDTO
@@ -74,7 +86,12 @@ namespace E_commerce.Models.Services
             }).FirstOrDefaultAsync(a => a.Id == id);
             return TheCategory;
         }
-
+        /// <summary>
+        /// this method is to update the data for a spacifc category
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="category"></param>
+        /// <returns>CategoryDTO</returns>
         public async Task<CategoryDTO> Update(int id, CategoryDTO category)
         {
             var UpdatedCategory = await _context.Categories.FindAsync(id);

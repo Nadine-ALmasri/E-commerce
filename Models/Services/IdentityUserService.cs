@@ -15,6 +15,12 @@ namespace E_commerce.Models.Services
             _signInManager = signInManager;
             _userManager = userManager;
         }
+        /// <summary>
+        /// this method is to allow the user to log in his account 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns>UserDTO</returns>
         public async Task<UserDTO> Authenticate(string username, string password)
         {
             var result = await _signInManager.PasswordSignInAsync(username, password, true, false);
@@ -33,7 +39,11 @@ namespace E_commerce.Models.Services
 
             return null;
         }
-
+        /// <summary>
+        /// this method is to get the user by the username
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>UserDTO</returns>
         public async Task<UserDTO> GetUser(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
@@ -44,7 +54,12 @@ namespace E_commerce.Models.Services
                 Roles = await _userManager.GetRolesAsync(user)
             };
         }
-
+        /// <summary>
+        /// this method is to register new user 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="modelState"></param>
+        /// <returns>"UserDTO"</returns>
         public async Task<UserDTO> Register(RegisterUserDTO data, ModelStateDictionary modelState)
         {
             var user = new ApplicationUser()
