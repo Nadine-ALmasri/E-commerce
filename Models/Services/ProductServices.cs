@@ -12,7 +12,11 @@ namespace E_commerce.Models.Services
         {
             _context = context;
 
-        }
+        }/// <summary>
+         /// this method is to creat new product
+         /// </summary>
+         /// <param name="product"></param>
+         /// <returns>ProductCategoryDTO</returns>
         public async Task<ProductCategoryDTO> Create(ProductDTO product)
         {
             var pro = new Product
