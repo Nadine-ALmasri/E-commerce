@@ -16,13 +16,13 @@ namespace E_commerce.Controllers
                 _category = category;
             }
 
-        [Authorize(Roles = "Administrator,Editor,User")]
+        [Authorize]
         public async Task<IActionResult> Index()
             {
                 List<CategoryDTO> categories = await _category.GetAllCategories();
                 return View(categories);
             }
-        [Authorize(Roles = "Administrator,Editor,User")]
+        [Authorize]
         public async Task<IActionResult> Details(int id)
             {
             GetAllCategoryDTO category = await _category.GetCategoryById(id);
