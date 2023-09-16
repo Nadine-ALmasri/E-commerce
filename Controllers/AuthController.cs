@@ -30,16 +30,17 @@ namespace E_commerce.Controllers
         [HttpPost]
         public async Task<ActionResult<UserDTO>> SignUp(RegisterUserDTO data)
         {
-
-            data.Roles = new List<string>() { "Administrator" };
-
+            
+                data.Roles = new List<string>() { "User" };
+            
             var user = await userService.Register(data, this.ModelState);
             if (!ModelState.IsValid)
             {
                 return View(user);
             }
-           
-            return RedirectToAction("Index", "Home");
+
+
+            return RedirectToAction("LogIn");
         }
         [HttpPost]
         public async Task<ActionResult<UserDTO>> LogIn(LogInDTO loginData)
@@ -51,7 +52,7 @@ namespace E_commerce.Controllers
             {
                 this.ModelState.AddModelError("InvalidLogin", "Invalid login attempt");
 
-                return RedirectToAction("LogIn");
+                return View(loginData);
             }
             var claims = new List<Claim>
             {

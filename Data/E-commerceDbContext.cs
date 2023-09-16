@@ -16,9 +16,12 @@ namespace E_commerce.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             SeedRoles(modelBuilder, "Administrator");
             SeedRoles(modelBuilder, "Editor");
             SeedRoles(modelBuilder, "User");
+
+
             modelBuilder.Entity<Category>().HasData(
              new Category { Id = 1, Name = "Electronics" },
              new Category { Id = 2, Name = "Computers & Tablets" },

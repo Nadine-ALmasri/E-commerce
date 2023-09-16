@@ -24,13 +24,13 @@ namespace E_commerce.Controllers
             _category = category;
             _configuration = configuration;
         }
-
+        [Authorize(Roles = "Administrator,Editor,User")]
         public async Task<IActionResult> Index()
         {
             List<ProductCategoryDTO> products = await _prouduct.GetAllProducts();
             return View(products);
         }
-
+        [Authorize(Roles = "Administrator,Editor,User")]
         public async Task<IActionResult> Details(int id)
         {
             ProductCategoryDTO product = await _prouduct.GetProductById(id);
@@ -168,9 +168,7 @@ namespace E_commerce.Controllers
             ViewBag.CategoriesDTO = new SelectList(CategoriesDTO, "Id", "Name");
             return View(product);
         }
-        [HttpPost]
-
-        [HttpPost]
+        [Authorize(Roles = "Editor")]
         [HttpPost]
         public async Task<IActionResult> UploadFile(IFormFile file, int productId)
         {

@@ -29,29 +29,32 @@
                 <td>Category's Name</td>
                 <td>@Html.DisplayFor(modelItem => modelItem.categoryname)</td>
             </tr>
-            <tr>
-                <form asp-controller="Product" asp-action="UploadFile" method="post" enctype="multipart/form-data">
-                    <div>
-                        <!-- Add a hidden field to store Model.Name -->
-                        <input type="hidden" name="productId" value="@Model.Id" />
+            @if (signInManager.IsSignedIn(User) && User.IsInRole("Editor"))
+            {
+                <tr>
+                    <form asp-controller="Product" asp-action="UploadFile" method="post" enctype="multipart/form-data">
+                        <div>
+                            <!-- Add a hidden field to store Model.Name -->
+                            <input type="hidden" name="productId" value="@Model.Id" />
 
-                        <input type="text" name="name" />
-                        <input type="file" name="file" />
+                            <input type="text" name="name" />
+                            <input type="file" name="file" />
 
-                        <button>Upload the image</button>
-                    </div>
-                    <div class="form-group">
-                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
-                        {
-                            <img src="@(Model.ImageUrl)" alt="Product Image" />
-                        }
-                        else
-                        {
-                            <p>No image available.</p>
-                        }
-                    </div>
+                            <button>Upload the image</button>
+                        </div>
+                        <div class="form-group">
+                            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                            {
+                                <img src="@(Model.ImageUrl)" alt="Product Image" />
+                            }
+                            else
+                            {
+                                <p>No image available.</p>
+                            }
+                        </div>
                 </form>
             </tr>
+            }
         </tbody>
     </table>
 </div>

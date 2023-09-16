@@ -9,15 +9,12 @@
      
   <a asp-controller="Category" asp-action="Index" class="btn btn-secondary">Back to List</a>   |
         @if (signInManager.IsSignedIn(User) && User.IsInRole("Editor"))
-
         {
             <a asp-controller="Category" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Edit</a>
         }
-        @if (signInManager.IsSignedIn(User) && (User.IsInRole("Administrator")))
-            {
-                <a asp-controller="Category" asp-action="Delete" asp-route-id=@Model.Id class="btn btn-danger">Delete</a>
-            }
-
+        else if (signInManager.IsSignedIn(User) && (User.IsInRole("Administrator")))
+        {
+            <a asp-controller="Category" asp-action="Delete" asp-route-id=@Model.Id class="btn btn-danger">Delete</a>
         }
     </div>
 
@@ -64,7 +61,10 @@
         }
         </tbody>
     </table>
+    @if (signInManager.IsSignedIn(User) && (User.IsInRole("Administrator") || User.IsInRole("Editor")))
+    {
     <div>
         <a class="btn btn-primary" asp-controller="Product" asp-action="Create" asp-route-id="@Model.Id">Add new Product</a>
     </div>
+    }
 </div>
