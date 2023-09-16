@@ -16,14 +16,14 @@ namespace E_commerce.Controllers
                 _category = category;
             }
 
-
-            public async Task<IActionResult> Index()
+        [Authorize(Roles = "Administrator,Editor,User")]
+        public async Task<IActionResult> Index()
             {
                 List<CategoryDTO> categories = await _category.GetAllCategories();
                 return View(categories);
             }
-
-            public async Task<IActionResult> Details(int id)
+        [Authorize(Roles = "Administrator,Editor,User")]
+        public async Task<IActionResult> Details(int id)
             {
             GetAllCategoryDTO category = await _category.GetCategoryById(id);
 
@@ -46,6 +46,7 @@ namespace E_commerce.Controllers
         /*   await _category.Delete(id);
           List<CategoryDTO> categories = await _category.GetAllCategories();
           return View(categories);*/
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {

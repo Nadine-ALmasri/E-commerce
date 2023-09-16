@@ -3,6 +3,49 @@
 @using E_commerce.Models;
 @inject SignInManager<ApplicationUser> signInManager
 
+<div>
+   
+            @if (signInManager.IsSignedIn(User) && User.IsInRole("Editor"))
+            {
+                
+                    <form asp-controller="Product" asp-action="UploadFile" method="post" enctype="multipart/form-data">
+                        <div>
+                            <!-- Add a hidden field to store Model.Name -->
+                            <input type="hidden" name="productId" value="@Model.Id" />
+
+                            <input type="text" name="name" />
+                            <input type="file" name="file" />
+
+                            <button>Upload the image</button>
+                        </div>
+                        @*<div class="form-group">
+                            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                            {
+                                <img src="@(Model.ImageUrl)" alt="Product Image" />
+                            }
+                            else
+                            {
+                                <p>No image available.</p>
+                            }
+                        </div>*@
+                </form>
+            
+            }
+       
+</div>
+<br />
+@*<div>
+    <a asp-controller="Category" asp-action="Details" asp-route-id="@Model.CategoryId" class="btn btn-secondary">Back to List</a>
+    |@if (signInManager.IsSignedIn(User) &&  User.IsInRole("Editor"))
+    {
+        <a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Edit</a>
+    }
+    |@if (signInManager.IsSignedIn(User) && (User.IsInRole("Administrator")))
+    {
+
+        <a asp-controller="Product" asp-action="Delete" asp-route-id=@Model.Id class="btn btn-danger">Delete</a>
+    }
+</div>*@
 <div class="card" style="  color :dimgray;">
     <img src="@Model.ImageUrl" class="card-img-top img-fluid" alt="Product Image" style="max-width:500px ;align-items:center;margin-left:400px ; height:400px;">
     <div class="card-body">
@@ -38,13 +81,13 @@
                             <input type="text" class="form-control" id="name" name="name">
                         </div>
                         <div class="form-group">
-                            
-                            <input type="file" class="form-control-file ,btn btn-dark" id="file" name="file">
+                            <label for="file" class="btn btn-dark">Choose Image</label>
                         </div>
                         
                         <button type="submit" class="btn btn-primary"style="margin:20px">Upload Image</button>
                     </form>
                 }
+                <a asp-controller="Category" asp-action="Details" asp-route-id="@Model.CategoryId" class="btn btn-secondary" style="align-items:flex-start">Back to List</a>
                 @if (User.IsInRole("Editor"))
                 {
                     <a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Edit</a>
@@ -57,3 +100,4 @@
         }
     </div>
 </div>
+<div asp-validation-summary="All"></div>
