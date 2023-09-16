@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity;
-@using E_commerce.Models ; 
+@using E_commerce.Models;
 @inject SignInManager<ApplicationUser> signInManager
 
 <!DOCTYPE html>
@@ -11,41 +11,104 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/E_commerce.styles.css" asp-append-version="true" />
+    <style>
+        /* Custom CSS for Navbar */
+        .navbar {
+            background-color: #343a40; /* Navbar background color */
+        }
+
+        .navbar-brand {
+            color: #ffffff !important; /* Navbar brand text color */
+        }
+
+        .navbar-toggler-icon {
+            background-color: #ffffff; /* Navbar toggler icon color */
+        }
+
+        .navbar-text {
+            color: brown; /* Welcome message text color */
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            margin-bottom: 20px; /* Add some spacing */
+            font-size: 28px; /* Adjust font size */
+            margin-top: 10px; /* Adjust top margin */
+        }
+        /* Custom CSS class for the "Sign Out" link */
+        .sign-out-link {
+            color: red !important;
+            text-decoration: none !important;
+        }
+
+
+        /* Move logout link to the end */
+        .navbar-nav.flex-grow-1 {
+            justify-content: space-between;
+        }
+
+        /* Logout link style */
+        .navbar-nav .nav-link.logout-link {
+            color: #ffffff !important;
+        }
+
+            .navbar-nav .nav-link.logout-link:hover {
+                color: #f8f9fa !important; /* Change color on hover */
+            }
+
+       
+
+        /* Style for the welcome message */
+        .welcome-message {
+            color: brown; /* Text color */
+            font-size: 16px;/* Font size */
+            text-align: center; /* Center align */
+            display: inline-block; /* Display inline with the navbar */
+            margin-left: 10px; /* Adjust left margin */
+        }
+
+        /* Adjust footer style */
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(52, 58, 64, 0.9); /* Footer background color with opacity */
+            color: white;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-light bg-dark border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">E_commerce</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy"></a>
                         </li>
                         @if (signInManager.IsSignedIn(User))
                         {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">Categories</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Products</a>
-                        </li>
-                     
-                            <li class="navbar-text" >Welcome, @User.Identity.Name!</li>
-                            <li class="nav-link text-">@Html.ActionLink("LogOut", "LogOut", "Auth")</li>
-                           
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Category" asp-action="Index">Categories</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Product" asp-action="Index">Products</a>
+                            </li>
+                            <li style="list-style: none; display: flex; align-items: center;">
+                                <span class="welcome-message">Welcome, @User.Identity.Name!</span>
+                                @Html.ActionLink("Sign Out", "LogOut", "Auth", new { @class = "sign-out-link", style = "margin-left: 10px;" })
+                            </li>
+
+
                         }
                         else
                         {
-                            <li class="nav-link text-dark">@Html.ActionLink("SignUp", "SignUp", "Auth")</li>
-                            <li class="nav-link text-dark">@Html.ActionLink("LogIn", "LogIn", "Auth")</li>
+                            <li class="nav-link text-white">@Html.ActionLink("Sign Up", "SignUp", "Auth")</li>
+                            <li class="nav-link text-white">@Html.ActionLink("Log In", "LogIn", "Auth")</li>
                         }
                     </ul>
                 </div>

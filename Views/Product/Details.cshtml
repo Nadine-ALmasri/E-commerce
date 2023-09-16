@@ -1,11 +1,9 @@
-﻿@model ProductCategoryDTO 
+﻿@model ProductCategoryDTO
 @using Microsoft.AspNetCore.Identity;
-@using E_commerce.Models ;
+@using E_commerce.Models;
 @inject SignInManager<ApplicationUser> signInManager
-<div>
-    <h4>@Model.Name</h4>
-    <hr />
 
+<<<<<<< HEAD
     <table class="table table-user-information">
         <tbody>
             <tr>
@@ -70,4 +68,58 @@
 
         <a asp-controller="Product" asp-action="Delete" asp-route-id=@Model.Id class="btn btn-danger">Delete</a>
     }
+=======
+<div class="card" style="  color :dimgray;">
+    <img src="@Model.ImageUrl" class="card-img-top img-fluid" alt="Product Image" style="max-width:500px ;align-items:center;margin-left:400px ; height:400px;">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Name</h5>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th scope="row">ID</th>
+                    <td>@Html.DisplayFor(modelItem => modelItem.Id)</td>
+                </tr>
+                <tr>
+                    <th scope="row">Price</th>
+                    <td>@Html.DisplayFor(modelItem => modelItem.Price)</td>
+                </tr>
+                <tr>
+                    <th scope="row">Description</th>
+                    <td>@Html.DisplayFor(modelItem => modelItem.Description)</td>
+                </tr>
+                <tr>
+                    <th scope="row">Category</th>
+                    <td>@Html.DisplayFor(modelItem => modelItem.categoryname)</td>
+                </tr>
+            </tbody>
+        </table>
+        @if (signInManager.IsSignedIn(User))
+        {
+            <div class="text-center">
+                @if (User.IsInRole("Administrator"))
+                {
+                    <form asp-controller="Product" asp-action="UploadFile" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="productId" value="@Model.Id" />
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="name" name="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="file" class="btn btn-dark">Choose Image</label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary"style="margin:20px">Upload Image</button>
+                    </form>
+                }
+                @if (User.IsInRole("Editor"))
+                {
+                    <a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Edit</a>
+                }
+                @if (User.IsInRole("Administrator"))
+                {
+                    <a asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger" style="align-items:flex-end">Delete Product</a>
+                }
+            </div>
+        }
+    </div>
+>>>>>>> 9a73e8e7a82937cbcdc715b7efe1c8f904550917
 </div>
