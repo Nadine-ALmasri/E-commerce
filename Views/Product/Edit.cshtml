@@ -26,6 +26,42 @@
         <label asp-for="ImageUrl" class="control-label"></label>
         <input asp-for="ImageUrl" class="form-control" />
     </div>
+    
+    <div class="form-group" >
+    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+    {
+            <img src="@(Model.ImageUrl)" alt="Product Image" style="max-width:500px; max-height:500px" />
+    }
+    else
+    {
+    <p>No image available.</p>
+    }
+    </div>
+    
+    @*<br />
+    <div>
+        <form asp-controller="Product" asp-action="UploadFile" method="post" enctype="multipart/form-data">
+            <div>
+                <!-- Add a hidden field to store Model.Name -->
+                <input type="hidden" name="productId" value="@Model.Id" />
+
+                <input type="text" name="name" />
+                <input type="file" name="file" />
+
+                <button>Upload the image</button>
+                <div class="form-group">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                        <img src="@(Model.ImageUrl)" alt="Product Image" style="max-width:500px; max-height:500px;" />
+                }
+                else
+                {
+                <p>No image available.</p>
+                }
+                </div>
+            </div>
+        </form>
+    </div>*@
         <div class="form-group">
         <label asp-for="CategoryId" class="control-label"></label>
         <select asp-for="CategoryId" class="select2 form-control">
@@ -44,3 +80,6 @@
 <p>
     <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">Back to List</a>
 </p>
+
+
+      
