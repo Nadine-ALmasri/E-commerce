@@ -3,6 +3,72 @@
 @using E_commerce.Models;
 @inject SignInManager<ApplicationUser> signInManager
 
+<<<<<<< HEAD
+    <table class="table table-user-information">
+        <tbody>
+            <tr>
+                <td>Id</td>
+                <td>@Html.DisplayFor(modelItem => modelItem.Id)</td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td>@Html.DisplayFor(modelItem => modelItem.Name)</td>
+            </tr>
+
+            <tr>
+                <td>Price</td>
+                <td>@Html.DisplayFor(modelItem => modelItem.Price)</td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td>@Html.DisplayFor(modelItem => modelItem.Description)</td>
+            </tr>
+            <tr>
+                <td>Category's Name</td>
+                <td>@Html.DisplayFor(modelItem => modelItem.categoryname)</td>
+            </tr>
+            @if (signInManager.IsSignedIn(User) && User.IsInRole("Editor"))
+            {
+                <tr>
+                    <form asp-controller="Product" asp-action="UploadFile" method="post" enctype="multipart/form-data">
+                        <div>
+                            <!-- Add a hidden field to store Model.Name -->
+                            <input type="hidden" name="productId" value="@Model.Id" />
+
+                            <input type="text" name="name" />
+                            <input type="file" name="file" />
+
+                            <button>Upload the image</button>
+                        </div>
+                        <div class="form-group">
+                            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                            {
+                                <img src="@(Model.ImageUrl)" alt="Product Image" />
+                            }
+                            else
+                            {
+                                <p>No image available.</p>
+                            }
+                        </div>
+                </form>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<br />
+<div>
+    <a asp-controller="Category" asp-action="Details" asp-route-id="@Model.CategoryId" class="btn btn-secondary">Back to List</a>
+    |@if (signInManager.IsSignedIn(User) &&  User.IsInRole("Editor"))
+    {
+        <a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Edit</a>
+    }
+    |@if (signInManager.IsSignedIn(User) && (User.IsInRole("Administrator")))
+    {
+
+        <a asp-controller="Product" asp-action="Delete" asp-route-id=@Model.Id class="btn btn-danger">Delete</a>
+    }
+=======
 <div class="card" style="  color :dimgray;">
     <img src="@Model.ImageUrl" class="card-img-top img-fluid" alt="Product Image" style="max-width:500px ;align-items:center;margin-left:400px ; height:400px;">
     <div class="card-body">
@@ -56,4 +122,5 @@
             </div>
         }
     </div>
+>>>>>>> 9a73e8e7a82937cbcdc715b7efe1c8f904550917
 </div>

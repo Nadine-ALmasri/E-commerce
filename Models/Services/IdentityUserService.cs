@@ -58,6 +58,7 @@ namespace E_commerce.Models.Services
             var result = await _userManager.CreateAsync(user, data.Password );
             if (result.Succeeded)
             {
+               
                 await _userManager.AddToRolesAsync(user, data.Roles);
 
                 UserDTO userDto = new UserDTO
