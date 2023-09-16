@@ -193,17 +193,6 @@ namespace E_commerce.Controllers
                
                 string contentType = GetContentType(Path.GetExtension(file.FileName));
                
-
-
-
-
-
-
-
-
-
-
-               
                 BlobHttpHeaders blobHttpHeaders = new BlobHttpHeaders
                 {
                     ContentType = file.ContentType // Set the content type from the uploaded file

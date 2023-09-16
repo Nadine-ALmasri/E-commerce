@@ -1,8 +1,11 @@
-﻿using E_commerce.Models.DTOs;
+﻿using E_commerce.Models;
+using E_commerce.Models.DTOs;
 using E_commerce.Models.Interface;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 
 namespace E_commerce.Controllers
@@ -10,9 +13,11 @@ namespace E_commerce.Controllers
     public class AuthController : Controller
     {
         private IUser userService;
-        public AuthController(IUser service)
+        private RoleManager<ApplicationUser> roles;
+        public AuthController(IUser service, RoleManager<ApplicationUser> roles)
         {
             userService = service;
+            this.roles = roles;
         }
         public IActionResult Index()
         {
@@ -20,6 +25,8 @@ namespace E_commerce.Controllers
         }
         public IActionResult SignUp()
         {
+            //var Roles = roles.Roles.ToList();
+            //ViewBag.RolesList = new SelectList(Roles, "Id", "Name");
             return View();
 
         }
