@@ -26,8 +26,8 @@ namespace E_commerce.Controllers
         }
         public async Task<IActionResult> SignUp()
         {
-            var Roles = await _roleManager.Roles.ToListAsync();
-            ViewBag.RolesList = new SelectList(Roles, "Id", "Name");
+            //var Roles = await _roleManager.Roles.ToListAsync();
+            //ViewBag.RolesList = new SelectList(Roles, "Id", "Name");
 
             return View();
 
@@ -40,7 +40,7 @@ namespace E_commerce.Controllers
         public async Task<ActionResult<UserDTO>> SignUp(RegisterUserDTO data)
         {
 
-            if (data.Roles.Count == 0)
+            if (data.Roles==null)
             {
                 data.Roles = new List<string>() { "User" };
             }
@@ -48,8 +48,8 @@ namespace E_commerce.Controllers
             var user = await userService.Register(data, this.ModelState);
             if (!ModelState.IsValid)
             {
-                var Roles = await _roleManager.Roles.ToListAsync();
-                ViewBag.RolesList = new SelectList(Roles, "Id", "Name");
+                //var Roles = await _roleManager.Roles.ToListAsync();
+                //ViewBag.RolesList = new SelectList(Roles, "Id", "Name");
                 return View(user);
             }
 
