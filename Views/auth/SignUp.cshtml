@@ -16,6 +16,15 @@
         <label class="sr-only" for="phone">Phone:</label>
         <input type="text" name="phone" class="form-control" id="phone">
     </div>
+    <div>
+        <label name="Roles" class="control-label"></label>
+        <select id="Roles" name="Roles" class="select2 form-control">
+            @foreach (var role in ViewBag.RolesList as SelectList)
+            {
+                <option value="@role.Value">@role.Text</option>
+            }
+        </select>
+    </div>
     <button type="submit" class="btn btn-primary">Sign up</button>
 </form>
 

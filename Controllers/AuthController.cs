@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace E_commerce.Controllers
@@ -13,20 +14,21 @@ namespace E_commerce.Controllers
     public class AuthController : Controller
     {
         private IUser userService;
-        private RoleManager<ApplicationUser> roles;
-        public AuthController(IUser service, RoleManager<ApplicationUser> roles)
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public AuthController(IUser service, RoleManager<IdentityRole> roleManager)
         {
             userService = service;
-            this.roles = roles;
+            _roleManager = roleManager;
         }
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult SignUp()
+        public async Task<IActionResult> SignUp()
         {
-            //var Roles = roles.Roles.ToList();
-            //ViewBag.RolesList = new SelectList(Roles, "Id", "Name");
+            var Roles = await _roleManager.Roles.ToListAsync();
+            ViewBag.RolesList = new SelectList(Roles, "Id", "Name");
+
             return View();
 
         }
@@ -37,15 +39,17 @@ namespace E_commerce.Controllers
         [HttpPost]
         public async Task<ActionResult<UserDTO>> SignUp(RegisterUserDTO data)
         {
-            
-                data.Roles = new List<string>() { "Administrator" };
-            
 
-            data.Roles = new List<string>() { "User" };
-
+            if (data.Roles.Count == 0)
+            {
+                data.Roles = new List<string>() { "User" };
+            }
+            
             var user = await userService.Register(data, this.ModelState);
             if (!ModelState.IsValid)
             {
+                var Roles = await _roleManager.Roles.ToListAsync();
+                ViewBag.RolesList = new SelectList(Roles, "Id", "Name");
                 return View(user);
             }
 

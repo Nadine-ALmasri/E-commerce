@@ -232,6 +232,10 @@ namespace E_commerce.Controllers
             return RedirectToAction("notFound", "Home");
         }
 
+
+        
+
+
         private string GetAzureBlobStorageImageUrl(string containerName, string blobName)
         {
             // Get the Azure Blob Storage account name from configuration
