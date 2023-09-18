@@ -23,6 +23,8 @@
                     <p class="card-text text-muted">@item.Description</p> <!-- Use text-muted for description color -->
                     <p class="card-text text-white">Category: @item.categoryname</p>
                     <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+
+                    <a asp-controller="Product" asp-action="AddToCart" asp-route-id="@item.Id" class="btn btn-outline-info">Add To The Cart</a>
                 </div>
             </div>
         </div>

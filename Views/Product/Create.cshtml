@@ -11,14 +11,14 @@
         <input asp-for="Price" class="form-control" />
         <label asp-for="Description" class="control-label"></label>
         <input asp-for="Description" class="form-control" />
-            @if (@ViewBag.CategoryID > 0)
-            {
+        @if (ViewBag.CategoryID.HasValue && ViewBag.CategoryName != null)
+        {
             <label asp-for="categoryname" class="control-label"></label>
             <input asp-for="categoryname" class="form-control" value="@ViewBag.CategoryName" readonly />
             <input asp-for="CategoryId" type="hidden" value="@ViewBag.CategoryID" />
-            }
-            else
-            {
+        }
+        else
+        {
             <label asp-for="CategoryId" class="control-label"></label>
             <select asp-for="CategoryId" class="select2 form-control">
                 @foreach (var category in ViewBag.CategoriesDTO as SelectList)
@@ -26,9 +26,7 @@
                     <option value="@category.Value">@category.Text</option>
                 }
             </select>
-            }
-            
-       
+        }
     </div>
     <br />
     <div class="form-group">
@@ -36,7 +34,7 @@
     </div>
 </form>
 <br />
-@if (@ViewBag.CategoryID>0)
+@if (ViewBag.CategoryID.HasValue && ViewBag.CategoryID > 0)
 {
     <p>
         <a asp-action="Details" asp-controller="Category" asp-route-id="@ViewBag.CategoryID" class="btn btn-dark">Back to List</a>
@@ -48,5 +46,3 @@ else
         <a asp-action="Index" class="btn btn-dark">Back to List</a>
     </p>
 }
-
-

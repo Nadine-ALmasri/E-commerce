@@ -3,6 +3,7 @@ using Azure.Storage.Blobs.Models;
 using E_commerce.Models;
 using E_commerce.Models.DTOs;
 using E_commerce.Models.Interface;
+using E_commerce.Models.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -133,7 +134,8 @@ namespace E_commerce.Controllers
                 Name = Product.Name,
                 Price = Product.Price,
                 Description = Product.Description,
-                CategoryId = Product.CategoryId, ImageUrl = Product.ImageUrl,
+                CategoryId = Product.CategoryId,
+                ImageUrl = Product.ImageUrl,
             };
             if (ProductDTO != null)
             {
@@ -188,11 +190,11 @@ namespace E_commerce.Controllers
 
                 BlobContainerClient blobContainerClient =
                                new BlobContainerClient(_configuration.GetConnectionString("StorageAccount"), containerName);
-              
+
                 BlobClient blobClient = blobContainerClient.GetBlobClient(blobName);
-               
+
                 string contentType = GetContentType(Path.GetExtension(file.FileName));
-               
+
                 BlobHttpHeaders blobHttpHeaders = new BlobHttpHeaders
                 {
                     ContentType = file.ContentType // Set the content type from the uploaded file
@@ -204,27 +206,27 @@ namespace E_commerce.Controllers
                 }
 
                 // Set the product's image URL
-               
 
 
-                    product.ImageUrl = GetAzureBlobStorageImageUrl(containerName, blobName);
-                    if (product != null)
+
+                product.ImageUrl = GetAzureBlobStorageImageUrl(containerName, blobName);
+                if (product != null)
+                {
+                    ProductDTO newpro = new ProductDTO()
                     {
-                        ProductDTO newpro = new ProductDTO()
-                        {
-                            CategoryId = product.CategoryId,
+                        CategoryId = product.CategoryId,
 
-                            Description = product.Description,
-                            ImageUrl = product.ImageUrl,
-                            Name = product.Name,
-                            Price = product.Price
-                        ,
-                            Id = product.Id
-                        };
+                        Description = product.Description,
+                        ImageUrl = product.ImageUrl,
+                        Name = product.Name,
+                        Price = product.Price
+                    ,
+                        Id = product.Id
+                    };
 
-                        await _prouduct.Update(newpro.Id, newpro);
+                    await _prouduct.Update(newpro.Id, newpro);
                 }
-               
+
 
                 return RedirectToAction(nameof(Details), new { id = productId });
             }
@@ -233,7 +235,7 @@ namespace E_commerce.Controllers
         }
 
 
-        
+
 
 
         private string GetAzureBlobStorageImageUrl(string containerName, string blobName)
@@ -258,6 +260,13 @@ namespace E_commerce.Controllers
                 default:
                     return "application/octet-stream"; // Default to binary data if format is unknown
             }
+        }
+
+        public IActionResult AddToCart(int productId, int quantity)
+        {
+
+
+            return null; // Redirect to the cart page.
         }
     }
 }

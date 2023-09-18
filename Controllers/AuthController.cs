@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Security.Claims;
 
 namespace E_commerce.Controllers
@@ -67,16 +68,28 @@ namespace E_commerce.Controllers
                 this.ModelState.AddModelError("InvalidLogin", "Invalid login attempt");
 
                 return View(loginData);
+
             }
+
+            var shoppingCart = userService.LoadShoppingCartForUser(user);
+
+            // Add the shopping cart to the user's claims
             var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name , user.UserName)
-            };
-            var claimsIdentity = new ClaimsIdentity(claims , "LogIn");
+    {
+        new Claim(ClaimTypes.Name, user.UserName),
+        new Claim("ShoppingCart", JsonConvert.SerializeObject(shoppingCart)) // Serialize the shopping cart
+    };
+
+            var claimsIdentity = new ClaimsIdentity(claims, "LogIn");
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-
             return RedirectToAction("Index", "Home");
+
+
+
+
+
+
         }
       
         public async Task<IActionResult> Logout()

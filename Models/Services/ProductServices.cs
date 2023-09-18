@@ -1,6 +1,7 @@
 ﻿using E_commerce.Data;
 using E_commerce.Models.DTOs;
 using E_commerce.Models.Interface;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_commerce.Models.Services
@@ -8,10 +9,11 @@ namespace E_commerce.Models.Services
     public class ProductServices : IProduct
     {
         private readonly E_commerceDbContext _context;
-        public ProductServices(E_commerceDbContext context)
+       // private readonly CartServies cartServies;
+        public ProductServices(E_commerceDbContext context) //, CartServies cartServies)
         {
             _context = context;
-
+           // this.cartServies = cartServies;
         }/// <summary>
          /// this method is to creat new product
          /// </summary>
@@ -132,6 +134,15 @@ namespace E_commerce.Models.Services
                 
 
             return upddateProductDTO;
+        }
+        public async Task AddToCart(int productId)
+        {
+            var product = await GetProductById(productId); // Fetch the product details.
+            if (product != null)
+            {
+                //cartServies.AddToCart(product);
+            }
+          
         }
     }
 }
