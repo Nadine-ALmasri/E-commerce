@@ -1,6 +1,7 @@
 ﻿using E_commerce.Data;
 using E_commerce.Models.DTOs;
 using E_commerce.Models.Interface;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_commerce.Models.Services
@@ -8,11 +9,16 @@ namespace E_commerce.Models.Services
     public class ProductServices : IProduct
     {
         private readonly E_commerceDbContext _context;
-        public ProductServices(E_commerceDbContext context)
+       // private readonly CartServies cartServies;
+        public ProductServices(E_commerceDbContext context) //, CartServies cartServies)
         {
             _context = context;
-
-        }
+           // this.cartServies = cartServies;
+        }/// <summary>
+         /// this method is to creat new product
+         /// </summary>
+         /// <param name="product"></param>
+         /// <returns>ProductCategoryDTO</returns>
         public async Task<ProductCategoryDTO> Create(ProductDTO product)
         {
             var pro = new Product
@@ -49,7 +55,10 @@ namespace E_commerce.Models.Services
                 await _context.SaveChangesAsync();
             }
         }
-
+        /// <summary>
+        /// this method is to get all the products
+        /// </summary>
+        /// <returns><List<ProductCategoryDTO></returns>
         public async Task<List<ProductCategoryDTO>> GetAllProducts()
         {
            var products = await _context.Product.Include(c=>c.Category).Select(pr => new ProductCategoryDTO()
@@ -64,7 +73,11 @@ namespace E_commerce.Models.Services
            }).ToListAsync();
             return products;
         }
-
+        /// <summary>
+        /// this method is to get a product by its id 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns>name="ProductCategoryDTO"</returns>
         public async Task<ProductCategoryDTO> GetProductById(int Id)
         {
             var product=await _context.Product.Include(c=>c.Category).FirstOrDefaultAsync(x=>x.Id==Id);
@@ -83,7 +96,12 @@ namespace E_commerce.Models.Services
                 }).FirstOrDefaultAsync((x => x.Id == Id));
             return products;
         }
-
+        /// <summary>
+        /// this method is to update the data of spicfic product
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="product"></param>
+        /// <returns>ProductDTO</returns>
         public async Task<ProductDTO> Update(int Id, ProductDTO product)
         {
             var UpdateProduct = await _context.Product.FindAsync(Id);
@@ -116,6 +134,15 @@ namespace E_commerce.Models.Services
                 
 
             return upddateProductDTO;
+        }
+        public async Task AddToCart(int productId)
+        {
+            var product = await GetProductById(productId); // Fetch the product details.
+            if (product != null)
+            {
+                //cartServies.AddToCart(product);
+            }
+          
         }
     }
 }

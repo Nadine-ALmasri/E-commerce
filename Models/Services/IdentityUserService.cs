@@ -2,12 +2,16 @@
 using E_commerce.Models.Interface;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using E_commerce.Data;
+using E_commerce.Data; 
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 namespace E_commerce.Models.Services
+
+
 {
     public class IdentityUserService : IUser
     {
-        private readonly E_commerceDbContext _context;
+        //private readonly E_commerceDbContext _context;
         private  SignInManager<ApplicationUser> _signInManager;
         private UserManager<ApplicationUser> _userManager;
         public IdentityUserService(SignInManager<ApplicationUser> signInManager  , UserManager<ApplicationUser> userManager)
@@ -15,6 +19,12 @@ namespace E_commerce.Models.Services
             _signInManager = signInManager;
             _userManager = userManager;
         }
+        /// <summary>
+        /// this method is to allow the user to log in his account 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns>UserDTO</returns>
         public async Task<UserDTO> Authenticate(string username, string password)
         {
             var result = await _signInManager.PasswordSignInAsync(username, password, true, false);
@@ -33,7 +43,11 @@ namespace E_commerce.Models.Services
 
             return null;
         }
-
+        /// <summary>
+        /// this method is to get the user by the username
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>UserDTO</returns>
         public async Task<UserDTO> GetUser(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
@@ -44,7 +58,12 @@ namespace E_commerce.Models.Services
                 Roles = await _userManager.GetRolesAsync(user)
             };
         }
-
+        /// <summary>
+        /// this method is to register new user 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="modelState"></param>
+        /// <returns>"UserDTO"</returns>
         public async Task<UserDTO> Register(RegisterUserDTO data, ModelStateDictionary modelState)
         {
             var user = new ApplicationUser()
@@ -86,5 +105,32 @@ namespace E_commerce.Models.Services
         {
             await _signInManager.SignOutAsync();
         }
+        public Cart LoadShoppingCartForUser(UserDTO user)
+        {
+            var userId = user.Id;
+
+            var cart = _context.Cart
+                .Include(c => c.CartProducts)
+                .ThenInclude(cp => cp.Product)
+                .FirstOrDefault(c => c.UserId == userId);
+
+            if (cart == null)
+            {
+                // If the user doesn't have a cart in the database, create a new cart.
+                cart = new Cart
+                {
+                    UserId = userId,
+                    Total = 0,
+                    CartProducts = new List<CartProduct>()
+                };
+
+                _context.Cart.Add(cart);
+                _context.SaveChanges();
+            }
+
+            return cart;
+        }
+
+
     }
 }

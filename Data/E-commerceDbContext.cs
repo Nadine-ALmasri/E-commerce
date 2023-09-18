@@ -37,6 +37,20 @@ namespace E_commerce.Data
             new Product { Id = 7, Name = "acer 2023 Newest Chromebook 15.6\"", Price = 205.00, Description = "acer 2023 Newest Chromebook 15.6\" FHD 1080p IPS Touchscreen Light Computer Laptop, Due-core Intel Celeron N4020, 4GB RAM, 64GB", CategoryId = 2, ImageUrl = "https://www.bing.com/images/search?view=detailV2&ccid=1JRE%2bu7d&id=B998B5F4D67B37F04B7AAA141D6A29ADB43F5B63&thid=OIP.1JRE-u7dKu8XMd9zEGI_yQHaFF&mediaurl=https%3a%2f%2fpisces.bbystatic.com%2fimage2%2fBestBuy_US%2fimages%2fproducts%2f6170%2f6170703_sd.jpg&cdnurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.d49444faeedd2aef1731df7310623fc9%3frik%3dY1s%252ftK0pah0Uqg%26pid%3dImgRaw%26r%3d0&exph=813&expw=1184&q=acer+2023+Newest+Chromebook+15.6&simid=607996769307082530&FORM=IRPRST&ck=7C9DB0F6618896E2BD2D321B20A25CDF&selectedIndex=3" },
             new Product { Id = 8, Name = "NYX PROFESSIONAL MAKEUP Epic Ink Liner", Price =9.00, Description = ", Waterproof Liquid Eyeliner - Black, Vegan Formula", CategoryId = 3, ImageUrl = "https://th.bing.com/th/id/R.159a99ed1bb4a1aadbf8b0eb25ac58f9?rik=YZUjrgNfX3Hjfw&pid=ImgRaw&r=0" }
             );
+
+
+            modelBuilder.Entity<CartProduct>()
+       .HasKey(cp => new { cp.CartId, cp.ProductId });
+
+            modelBuilder.Entity<CartProduct>()
+                .HasOne(cp => cp.Cart)
+                .WithMany(c => c.CartProducts)
+                .HasForeignKey(cp => cp.CartId);
+
+            modelBuilder.Entity<CartProduct>()
+                .HasOne(cp => cp.Product)
+                .WithMany(p => p.CartProducts)
+                .HasForeignKey(cp => cp.ProductId);
         }
         private void SeedRoles(ModelBuilder modelBuilder, string roleName)
         {
@@ -51,6 +65,8 @@ namespace E_commerce.Data
         }
         public DbSet<Product> Product { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Cart> Cart{ get; set; }
+        public DbSet<CartProduct> CartProducts { get; set; }
     }
 }
 
