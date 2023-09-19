@@ -9,7 +9,7 @@ namespace E_commerce.Models.Interface
         Task<List<ProductCategoryDTO>> GetAllProducts();
         Task<ProductCategoryDTO> GetProductById(int Id);
         Task<ProductDTO> Update(int Id, ProductDTO product);
-        Task AddToCart(int productId);
+        Task<List<CartProducts>> AddToCart(int productId);
         Task Delete(int id);
     }
 }
