@@ -26,6 +26,7 @@ namespace E_commerce
             builder.Services.AddTransient<ICategory, CategoryServices>();
             builder.Services.AddTransient<IProduct, ProductServices>();
             builder.Services.AddTransient<IUser, IdentityUserService>();
+            builder.Services.AddTransient<ICart,CartServices>();
             /// regstor the identty
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
       .AddEntityFrameworkStores<E_commerceDbContext>()

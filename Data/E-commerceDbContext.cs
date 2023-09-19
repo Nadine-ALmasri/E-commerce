@@ -38,14 +38,14 @@ namespace E_commerce.Data
             new Product { Id = 8, Name = "NYX PROFESSIONAL MAKEUP Epic Ink Liner", Price =9.00, Description = ", Waterproof Liquid Eyeliner - Black, Vegan Formula", CategoryId = 3, ImageUrl = "https://th.bing.com/th/id/R.159a99ed1bb4a1aadbf8b0eb25ac58f9?rik=YZUjrgNfX3Hjfw&pid=ImgRaw&r=0" }
             );
 
-
+        
             modelBuilder.Entity<CartProduct>()
-       .HasKey(cp => new { cp.CartId, cp.ProductId });
+      .HasKey(cp => new { cp.Id ,cp.ProductId}); // Assuming CartId in CartProduct matches Cart's primary key
 
             modelBuilder.Entity<CartProduct>()
                 .HasOne(cp => cp.Cart)
                 .WithMany(c => c.CartProducts)
-                .HasForeignKey(cp => cp.CartId);
+                .HasForeignKey(cp => cp.Id);
 
             modelBuilder.Entity<CartProduct>()
                 .HasOne(cp => cp.Product)

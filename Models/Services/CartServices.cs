@@ -25,28 +25,28 @@ namespace E_commerce.Models.Services
                 return;
             }
 
-            // Get or create the user's cart.
+            // Get or create the user's Cart.
             var userCart = await GetCart(userId);
 
-            var cartProduct = userCart?.CartProducts?.FirstOrDefault(cp => cp.Product.Id == product.Id);
+            var CartProduct = userCart?.CartProducts?.FirstOrDefault(cp => cp.Product.Id == product.Id);
 
-            if (cartProduct != null)
+            if (CartProduct != null)
             {
-                cartProduct.Quantity += Amount;
+                CartProduct.Quantity += Amount;
             }
             else
             {
-                // If the product is not in the cart, add it.
-                cartProduct = new CartProduct
+                // If the product is not in the Cart, add it.
+                CartProduct = new CartProduct
                 {
-                    Cart = userCart,
+                    Cart = userCart, // This should work with the updated ForeignKey attribute.
                     Product = product,
                     Quantity = Amount
                 };
-                _context.CartProducts.Add(cartProduct);
+                _context.CartProducts.Add(CartProduct);
             }
 
-            // Update the cart total.
+            // Update the Cart total.
             userCart.Total = userCart.CartProducts?.Sum(cp => cp.Product.Price * cp.Quantity) ?? 0;
 
             // Save the changes to the database.
@@ -65,16 +65,16 @@ namespace E_commerce.Models.Services
                 return userCart;
             }
 
-            // If the user doesn't have a cart in the database, create a new cart for them.
+            // If the user doesn't have a Cart in the database, create a new Cart for them.
             var newCart = new Cart
             {
                 UserId = userId,
-                // Other initialization logic for the cart properties.
+                // Other initialization logic for the Cart properties.
                 Total = 0,  // You can initialize other properties here.
                 CartProducts = new List<CartProduct>()
             };
 
-            // Add the new cart to the database.
+            // Add the new Cart to the database.
             _context.Cart.Add(newCart);
             await _context.SaveChangesAsync();
 

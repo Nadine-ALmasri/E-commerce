@@ -9,11 +9,11 @@ namespace E_commerce.Models.Services
     public class ProductServices : IProduct
     {
         private readonly E_commerceDbContext _context;
-       // private readonly CartServies cartServies;
-        public ProductServices(E_commerceDbContext context) //, CartServies cartServies)
+       // private readonly CartServies CartServies;
+        public ProductServices(E_commerceDbContext context) //, CartServies CartServies)
         {
             _context = context;
-           // this.cartServies = cartServies;
+           // this.CartServies = CartServies;
         }/// <summary>
          /// this method is to creat new product
          /// </summary>
@@ -140,7 +140,7 @@ namespace E_commerce.Models.Services
             var product = await GetProductById(productId); // Fetch the product details.
             if (product != null)
             {
-                //cartServies.AddToCart(product);
+                //CartServies.AddToCart(product);
             }
           
         }

@@ -11,11 +11,12 @@ namespace E_commerce.Models.Services
 {
     public class IdentityUserService : IUser
     {
-        //private readonly E_commerceDbContext _context;
+       private readonly E_commerceDbContext _context;
         private  SignInManager<ApplicationUser> _signInManager;
         private UserManager<ApplicationUser> _userManager;
-        public IdentityUserService(SignInManager<ApplicationUser> signInManager  , UserManager<ApplicationUser> userManager)
+        public IdentityUserService(SignInManager<ApplicationUser> signInManager  , UserManager<ApplicationUser> userManager, E_commerceDbContext context)
         {
+            _context = context;
             _signInManager = signInManager;
             _userManager = userManager;
         }
@@ -105,32 +106,34 @@ namespace E_commerce.Models.Services
         {
             await _signInManager.SignOutAsync();
         }
-        public Cart LoadShoppingCartForUser(UserDTO user)
-        {
-            var userId = user.Id;
-
-            var cart = _context.Cart
-                .Include(c => c.CartProducts)
-                .ThenInclude(cp => cp.Product)
-                .FirstOrDefault(c => c.UserId == userId);
-
-            if (cart == null)
+      
+            public Cart LoadShoppingCartForUser(UserDTO user)
             {
-                // If the user doesn't have a cart in the database, create a new cart.
-                cart = new Cart
-                {
-                    UserId = userId,
-                    Total = 0,
-                    CartProducts = new List<CartProduct>()
-                };
+                var userId = user.Id;
 
-                _context.Cart.Add(cart);
-                _context.SaveChanges();
+                var Cart = _context.Cart
+                    .Include(c => c.CartProducts)
+                    .ThenInclude(cp => cp.Product)
+                    .FirstOrDefault(c => c.UserId == userId);
+
+                if (Cart == null)
+                {
+                    // If the user doesn't have a Cart in the database, create a new Cart.
+                    Cart = new Cart
+                    {
+                        UserId = userId,
+                        Total = 0,
+                        CartProducts = new List<CartProduct>()
+                    };
+
+                    _context.Cart.Add(Cart);
+                    _context.SaveChanges();
+                }
+
+                return Cart; // Return either the existing Cart or a new empty Cart.
             }
 
-            return cart;
+
+
         }
-
-
     }
-}

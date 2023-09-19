@@ -266,7 +266,7 @@ namespace E_commerce.Controllers
         {
 
 
-            return null; // Redirect to the cart page.
+            return null; // Redirect to the Cart page.
         }
     }
 }

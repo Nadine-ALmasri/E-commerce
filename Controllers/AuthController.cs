@@ -73,11 +73,11 @@ namespace E_commerce.Controllers
 
             var shoppingCart = userService.LoadShoppingCartForUser(user);
 
-            // Add the shopping cart to the user's claims
+            // Add the shopping Cart to the user's claims
             var claims = new List<Claim>
     {
         new Claim(ClaimTypes.Name, user.UserName),
-        new Claim("ShoppingCart", JsonConvert.SerializeObject(shoppingCart)) // Serialize the shopping cart
+        new Claim("ShoppingCart", JsonConvert.SerializeObject(shoppingCart)) // Serialize the shopping Cart
     };
 
             var claimsIdentity = new ClaimsIdentity(claims, "LogIn");

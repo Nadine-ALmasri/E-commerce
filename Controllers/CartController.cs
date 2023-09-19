@@ -5,12 +5,12 @@ namespace E_commerce.Controllers
 {
     public class CartController : Controller
     {
-        /*private readonly CartServies _cartService;
+        /*private readonly CartServies _CartService;
         private readonly ProductServices _productService; // You may have a ProductService to manage products.
 
-        public CartController(CartServies cartService, ProductServices productService)
+        public CartController(CartServies CartService, ProductServices productService)
         {
-            _cartService = cartService;
+            _CartService = CartService;
             _productService = productService;
         }
         public IActionResult Index()

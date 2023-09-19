@@ -22,21 +22,6 @@ namespace E_commerce.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CartProduct", b =>
-                {
-                    b.Property<string>("CartsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("productsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CartsId", "productsId");
-
-                    b.HasIndex("productsId");
-
-                    b.ToTable("CartProduct");
-                });
-
             modelBuilder.Entity("E_commerce.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -104,11 +89,14 @@ namespace E_commerce.Migrations
 
             modelBuilder.Entity("E_commerce.Models.Cart", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18,2)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Total")
+                        .HasColumnType("float");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -117,6 +105,24 @@ namespace E_commerce.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cart");
+                });
+
+            modelBuilder.Entity("E_commerce.Models.CartProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CartProducts");
                 });
 
             modelBuilder.Entity("E_commerce.Models.Category", b =>
@@ -406,19 +412,23 @@ namespace E_commerce.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CartProduct", b =>
+            modelBuilder.Entity("E_commerce.Models.CartProduct", b =>
                 {
-                    b.HasOne("E_commerce.Models.Cart", null)
-                        .WithMany()
-                        .HasForeignKey("CartsId")
+                    b.HasOne("E_commerce.Models.Cart", "Cart")
+                        .WithMany("CartProducts")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("E_commerce.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("productsId")
+                    b.HasOne("E_commerce.Models.Product", "Product")
+                        .WithMany("CartProducts")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("E_commerce.Models.Product", b =>
@@ -483,9 +493,19 @@ namespace E_commerce.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("E_commerce.Models.Cart", b =>
+                {
+                    b.Navigation("CartProducts");
+                });
+
             modelBuilder.Entity("E_commerce.Models.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("E_commerce.Models.Product", b =>
+                {
+                    b.Navigation("CartProducts");
                 });
 #pragma warning restore 612, 618
         }
