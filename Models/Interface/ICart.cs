@@ -4,7 +4,7 @@ namespace E_commerce.Models.Interface
 {
     public interface ICart
     {
-        Task AddToCart(ProductCategoryDTO product);
+        Task<List<CartProducts>> AddToCart(ProductCategoryDTO product);
         Task DeleteProduct(int id);
 
        

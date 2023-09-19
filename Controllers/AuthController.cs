@@ -83,6 +83,11 @@ namespace E_commerce.Controllers
             var claimsIdentity = new ClaimsIdentity(claims, "LogIn");
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
+            if(user.Roles.Contains("User"))
+            {
+                return RedirectToAction("Index","Product");
+            }
+
             return RedirectToAction("Index", "Home");
 
 

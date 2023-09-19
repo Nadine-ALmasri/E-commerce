@@ -1,7 +1,11 @@
 ﻿using E_commerce.Data;
 using E_commerce.Models.DTOs;
 using E_commerce.Models.Interface;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 
 namespace E_commerce.Models.Services
@@ -10,20 +14,22 @@ namespace E_commerce.Models.Services
     {
         private readonly E_commerceDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public CartServices(E_commerceDbContext context, IHttpContextAccessor httpContextAccessor)
+        public CartServices(E_commerceDbContext context, IHttpContextAccessor httpContextAccessor, SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
+            _signInManager=signInManager;
         }
-
-        public async Task AddToCart(ProductCategoryDTO product)
+        [HttpPost]
+        public async Task<List<CartProducts>> AddToCart(ProductCategoryDTO product)
         {
             var userId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrEmpty(userId))
             {
-                return;
+                return null;
             }
 
             // Get or create the user's Cart.
@@ -39,12 +45,12 @@ namespace E_commerce.Models.Services
             {
                 // If the product is not in the Cart, add it.
                 Product pro = new Product
-                {Description = product.Description ,
-                imageUrl = product.ImageUrl ,
-                Name = product.Name ,
-                Price = product.Price ,
-                CategoryId= product.CategoryId ,
-                Id = product.Id ,
+                { Description = product.Description,
+                    imageUrl = product.ImageUrl,
+                    Name = product.Name,
+                    Price = product.Price,
+                    CategoryId = product.CategoryId,
+                    Id = product.Id,
 
 
                 };
@@ -52,7 +58,7 @@ namespace E_commerce.Models.Services
                 {
                     Cart = userCart, // This should work with the updated ForeignKey attribute.
                     ProductId = pro.Id,
-                    Quantity = 1 
+                    Quantity = 1
                 };
                 _context.CartProducts.Add(CartProduct);
                 await _context.SaveChangesAsync();
@@ -63,38 +69,48 @@ namespace E_commerce.Models.Services
 
             // Save the changes to the database.
             await _context.SaveChangesAsync();
+            var CartofUser = _context.Cart.Where(x => x.UserId == userId).SelectMany(x => x.CartProducts).ToList();
+            
+
+            return CartofUser;
         }
 
-      /*  public async Task<Cart> GetCart(string userId)
-        {
-            var userCart = await _context.Cart
-                .Include(c => c.CartProducts)
-                .ThenInclude(cp => cp.Product)
-                .FirstOrDefaultAsync(c => c.UserId == userId);
+        /*  public async Task<Cart> GetCart(string userId)
+          {
+              var userCart = await _context.Cart
+                  .Include(c => c.CartProducts)
+                  .ThenInclude(cp => cp.Product)
+                  .FirstOrDefaultAsync(c => c.UserId == userId);
 
-            if (userCart != null)
-            {
-                return userCart;
-            }
+              if (userCart != null)
+              {
+                  return userCart;
+              }
 
-            
-            // If the user doesn't have a Cart in the database, create a new Cart for them.
-            else {
-            var newCart = new Cart
-            {
-                UserId = userId,
-                // Other initialization logic for the Cart properties.
-                Total = 0,  // You can initialize other properties here.
-                CartProducts = new List<CartProduct>()
-            };
 
-            // Add the new Cart to the database.
-            _context.Cart.Add(newCart);
-            await _context.SaveChangesAsync();
+              // If the user doesn't have a Cart in the database, create a new Cart for them.
+              else {
+              var newCart = new Cart
+              {
+                  UserId = userId,
+                  // Other initialization logic for the Cart properties.
+                  Total = 0,  // You can initialize other properties here.
+                  CartProducts = new List<CartProduct>()
+              };
 
-            return newCart; }
-        }*/
+              // Add the new Cart to the database.
+              _context.Cart.Add(newCart);
+              await _context.SaveChangesAsync();
 
+              return newCart; }
+          }*/
+
+
+        //public async Task<List<CartProducts>> GetAlProductsInCart()
+        //{
+        //    var user = _signInManager.IsSignedIn()
+        //    var CartProducts = await _context.Cart.Include(cp=>cp.CartProducts).ThenInclude(p=>p.Product).ThenInclude(c=>c.Category).Where();
+        //}
         public Task DeleteProduct(int id)
         {
             throw new NotImplementedException();

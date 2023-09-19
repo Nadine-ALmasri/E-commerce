@@ -135,14 +135,16 @@ namespace E_commerce.Models.Services
 
             return upddateProductDTO;
         }
-        public async Task AddToCart(int productId)
+        public async Task<List<CartProducts>> AddToCart(int productId)
         {
             var product = await GetProductById(productId); // Fetch the product details.
+            
             if (product != null)
             {
-                _CartServies.AddToCart(product);
+               var cartProducts= await _CartServies.AddToCart(product);
+                return cartProducts;
             }
-          
+            return null;
         }
     }
 }
