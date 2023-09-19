@@ -28,13 +28,15 @@ namespace E_commerce.Controllers
             _category = category;
             _configuration = configuration;
         }
-        [Authorize(Roles = "Administrator,Editor,User")]
+        //[Authorize(Roles = "Administrator,Editor,User")]
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             List<ProductCategoryDTO> products = await _prouduct.GetAllProducts();
             return View(products);
         }
-        [Authorize(Roles = "Administrator,Editor,User")]
+        //[Authorize(Roles = "Administrator,Editor,User")]
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             ProductCategoryDTO product = await _prouduct.GetProductById(id);
@@ -261,11 +263,11 @@ namespace E_commerce.Controllers
                     return "application/octet-stream"; // Default to binary data if format is unknown
             }
         }
-      
-        public async Task<IActionResult> AddToCart(int productId)
+        
+        public async Task<IActionResult> AddProductToCart(int product)
         {
            
-            await _prouduct.AddToCart(productId);
+            await _prouduct.AddToCart(product);
 
 
             return RedirectToAction("index","Cart"); // Redirect to the Cart page.
