@@ -1,4 +1,5 @@
 ﻿using E_commerce.Data;
+using E_commerce.Models.DTOs;
 using E_commerce.Models.Interface;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -16,7 +17,7 @@ namespace E_commerce.Models.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task AddToCart(Product product, int Amount)
+        public async Task AddToCart(ProductCategoryDTO product)
         {
             var userId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -32,16 +33,26 @@ namespace E_commerce.Models.Services
 
             if (CartProduct != null)
             {
-                CartProduct.Quantity += Amount;
+                CartProduct.Quantity += 1;
             }
             else
             {
                 // If the product is not in the Cart, add it.
+                Product pro = new Product
+                {Description = product.Description ,
+                imageUrl = product.ImageUrl ,
+                Name = product.Name ,
+                Price = product.Price ,
+                CategoryId= product.CategoryId ,
+                Id = product.Id ,
+
+
+                };
                 CartProduct = new CartProduct
                 {
                     Cart = userCart, // This should work with the updated ForeignKey attribute.
-                    Product = product,
-                    Quantity = Amount
+                    Product = pro,
+                    Quantity = 1 
                 };
                 _context.CartProducts.Add(CartProduct);
             }

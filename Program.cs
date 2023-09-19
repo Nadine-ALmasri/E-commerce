@@ -23,10 +23,12 @@ namespace E_commerce
             builder.Services
                 .AddDbContext<E_commerceDbContext>
                 (opions => opions.UseSqlServer(connString));
+            builder.Services.AddTransient<CartServices>();
             builder.Services.AddTransient<ICategory, CategoryServices>();
+            builder.Services.AddTransient<ICart,CartServices>();
             builder.Services.AddTransient<IProduct, ProductServices>();
             builder.Services.AddTransient<IUser, IdentityUserService>();
-            builder.Services.AddTransient<ICart,CartServices>();
+           
             /// regstor the identty
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
       .AddEntityFrameworkStores<E_commerceDbContext>()

@@ -261,12 +261,18 @@ namespace E_commerce.Controllers
                     return "application/octet-stream"; // Default to binary data if format is unknown
             }
         }
-
-        public IActionResult AddToCart(int productId, int quantity)
+      
+        public async Task<IActionResult> AddToCart(int productId)
         {
+            ProductCategoryDTO product = await _prouduct.GetProductById(productId);
+            if (product == null)
+            {
+                return RedirectToAction("notFound", "Home");
+            }
+            await _prouduct.AddToCart(product.Id);
 
 
-            return null; // Redirect to the Cart page.
+            return RedirectToAction("index","Cart"); // Redirect to the Cart page.
         }
     }
 }

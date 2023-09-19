@@ -1,11 +1,14 @@
-﻿namespace E_commerce.Models.Interface
+﻿using E_commerce.Models.DTOs;
+
+namespace E_commerce.Models.Interface
 {
     public interface ICart
     {
-        Task AddToCart(Product product, int Amount);
+        Task AddToCart(ProductCategoryDTO product);
         Task DeleteProduct(int id);
 
         Task<Cart> GetCart(string userId);
+
     }
 
 }
