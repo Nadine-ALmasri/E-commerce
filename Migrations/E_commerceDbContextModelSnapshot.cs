@@ -107,7 +107,7 @@ namespace E_commerce.Migrations
                     b.ToTable("Cart");
                 });
 
-            modelBuilder.Entity("E_commerce.Models.CartProduct", b =>
+            modelBuilder.Entity("E_commerce.Models.CartProducts", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int");
@@ -117,6 +117,10 @@ namespace E_commerce.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id", "ProductId");
 
@@ -412,7 +416,7 @@ namespace E_commerce.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("E_commerce.Models.CartProduct", b =>
+            modelBuilder.Entity("E_commerce.Models.CartProducts", b =>
                 {
                     b.HasOne("E_commerce.Models.Cart", "Cart")
                         .WithMany("CartProducts")
