@@ -39,15 +39,15 @@ namespace E_commerce.Data
             );
 
         
-            modelBuilder.Entity<CartProduct>()
+            modelBuilder.Entity<CartProducts>()
       .HasKey(cp => new { cp.Id ,cp.ProductId}); // Assuming CartId in CartProduct matches Cart's primary key
 
-            modelBuilder.Entity<CartProduct>()
+            modelBuilder.Entity<CartProducts>()
                 .HasOne(cp => cp.Cart)
                 .WithMany(c => c.CartProducts)
                 .HasForeignKey(cp => cp.Id);
 
-            modelBuilder.Entity<CartProduct>()
+            modelBuilder.Entity<CartProducts>()
                 .HasOne(cp => cp.Product)
                 .WithMany(p => p.CartProducts)
                 .HasForeignKey(cp => cp.ProductId);
@@ -66,7 +66,7 @@ namespace E_commerce.Data
         public DbSet<Product> Product { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Cart> Cart{ get; set; }
-        public DbSet<CartProduct> CartProducts { get; set; }
+        public DbSet<CartProducts> CartProducts { get; set; }
     }
 }
 

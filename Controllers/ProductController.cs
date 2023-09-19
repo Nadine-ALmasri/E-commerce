@@ -264,12 +264,8 @@ namespace E_commerce.Controllers
       
         public async Task<IActionResult> AddToCart(int productId)
         {
-            ProductCategoryDTO product = await _prouduct.GetProductById(productId);
-            if (product == null)
-            {
-                return RedirectToAction("notFound", "Home");
-            }
-            await _prouduct.AddToCart(product.Id);
+           
+            await _prouduct.AddToCart(productId);
 
 
             return RedirectToAction("index","Cart"); // Redirect to the Cart page.

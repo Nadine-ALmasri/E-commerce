@@ -27,7 +27,7 @@ namespace E_commerce.Models.Services
             }
 
             // Get or create the user's Cart.
-            var userCart = await GetCart(userId);
+            var userCart = _context.Cart.FirstOrDefault(c => c.UserId == userId);
 
             var CartProduct = userCart?.CartProducts?.FirstOrDefault(cp => cp.Product.Id == product.Id);
 
@@ -48,13 +48,14 @@ namespace E_commerce.Models.Services
 
 
                 };
-                CartProduct = new CartProduct
+                CartProduct = new CartProducts
                 {
                     Cart = userCart, // This should work with the updated ForeignKey attribute.
-                    Product = pro,
+                    ProductId = pro.Id,
                     Quantity = 1 
                 };
                 _context.CartProducts.Add(CartProduct);
+                await _context.SaveChangesAsync();
             }
 
             // Update the Cart total.
@@ -64,7 +65,7 @@ namespace E_commerce.Models.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Cart> GetCart(string userId)
+      /*  public async Task<Cart> GetCart(string userId)
         {
             var userCart = await _context.Cart
                 .Include(c => c.CartProducts)
@@ -76,7 +77,9 @@ namespace E_commerce.Models.Services
                 return userCart;
             }
 
+            
             // If the user doesn't have a Cart in the database, create a new Cart for them.
+            else {
             var newCart = new Cart
             {
                 UserId = userId,
@@ -89,17 +92,14 @@ namespace E_commerce.Models.Services
             _context.Cart.Add(newCart);
             await _context.SaveChangesAsync();
 
-            return newCart;
-        }
+            return newCart; }
+        }*/
 
         public Task DeleteProduct(int id)
         {
             throw new NotImplementedException();
         }
 
-        Task<Cart> ICart.GetCart(string userId)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

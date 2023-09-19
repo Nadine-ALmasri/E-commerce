@@ -5,6 +5,6 @@
         public string UserId { get; set; }
         public double Total { get; set; }
 
-        public ICollection<CartProduct> CartProducts { get; set; }
+        public ICollection<CartProducts> CartProducts { get; set; }
     }
 }

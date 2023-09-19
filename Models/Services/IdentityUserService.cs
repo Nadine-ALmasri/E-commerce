@@ -123,7 +123,7 @@ namespace E_commerce.Models.Services
                     {
                         UserId = userId,
                         Total = 0,
-                        CartProducts = new List<CartProduct>()
+                        CartProducts = new List<CartProducts>()
                     };
 
                     _context.Cart.Add(Cart);

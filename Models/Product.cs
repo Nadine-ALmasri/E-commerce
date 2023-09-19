@@ -12,7 +12,7 @@
         public string? ImageUrl { get; set; }
         //Navigation properties
         public Category Category { get; set; }
-        public ICollection<CartProduct>? CartProducts { get; set; }
+        public ICollection<CartProducts>? CartProducts { get; set; }
 
 
     }

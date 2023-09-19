@@ -2,7 +2,7 @@
 
 namespace E_commerce.Models
 {
-    public class CartProduct
+    public class CartProducts
     {
         public int Id { get; set; }
         public int ProductId { get; set; }
