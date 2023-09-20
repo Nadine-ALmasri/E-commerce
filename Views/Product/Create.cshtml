@@ -11,7 +11,10 @@
         <input asp-for="Price" class="form-control" />
         <label asp-for="Description" class="control-label"></label>
         <input asp-for="Description" class="form-control" />
-        @if (ViewBag.CategoryID.HasValue && ViewBag.CategoryName != null)
+        <label asp-for="ImageUrl" class="control-label"></label>
+        <input type="file" asp-for="ImageUrl" class="form-control" />
+
+        @if (ViewBag.CategoryID != null && ViewBag.CategoryName != null)
         {
             <label asp-for="categoryname" class="control-label"></label>
             <input asp-for="categoryname" class="form-control" value="@ViewBag.CategoryName" readonly />
@@ -34,7 +37,7 @@
     </div>
 </form>
 <br />
-@if (ViewBag.CategoryID.HasValue && ViewBag.CategoryID > 0)
+@if (ViewBag.CategoryID != null && ViewBag.CategoryID > 0)
 {
     <p>
         <a asp-action="Details" asp-controller="Category" asp-route-id="@ViewBag.CategoryID" class="btn btn-dark">Back to List</a>

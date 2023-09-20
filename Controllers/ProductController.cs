@@ -94,7 +94,8 @@ namespace E_commerce.Controllers
                 Price = result.Price,
                 Name = result.Name,
                 Description = result.Description,
-                Id = result.Id
+                Id = result.Id,
+                ImageUrl = result.ImageUrl,
             };
             CategoriesDTO = await _category.GetAllCategories();
             ViewBag.CategoriesDTO = new SelectList(CategoriesDTO, "Id", "Name");

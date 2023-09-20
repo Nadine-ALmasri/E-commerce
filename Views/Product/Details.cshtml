@@ -4,8 +4,8 @@
 @inject SignInManager<ApplicationUser> signInManager
 
 <div>
-   
-            @if (signInManager.IsSignedIn(User) && User.IsInRole("Editor"))
+
+    @if (signInManager.IsSignedIn(User) && User.IsInRole("Editor ,Administrator"))
             {
                 
                     <form asp-controller="Product" asp-action="UploadFile" method="post" enctype="multipart/form-data">
@@ -74,12 +74,11 @@
                 @if (User.IsInRole("Administrator"))
                 {
                     <form asp-controller="Product" asp-action="UploadFile" method="post" enctype="multipart/form-data">
+
                         <input type="hidden" name="productId" value="@Model.Id" />
+                        
                         <div class="form-group">
-                            <input type="text" class="form-control" id="name" name="name">
-                        </div>
-                        <div class="form-group">
-                            <input type="file" class="form-control" id="img" name="img">
+                            <input type="file" class="form-control" id="name" name="file">
                  
                         </div>
                         
