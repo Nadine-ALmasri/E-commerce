@@ -177,7 +177,7 @@ namespace E_commerce.Controllers
             return View(product);
         }
 
-        [Authorize(Roles = "Editor")]
+        [Authorize(Roles = "Editor ,Administrator")]
         [HttpPost]
         public async Task<IActionResult> UploadFile(IFormFile file, int productId)
         {
