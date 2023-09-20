@@ -2,25 +2,34 @@
 using E_commerce.Models.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace E_commerce.Controllers
 {
     public class CartController : Controller
     {
-        /* private readonly CartServies _CartService;
-         private readonly ProductServices _productService; // You may have a ProductService to manage products.
-
-         public CartController(CartServies CartService, ProductServices productService)
+         private readonly CartServices _CartService;
+        
+         public CartController(CartServices CartService)
          {
              _CartService = CartService;
-             _productService = productService;
-         }*/
+           
+         }
         [Authorize(Roles = "Administrator,Editor,User")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            return View();
+            if (string.IsNullOrEmpty(userId))
+            {
+                
+                return RedirectToAction("Error"); 
+            }
+
+            var cart = await _CartService.GetCart(userId);
+            return View(cart);
         }
+
     }
-    }
+}
 

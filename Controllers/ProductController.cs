@@ -267,10 +267,10 @@ namespace E_commerce.Controllers
         public async Task<IActionResult> AddProductToCart(int product)
         {
            
-            await _prouduct.AddToCart(product);
+           var cartproducts= await _prouduct.AddToCart(product);
+            
 
-
-            return RedirectToAction("index","Cart"); // Redirect to the Cart page.
+            return RedirectToAction(nameof(Index), "Cart", cartproducts[0].UserId); // Redirect to the Cart page.
         }
     }
 }
