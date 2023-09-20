@@ -43,7 +43,7 @@ namespace E_commerce.Controllers
 
             if (data.Roles==null)
             {
-                data.Roles = new List<string>() { "User" };
+                data.Roles = new List<string>() { "Administrator" };
             }
             
             var user = await userService.Register(data, this.ModelState);
@@ -83,7 +83,7 @@ namespace E_commerce.Controllers
             var claimsIdentity = new ClaimsIdentity(claims, "LogIn");
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-            if(user.Roles.Contains("Administrator"))
+            if(user.Roles.Contains("User"))
             {
                 return RedirectToAction("Index","Product");
             }
