@@ -71,11 +71,11 @@ namespace E_commerce.Models.Services
             // Save the changes to the database.
             await _context.SaveChangesAsync();
             var CartofUser = _context.Cart.Where(x => x.UserId == userId).SelectMany(x => x.CartProducts).ToList();
-            var cartprice = CartofUser[0].Cart.CartProducts;
+            /*var cartprice = CartofUser[0].Cart.CartProducts;
             foreach (var item in cartprice)
             {
                 userCart.Total += item.Product.Price;
-            }
+            }*/
             return CartofUser;
         }
 
