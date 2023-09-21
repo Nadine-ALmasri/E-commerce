@@ -118,6 +118,10 @@ namespace E_commerce.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id", "ProductId");
 
                     b.HasIndex("ProductId");

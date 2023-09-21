@@ -94,7 +94,8 @@ namespace E_commerce.Controllers
                 Price = result.Price,
                 Name = result.Name,
                 Description = result.Description,
-                Id = result.Id
+                Id = result.Id,
+                ImageUrl = result.ImageUrl,
             };
             CategoriesDTO = await _category.GetAllCategories();
             ViewBag.CategoriesDTO = new SelectList(CategoriesDTO, "Id", "Name");
@@ -177,7 +178,7 @@ namespace E_commerce.Controllers
             return View(product);
         }
 
-        [Authorize(Roles = "Editor")]
+        [Authorize(Roles = "Editor ,Administrator")]
         [HttpPost]
         public async Task<IActionResult> UploadFile(IFormFile file, int productId)
         {
@@ -267,10 +268,10 @@ namespace E_commerce.Controllers
         public async Task<IActionResult> AddProductToCart(int product)
         {
            
-            await _prouduct.AddToCart(product);
+           var cartproducts= await _prouduct.AddToCart(product);
+            
 
-
-            return RedirectToAction("index","Cart"); // Redirect to the Cart page.
+            return RedirectToAction(nameof(Index), "Cart", cartproducts[0].UserId); // Redirect to the Cart page.
         }
     }
 }
