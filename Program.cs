@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.Options;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace E_commerce
 {
@@ -18,7 +19,11 @@ namespace E_commerce
 
             // Add services to the container.
             builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            builder.Services.AddControllers();
+
+            builder.Services.AddControllers().AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+
             string connString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services
                 .AddDbContext<E_commerceDbContext>
