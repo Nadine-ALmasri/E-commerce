@@ -2,6 +2,10 @@
 
 @model E_commerce.Models.Cart  
 
+@{
+    double TotalPrice = ViewBag.Total.Result;
+    double Total = 0;
+}
 <h1>Your Shopping Cart</h1>
 
 @if (Model.CartProducts.Count == 0)
@@ -17,6 +21,7 @@ else
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Total</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -30,11 +35,15 @@ else
                     <td>@cartProduct.Quantity</td>
                     <td>@cartProduct.Product.Price</td>
                     <td>@(cartProduct.Quantity * cartProduct.Product.Price)</td>
+                    @{
+                        Total += (cartProduct.Quantity * cartProduct.Product.Price);
+                    }
+                    <td> <a asp-controller="Cart" asp-action="DeleteProductFromCart" asp-route-id="@cartProduct.Product.Id" class="btn btn-outline-dark , m-4">Delete</a></td>
                 </tr>
             }
         </tbody>
     </table>
-    <p>Total: @Model.Total</p>
+    <p>Total: @(Total)</p>
 
     <a href="/Checkout" class="btn btn-outline-dark , m-4" >Proceed to Checkout</a>
     <div>

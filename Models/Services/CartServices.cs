@@ -33,13 +33,17 @@ namespace E_commerce.Models.Services
             }
 
             // Get or create the user's Cart.
-            var userCart = _context.Cart.FirstOrDefault(c => c.UserId == userId);
-
-            var CartProduct = userCart?.CartProducts?.FirstOrDefault(cp => cp.Product.Id == product.Id);
-
-            if (CartProduct != null)
+            var userCart =await _context.Cart.FirstOrDefaultAsync(c => c.UserId == userId);
+            if(userCart == null)
             {
-                CartProduct.Quantity += 1;
+                return null;
+            }
+            var CartofUser = await _context.Cart.Where(x => x.UserId == userId).SelectMany(x => x.CartProducts).FirstOrDefaultAsync(x => x.ProductId == product.Id);
+            //var CartProduct = userCart?.CartProducts?.FirstOrDefault(cp => cp.Product.Id == product.Id);
+
+            if (CartofUser != null)
+            {
+                CartofUser.Quantity += 1;
             }
             else
             {
@@ -54,14 +58,14 @@ namespace E_commerce.Models.Services
 
 
                 };
-                CartProduct = new CartProducts
+                CartofUser = new CartProducts
                 {
                     Cart = userCart, // This should work with the updated ForeignKey attribute.
                     ProductId = pro.Id,
                     Quantity = 1,
                     UserId = userId,
                 };
-                _context.CartProducts.Add(CartProduct);
+                _context.CartProducts.Add(CartofUser);
                 await _context.SaveChangesAsync();
             }
 
@@ -70,13 +74,13 @@ namespace E_commerce.Models.Services
 
             // Save the changes to the database.
             await _context.SaveChangesAsync();
-            var CartofUser = _context.Cart.Where(x => x.UserId == userId).SelectMany(x => x.CartProducts).ToList();
+            //var CartofUser = _context.Cart.Where(x => x.UserId == userId).SelectMany(x => x.CartProducts).ToList();
             /*var cartprice = CartofUser[0].Cart.CartProducts;
             foreach (var item in cartprice)
             {
                 userCart.Total += item.Product.Price;
             }*/
-            return CartofUser;
+            return userCart.CartProducts;
         }
 
          public async Task<Cart> GetCart(string userId)
@@ -100,9 +104,23 @@ namespace E_commerce.Models.Services
         //    var user = _signInManager.IsSignedIn()
         //    var CartProducts = await _context.Cart.Include(cp=>cp.CartProducts).ThenInclude(p=>p.Product).ThenInclude(c=>c.Category).Where();
         //}
-        public Task DeleteProduct(int id)
+        public async Task DeleteProduct(int id)
         {
-            throw new NotImplementedException();
+            var userId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return;
+            }
+
+            // Get or create the user's Cart.
+            var userCart = await _context.Cart.FirstOrDefaultAsync(c => c.UserId == userId);
+            var CartofUser =await _context.Cart.Where(x => x.UserId == userId).SelectMany(x => x.CartProducts).FirstOrDefaultAsync(x=>x.ProductId==id);
+            if (CartofUser != null)
+            {
+               _context.CartProducts.Remove(CartofUser);
+                await _context.SaveChangesAsync();
+            }
         }
 
        
