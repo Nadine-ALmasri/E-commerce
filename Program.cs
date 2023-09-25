@@ -33,11 +33,13 @@ namespace E_commerce
             builder.Services.AddTransient<ICart,CartServices>();
             builder.Services.AddTransient<IProduct, ProductServices>();
             builder.Services.AddTransient<IUser, IdentityUserService>();
-           
+            builder.Services.AddScoped<IEmailSender, EmailSender>();
+            builder.Services.AddRazorPages();
             /// regstor the identty
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
       .AddEntityFrameworkStores<E_commerceDbContext>()
 ;
+           
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
@@ -71,6 +73,7 @@ namespace E_commerce
             app.UseRouting();
             app.UseAuthentication(); // Place UseAuthentication before UseAuthorization
             app.UseAuthorization(); // Place UseAuthorization here
+            app.MapRazorPages();
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Product}/{action=Index}/{id?}");
