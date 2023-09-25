@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> signInManager
 
 @model E_commerce.Models.Cart  
 
@@ -10,7 +11,9 @@
 
 @if (Model.CartProducts.Count == 0)
 {
-    <p>Your cart is empty.</p>
+    <div class="row" style="min-height: 100vh ;">
+        <p>Your cart is empty.</p>
+    </div>
 }
 else
 {
@@ -44,8 +47,15 @@ else
         </tbody>
     </table>
     <p>Total: @(Total)</p>
+    <form>
+        <button type="submit" class="btn btn-outline-dark , m-4" asp-controller="Cart" asp-action="Checkout">Proceed to Checkout</button>
+    </form>
 
-    <a href="/Checkout" class="btn btn-outline-dark , m-4" >Proceed to Checkout</a>
+
+
+
+
+
     <div>
         <a asp-controller="Home" asp-action="Index" class="btn btn-outline-dark , m-4">Back to home page</a>
     </div>

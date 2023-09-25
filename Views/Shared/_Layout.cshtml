@@ -14,30 +14,37 @@
     <style>
         /* Custom CSS for Navbar */
         .navbar {
-            background-color: #343a40; /* Navbar background color */
+            background-color: black; /* Navbar background color */
+            margin-bottom: 0; /* Remove margin to make the navbar cover the whole width */
         }
 
         .navbar-brand {
-            color: #ffffff !important; /* Navbar brand text color */
+            color: gold !important; /* Navbar brand text color */
+            font-size: 24px; /* Adjust font size */
         }
 
         .navbar-toggler-icon {
-            background-color: #ffffff; /* Navbar toggler icon color */
+            background-color: gold; /* Navbar toggler icon color */
+        }
+
+        /* Add logo image */
+        .navbar-brand img {
+            max-height: 40px; /* Adjust logo image height */
+            margin-right: 10px; /* Add spacing to the right of the logo */
         }
 
         .navbar-text {
-            color: brown; /* Welcome message text color */
+            color: gold; /* Welcome message text color */
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-            margin-bottom: 20px; /* Add some spacing */
-            font-size: 28px; /* Adjust font size */
+            font-size: 16px; /* Adjust font size */
             margin-top: 10px; /* Adjust top margin */
         }
+
         /* Custom CSS class for the "Sign Out" link */
         .sign-out-link {
             color: red !important;
             text-decoration: none !important;
         }
-
 
         /* Move logout link to the end */
         .navbar-nav.flex-grow-1 {
@@ -46,87 +53,187 @@
 
         /* Logout link style */
         .navbar-nav .nav-link.logout-link {
-            color: #ffffff !important;
+            color: gold !important;
         }
 
             .navbar-nav .nav-link.logout-link:hover {
                 color: #f8f9fa !important; /* Change color on hover */
             }
 
-       
-
-        /* Style for the welcome message */
-        .welcome-message {
-            color: brown; /* Text color */
-            font-size: 16px;/* Font size */
-            text-align: center; /* Center align */
-            display: inline-block; /* Display inline with the navbar */
-            margin-left: 10px; /* Adjust left margin */
+        /* Search input and button styles */
+        .search-form {
+            display: flex;
         }
 
-        /* Adjust footer style */
+        .search-input {
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        .search-button {
+            background-color: gold;
+            color: black;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        .logo {
+            width: 200%;
+            height: 100%;
+        }
+
+        /* Footer style */
         .footer {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background-color: rgba(52, 58, 64, 0.9); /* Footer background color with opacity */
-            color: white;
-            text-align: center;
+            background-color: black; /* Footer background color */
+            color: gold; /* Footer text color */
+            text-align: center; /* Center align text */
+            padding: 10px; /* Add some padding */
+            font-size: 14px; /* Adjust font size */
+            position: absolute; /* Position the footer at the bottom */
+            width: 100%; /* Make the footer cover the whole width */
+            bottom: 0; /* Stick the footer to the bottom */
+        }
+
+        /* Newsletter form style */
+        .newsletter-form {
+            margin-top: 20px; /* Adjust top margin for newsletter form */
+        }
+
+        .newsletter-label {
+            color: gold; /* Label text color */
+            margin-right: 10px; /* Add spacing to the right of the label */
+        }
+
+        .newsletter-input {
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        .newsletter-button {
+            background-color: gold;
+            color: black;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
         }
     </style>
 </head>
-<body>
+<body style="display: flex; flex-direction: column; min-height: 100vh; margin: 0;">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-dark border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-light bg-black border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">E_commerce</a>
+                <!-- Add your logo image here -->
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="./lib/face1.PNG" alt="Logo" class="logo" />
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <span class="navbar-text">@User.Identity.Name</span>
+                    }
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <!-- Navigation links and user actions as dropdown -->
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy"></a>
                         </li>
                         @if (signInManager.IsSignedIn(User))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Category" asp-action="Index">Categories</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Product" asp-action="Index">Products</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Cart" asp-action="Index">Shopping Cart</a>
-                            </li>
-                            <li style="list-style: none; display: flex; align-items: center;">
-                                <span class="welcome-message">Welcome, @User.Identity.Name!</span>
-                                <a class="btn btn-light sign-out-link" style="color:white" asp-controller="Auth" asp-action="LogOut">Sign Out</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @User.Identity.Name
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Category" asp-action="Index">Categories</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Product" asp-action="Index">Products</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Cart" asp-action="Index">Shopping Cart</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" asp-controller="Auth" asp-action="LogOut">Sign Out</a>
+                                </div>
                             </li>
                         }
                         else
                         {
-                            <li class="nav-link text-white">@Html.ActionLink("Sign Up", "SignUp", "Auth", null, new { @class = "btn btn-secondary" })</li>
+                            <li class="nav-link text-white">@Html.ActionLink("Sign Up", "SignUp", "Auth", null, new { @class = "btn btn-outline-secondary" })</li>
                             <li class="nav-link text-white">@Html.ActionLink("Log In", "LogIn", "Auth", null, new { @class = "btn btn-light" })</li>
                         }
                     </ul>
+
+
+                    <!-- Search input and button -->
+                    <form class="form-inline my-2 my-lg-0 search-form" asp-controller="Product" asp-action="Search" method="get">
+                        <input class="form-control mr-sm-2 search-input" type="search" placeholder="Search" aria-label="Search" name="query">
+                        <button class="btn btn-outline-success my-2 my-sm-0 search-button" type="submit">Search</button>
+                    </form>
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - E_commerce - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+   
+
+            <footer class="bg-black text-center " style="color:gold; ">
+                <!-- Grid container -->
+                <div class="container p-4 pb-0 mb-0">
+                    <!-- Section: Form -->
+                    <section class="">
+                        <form action="">
+                            <!--Grid row-->
+                            <div class="row d-flex justify-content-center">
+                                <!--Grid column-->
+                                <div class="col-auto">
+                                    <p class="pt-2">
+                                        <strong>Sign up for our newsletter</strong>
+                                    </p>
+                                </div>
+                                <!--Grid column-->
+                                <!--Grid column-->
+                                <div class="col-md-5 col-12">
+                                    <!-- Email input -->
+                                    <div class="form-outline mb-4">
+                                        <input type="email" id="form5Example2" class="form-control" />
+                                        <label class="form-label" for="form5Example2">Email address</label>
+                                    </div>
+                                </div>
+                                <!--Grid column-->
+                                <!--Grid column-->
+                                <div class="col-auto">
+                                    <!-- Submit button -->
+                                    <button type="submit" class="btn btn-outline-light  bg-gold mb-4">
+                                        Subscribe
+                                    </button>
+                                </div>
+                                <!--Grid column-->
+                            </div>
+                            <!--Grid row-->
+                        </form>
+                    </section>
+                    <!-- Section: Form -->
+                </div>
+                <!-- Grid container -->
+                <!-- Copyright -->
+                <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                    © 2023 Copyright:FaceShop
+
+                </div>
+                <!-- Copyright -->
+            </footer>
+
+
+
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

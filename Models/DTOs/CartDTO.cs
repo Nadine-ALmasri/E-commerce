@@ -4,8 +4,16 @@
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public decimal Total { get; set; }
+        public double Total { get; set; }
         public int Amount { get; set; }
 
+    }
+    public class CartEmail
+    {
+       
+        
+        public double Total { get; set; }
+
+        public List<CartProductDTO> CartProducts { get; set; }
     }
 }
