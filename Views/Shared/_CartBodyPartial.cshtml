@@ -1,17 +1,7 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<ApplicationUser> signInManager
-
-@model E_commerce.Models.Cart
-
-@{
-    Layout = ViewBag.Layout;
-    Html.RenderPartialAsync("_CartBodyPartial", Model);
-}
-
-
-@*@{
+﻿@{
     double TotalPrice = ViewBag.Total.Result;
     double Total = 0;
+     
 }
 <h1>Your Shopping Cart</h1>
 
@@ -57,9 +47,12 @@ else
         <button type="submit" class="btn btn-outline-dark , m-4" asp-controller="Cart" asp-action="Checkout">Proceed to Checkout</button>
     </form>
 
+
+
+
+
+
     <div>
         <a asp-controller="Home" asp-action="Index" class="btn btn-outline-dark , m-4">Back to home page</a>
     </div>
 }
-
-*@

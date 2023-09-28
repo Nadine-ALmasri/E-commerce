@@ -48,9 +48,7 @@ namespace E_commerce.Data
                 .HasForeignKey(cp => cp.Id);
 
             modelBuilder.Entity<CartProducts>()
-                .HasOne(cp => cp.Product)
-                .WithMany(p => p.CartProducts)
-                .HasForeignKey(cp => cp.ProductId);
+                .HasOne(cp => cp.Product);
         }
         private void SeedRoles(ModelBuilder modelBuilder, string roleName)
         {
