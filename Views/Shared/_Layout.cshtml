@@ -117,7 +117,23 @@
             padding: 10px 15px;
             cursor: pointer;
         }
+        .mini-cart {
+    position: relative;
+}
+
+#cart-preview {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    min-width: 200px;
+    z-index:2;
+}
     </style>
+    <script src="https://kit.fontawesome.com/2844f80f7d.js" crossorigin="anonymous"></script>
 </head>
 <body style="display: flex; flex-direction: column; min-height: 100vh; margin: 0;">
     <header>
@@ -141,7 +157,16 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy"></a>
+                        </li class="navbar-nav flex-grow-1">
+
+                        <li>
+                            <div class="mini-cart">     
+                                <a href="" id="mini-cart-button"> <i class="fa-solid fa-cart-shopping" style="color:blue;"></i></a>
+                                <div id="cart-preview" class="cart-preview"></div>
+                                @*<span class="cart-products-count" data-cartproducts="">ItemsCount </span>*@
+                            </div>
                         </li>
+
                         @if (signInManager.IsSignedIn(User))
                         {
                             <li class="nav-item dropdown">
@@ -240,3 +265,6 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+
+

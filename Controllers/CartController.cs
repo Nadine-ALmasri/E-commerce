@@ -25,7 +25,7 @@ namespace E_commerce.Controllers
 
         }
         [Authorize(Roles = "Administrator,Editor,User")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string layout)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -37,6 +37,10 @@ namespace E_commerce.Controllers
 
             var cart = await _CartService.GetCart(userId);
             ViewBag.Total = CalculateTotal();
+            if (layout == "_Layout1")
+                ViewBag.Layout = "_Layout1";
+            else
+                ViewBag.Layout = "_Layout";
             return View(cart);
         }
 
