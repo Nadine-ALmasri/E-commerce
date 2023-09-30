@@ -1,15 +1,39 @@
-﻿<form method="post" action="/auth/LogIn">
-    <div class="form-group">
-        <label class="sr-only" for="username">username:</label>
-        <input type="text" name="username" class="form-control" id="username">
+﻿<section class="vh-90" bg-image"
+         style="background-image: url('https://thumbs.dreamstime.com/b/watercolor-banner-beauty-salon-background-drawn-hand-set-cosmetics-rose-website-design-pages-social-networks-137421533.jpg');
+         background-repeat: no-repeat;
+         background-size: cover;">
+
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                    <div class="card" style="border-radius: 15px; background-color: plum;">
+                        <div class="card-body p-5">
+                            <h2 class="text-uppercase text-center mb-5">Sign In</h2>
+
+                            <form method="post" action="/auth/LogIn">
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="username" style="color: black; text-align: center;">Username:</label>
+                                    <input type="text" name="username" class="form-control" id="username">
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="password" style="color: black; text-align: center;">Password:</label>
+                                    <input type="password" name="password" class="form-control" id="password">
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-outline-light btn-block btn-lg gradient-custom-4 text-body">Sign In</button>
+                                </div>
+
+                                <p class="text-center text-muted mt-5 mb-0">Don't have an account? <a href="/auth/SignUp"><u>Sign Up</u></a></p>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label class="sr-only" for="password">Password:</label>
-        <input type="password" name="password" class="form-control" id="password">
-    </div>
-
-    <button type="submit" class="btn btn-default">Sign in</button>
-</form>
-
+</section>
 <div asp-validation-summary="All"></div>
