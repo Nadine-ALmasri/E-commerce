@@ -73,6 +73,22 @@ namespace E_commerce.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Administrator,Editor,User")]
+        [HttpPost]
+        public async Task<IActionResult> LessQuantityCon(int id)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+
+                return RedirectToAction("Error");
+            }
+
+            await _CartService.LessQuantity(id);
+            return RedirectToAction("Index");
+        }
+
+        
 
         public async Task<double> CalculateTotal()
         {

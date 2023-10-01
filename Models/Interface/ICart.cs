@@ -6,8 +6,11 @@ namespace E_commerce.Models.Interface
     {
         Task<List<CartProducts>> AddToCart(ProductCategoryDTO product);
         Task DeleteProduct(int id);
+        Task LessQuantity(int id);
 
-       
+
+
+
 
     }
 
