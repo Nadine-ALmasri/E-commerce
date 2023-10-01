@@ -73,11 +73,18 @@ namespace E_commerce.Controllers
 
             var shoppingCart = userService.LoadShoppingCartForUser(user);
 
+            var jsonSerializerSettings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            // Serialize the shopping cart with the configured settings
+            var serializedShoppingCart = JsonConvert.SerializeObject(shoppingCart, jsonSerializerSettings);
             // Add the shopping Cart to the user's claims
             var claims = new List<Claim>
     {
         new Claim(ClaimTypes.Name, user.UserName),
-        new Claim("ShoppingCart", JsonConvert.SerializeObject(shoppingCart)) // Serialize the shopping Cart
+        new Claim("ShoppingCart", serializedShoppingCart) // Serialize the shopping Cart
     };
 
             var claimsIdentity = new ClaimsIdentity(claims, "LogIn");
@@ -103,6 +110,7 @@ namespace E_commerce.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
         [HttpGet("Account/AccessDenied")]
         public IActionResult AccessDenied()
         {
