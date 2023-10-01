@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Host.Mef;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Stripe.Checkout;
+using Stripe;
 using System.Numerics;
 using System.Security.Claims;
 
@@ -17,12 +19,13 @@ namespace E_commerce.Controllers
         private readonly CartServices _CartService;
         private UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
-        public CartController(CartServices CartService, UserManager<ApplicationUser> userManager, IEmailSender emailSender)
+        private readonly IConfiguration _configuration;
+        public CartController(CartServices CartService, UserManager<ApplicationUser> userManager, IEmailSender emailSender , IConfiguration configuration)
         {
             _CartService = CartService;
             _userManager = userManager;
             _emailSender=emailSender;   
-
+            _configuration = configuration;
         }
         [Authorize(Roles = "Administrator,Editor,User")]
         public async Task<IActionResult> Index(string layout)
@@ -135,8 +138,8 @@ namespace E_commerce.Controllers
                 cartProductsDTO.Add(cartProductDTO); 
             }
 
-            var userWithEmailAndCart = new UserEmailDTO
-            {
+            var UserOrder = new Order
+            {UserId=user.Id ,
                 Email = user.Email,
                 UserName = user.UserName,
                 ShoppingCart = new CartEmail
@@ -148,11 +151,109 @@ namespace E_commerce.Controllers
                
             };
 
-            return View("Checkout", userWithEmailAndCart);
+            return View("Checkout", UserOrder);
         }
-
-
         [HttpPost]
+        [ActionName("Checkout")]
+        public async Task<IActionResult> CheckoutPOST(Order order)
+        {
+
+			var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+			if (string.IsNullOrEmpty(userId))
+			{
+				return RedirectToAction("Error");
+			}
+
+			var user = await _userManager.FindByIdAsync(userId);
+			ViewBag.Email = user.Email;
+			var shoppingCart = await _CartService.GetCart(userId);
+			shoppingCart.Total = await CalculateTotal();
+
+			var cartProductsDTO = new List<CartProductDTO>();
+
+			foreach (var item in shoppingCart.CartProducts)
+			{
+
+				var cartProductDTO = new CartProductDTO
+				{
+					ProductId = item.ProductId,
+
+					Product = new ProductCategoryEmailDTO
+					{
+						Id = item.Product.Id,
+						Name = item.Product.Name,
+						Price = item.Product.Price,
+
+					},
+					Quantity = item.Quantity
+				};
+
+				cartProductsDTO.Add(cartProductDTO);
+			}
+
+			var UserOrder = new Order
+			{
+				UserId = user.Id,
+				Email = user.Email,
+				UserName = user.UserName,
+				ShoppingCart = new CartEmail
+				{
+					Total = shoppingCart.Total,
+					CartProducts = cartProductsDTO
+				},
+				Phone = user.PhoneNumber,
+                OrderDate= DateTime.Now,
+                City= order.City,
+                PostalCode= order.PostalCode,
+                StreetAdress= order.StreetAdress,
+			};
+			StripeConfiguration.ApiKey = _configuration.GetSection("StripeSettings:SecretKey").Get<string>();
+
+			var domain = "https://localhost:44388/";
+
+			var options = new SessionCreateOptions
+			{
+				SuccessUrl = domain + "Cart/Thanks",
+				CancelUrl = domain + "Cart/Index",
+				LineItems = new List<SessionLineItemOptions>(),
+				Mode = "payment",
+			};
+
+			foreach (var item in UserOrder.ShoppingCart.CartProducts)
+			{
+				var sessionLineItem = new SessionLineItemOptions
+				{
+					PriceData = new SessionLineItemPriceDataOptions()
+					{
+						UnitAmount = (long)(item.Product.Price * 100), // 20.50 => 2050
+						Currency = "usd",
+						ProductData = new SessionLineItemPriceDataProductDataOptions()
+						{
+							Name = item.Product.Name
+						}
+					},
+					Quantity = item.Quantity
+				};
+
+				options.LineItems.Add(sessionLineItem);
+			}
+
+			var service = new SessionService();
+			var session = service.Create(options);
+
+			var sessionId = session.Id;
+
+			TempData["sessionId"] = sessionId;
+
+
+			Response.Headers.Add("Location", session.Url);
+
+			return new StatusCodeResult(303);
+
+		}
+
+		[HttpPost]
         public async Task<IActionResult> ProcessOrder(UserEmailDTO user)
         {
             if (ModelState.IsValid)
