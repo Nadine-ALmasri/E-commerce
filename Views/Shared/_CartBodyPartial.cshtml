@@ -3,6 +3,40 @@
     double Total = 0;
      
 }
+
+<style>
+        .quantity-container {
+            display: inline-block;
+            border: 2px solid #333;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .quantity {
+            font-weight: bold;
+        }
+
+        .plus-minus-icons {
+            margin-top: 10px;
+        }
+
+        .plus-icon {
+            color: green;
+            font-size: 24px;
+            cursor: pointer;
+            border:none;
+        }
+
+        .minus-icon {
+            color: red;
+            font-size: 24px;
+            cursor: pointer;
+            border: none;
+        }
+</style>
+
 <h1>Your Shopping Cart</h1>
 
 @if (Model.CartProducts.Count == 0)
@@ -31,7 +65,16 @@ else
                         <img src="@cartProduct.Product.ImageUrl" class="img-fluid" style="width: 150px;" alt="Product Image">
                         @cartProduct.Product.Name
                     </td>
-                    <td>@cartProduct.Quantity</td>
+                    <td style="display:flex; justify-content:space-evenly; margin-top:10px;">
+                        <form method="post">
+                            <button class="plus-icon" asp-controller="Product" asp-action="AddProductToCart" asp-route-product="@cartProduct.Product.Id">+</button>
+                        </form>
+                        <span>@cartProduct.Quantity</span>
+                        <form method="post">
+                            <button class="minus-icon" asp-controller="Cart" asp-action="LessQuantityCon" asp-route-id="@cartProduct.Product.Id">-</button>
+                        </form>
+                        
+                    </td>
                     <td>@cartProduct.Product.Price</td>
                     <td>@(cartProduct.Quantity * cartProduct.Product.Price)</td>
                     @{
