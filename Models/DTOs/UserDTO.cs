@@ -8,6 +8,6 @@
         public string Token { get; set; }
         public CartDTO ShoppingCart { get; set; }
         public IList<string> Roles { get; set; }
-        public ICollection<Product> Products { get; internal set; }
+        //public ICollection<Product> Products { get; internal set; }
     }
 }

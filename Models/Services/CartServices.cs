@@ -146,25 +146,5 @@ namespace E_commerce.Models.Services
                 await _context.SaveChangesAsync();
             }
         }
-
-
-        //public async Task PlusQuantity(int id)
-        //{
-        //    var userId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        //    if (string.IsNullOrEmpty(userId))
-        //    {
-        //        return;
-        //    }
-
-        //    // Get or create the user's Cart.
-        //    var userCart = await _context.Cart.FirstOrDefaultAsync(c => c.UserId == userId);
-        //    var CartofUser = await _context.Cart.Where(x => x.UserId == userId).SelectMany(x => x.CartProducts).FirstOrDefaultAsync(x => x.ProductId == id);
-        //    if (CartofUser != null)
-        //    {
-        //        CartofUser.Quantity++;
-        //    }
-
-        //}
     }
 }
