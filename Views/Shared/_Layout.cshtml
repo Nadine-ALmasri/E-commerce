@@ -14,27 +14,27 @@
     <style>
         /* Custom CSS for Navbar */
         .navbar {
-            background-color: black; /* Navbar background color */
+            background-color:#8ef6e4; /* Navbar background color */
             margin-bottom: 0; /* Remove margin to make the navbar cover the whole width */
         }
 
         .navbar-brand {
-            color: gold !important; /* Navbar brand text color */
+            color: #9896f1 !important; /* Navbar brand text color */
             font-size: 24px; /* Adjust font size */
         }
 
         .navbar-toggler-icon {
-            background-color: gold; /* Navbar toggler icon color */
+            background-color: #9896f1; /* Navbar toggler icon color */
         }
 
         /* Add logo image */
         .navbar-brand img {
-            max-height: 40px; /* Adjust logo image height */
-            margin-right: 10px; /* Add spacing to the right of the logo */
+            max-height: 60px; /* Adjust logo image height */
+            margin-right:20px; /* Add spacing to the right of the logo */
         }
 
         .navbar-text {
-            color: gold; /* Welcome message text color */
+            color:#9896f1; /* Welcome message text color */
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             font-size: 16px; /* Adjust font size */
             margin-top: 10px; /* Adjust top margin */
@@ -53,7 +53,7 @@
 
         /* Logout link style */
         .navbar-nav .nav-link.logout-link {
-            color: gold !important;
+            color: #9896f1 !important;
         }
 
             .navbar-nav .nav-link.logout-link:hover {
@@ -71,8 +71,8 @@
         }
 
         .search-button {
-            background-color: gold;
-            color: black;
+            background-color: #9896f1;
+            color:  #8ef6e4;
             border: none;
             padding: 10px 15px;
             cursor: pointer;
@@ -85,8 +85,8 @@
 
         /* Footer style */
         .footer {
-            background-color: black; /* Footer background color */
-            color: gold; /* Footer text color */
+            background-color:  #8ef6e4 !important ; /* Footer background color */
+            color: #9896f1; /* Footer text color */
             text-align: center; /* Center align text */
             padding: 10px; /* Add some padding */
             font-size: 14px; /* Adjust font size */
@@ -101,7 +101,7 @@
         }
 
         .newsletter-label {
-            color: gold; /* Label text color */
+            color: #9896f1; /* Label text color */
             margin-right: 10px; /* Add spacing to the right of the label */
         }
 
@@ -111,8 +111,8 @@
         }
 
         .newsletter-button {
-            background-color: gold;
-            color: black;
+            background-color: #9896f1;
+            color:  #8ef6e4;
             border: none;
             padding: 10px 15px;
             cursor: pointer;
@@ -132,20 +132,22 @@
     min-width: 200px;
     z-index:2;
 }
+.link-secondary{
+    text-decoration:none ;
+    margin-top: 10px;
+
+}
     </style>
     <script src="https://kit.fontawesome.com/2844f80f7d.js" crossorigin="anonymous"></script>
 </head>
 <body style="display: flex; flex-direction: column; min-height: 100vh; margin: 0;">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-black border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-light  border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <!-- Add your logo image here -->
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="./lib/face1.PNG" alt="Logo" class="logo" />
-                    @if (signInManager.IsSignedIn(User))
-                    {
-                        <span class="navbar-text">@User.Identity.Name</span>
-                    }
+                    <img src="./lib/Shop2.png" alt="Logo" class="logo" />
+                 
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -184,6 +186,7 @@
                         }
                         else
                         {
+                                    <a class="link-secondary" asp-area="" asp-controller="Product" asp-action="Index">Products</a>
                             <li class="nav-link text-white">@Html.ActionLink("Sign Up", "SignUp", "Auth", null, new { @class = "btn btn-outline-secondary" })</li>
                             <li class="nav-link text-white">@Html.ActionLink("Log In", "LogIn", "Auth", null, new { @class = "btn btn-light" })</li>
                         }
@@ -208,7 +211,7 @@
 
    
 
-            <footer class="bg-black text-center " style="color:gold; ">
+            <footer class=" text-center " style="color:#9896f1;background-color: #8ef6e4">
                 <!-- Grid container -->
                 <div class="container p-4 pb-0 mb-0">
                     <!-- Section: Form -->
@@ -248,7 +251,7 @@
                 </div>
                 <!-- Grid container -->
                 <!-- Copyright -->
-                <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                <div class="text-center p-3" style="background-color: #8ef6e4;">
                     © 2023 Copyright:FaceShop
 
                 </div>
