@@ -161,13 +161,7 @@
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy"></a>
                         </li class="navbar-nav flex-grow-1">
 
-                        <li>
-                            <div class="mini-cart">     
-                                <a href="" id="mini-cart-button"> <i class="fa-solid fa-cart-shopping" style="color:blue;"></i></a>
-                                <div id="cart-preview" class="cart-preview"></div>
-                                @*<span class="cart-products-count" data-cartproducts="">ItemsCount </span>*@
-                            </div>
-                        </li>
+                        
 
                         @if (signInManager.IsSignedIn(User))
                         {
@@ -190,14 +184,18 @@
                             <li class="nav-link text-white">@Html.ActionLink("Sign Up", "SignUp", "Auth", null, new { @class = "btn btn-outline-secondary" })</li>
                             <li class="nav-link text-white">@Html.ActionLink("Log In", "LogIn", "Auth", null, new { @class = "btn btn-light" })</li>
                         }
+                        <li>
+                            <div class="mini-cart">     
+                                <a href="" id="mini-cart-button"> <i class="fa-solid fa-cart-shopping" style="color:blue;"></i></a>
+                                <div id="cart-preview" class="cart-preview"></div>
+                                @*<span class="cart-products-count" data-cartproducts="">ItemsCount </span>*@
+                            </div>
+                        </li>
                     </ul>
 
 
                     <!-- Search input and button -->
-                    <form class="form-inline my-2 my-lg-0 search-form" asp-controller="Product" asp-action="Search" method="get">
-                        <input class="form-control mr-sm-2 search-input" type="search" placeholder="Search" aria-label="Search" name="query">
-                        <button class="btn btn-outline-success my-2 my-sm-0 search-button" type="submit">Search</button>
-                    </form>
+                    
                 </div>
             </div>
         </nav>
