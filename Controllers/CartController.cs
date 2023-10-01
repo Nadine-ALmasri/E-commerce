@@ -11,6 +11,7 @@ using Stripe.Checkout;
 using Stripe;
 using System.Numerics;
 using System.Security.Claims;
+using Microsoft.CodeAnalysis;
 
 namespace E_commerce.Controllers
 {
@@ -207,7 +208,7 @@ namespace E_commerce.Controllers
 
 				cartProductsDTO.Add(cartProductDTO);
 			}
-
+           
 			var UserOrder = new Order
 			{
 				UserId = user.Id,

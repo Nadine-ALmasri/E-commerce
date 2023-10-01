@@ -10,7 +10,6 @@
     }
     public class CartEmail
     {
-       
         
         public double Total { get; set; }
 
