@@ -47,6 +47,13 @@ namespace E_commerce.Data
                 .WithMany(c => c.CartProducts)
                 .HasForeignKey(cp => cp.Id);
 
+            //modelBuilder.Entity<Order>()
+            //    .HasKey(or => or.OrderId);
+
+            //modelBuilder.Entity<Order>()
+            //    .HasOne(ui => ui.UserId);
+
+
             modelBuilder.Entity<CartProducts>()
                 .HasOne(cp => cp.Product);
         }
