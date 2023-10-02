@@ -1,6 +1,6 @@
 ﻿namespace E_commerce.Models
 {
-    public class Product
+    public class Products
     {
         internal string imageUrl;
 

@@ -82,7 +82,7 @@ namespace E_commerce.Models.Services
                 await _userManager.AddToRolesAsync(user, data.Roles);
 
                 UserDTO userDto = new UserDTO
-                {
+                {Email=user.Email,
                     Id = user.Id,
                     UserName = user.UserName,
                     Roles = await _userManager.GetRolesAsync(user)

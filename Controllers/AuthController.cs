@@ -16,10 +16,12 @@ namespace E_commerce.Controllers
     {
         private IUser userService;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public AuthController(IUser service, RoleManager<IdentityRole> roleManager)
+        private readonly IEmailSender _emailSender;
+        public AuthController(IUser service, RoleManager<IdentityRole> roleManager, IEmailSender emailSender)
         {
             userService = service;
             _roleManager = roleManager;
+            _emailSender = emailSender;
         }
         public IActionResult Index()
         {
@@ -43,7 +45,7 @@ namespace E_commerce.Controllers
 
             if (data.Roles==null)
             {
-                data.Roles = new List<string>() { "Administrator" };
+                data.Roles = new List<string>() { "User" };
             }
             
             var user = await userService.Register(data, this.ModelState);
@@ -53,7 +55,7 @@ namespace E_commerce.Controllers
                 //ViewBag.RolesList = new SelectList(Roles, "Id", "Name");
                 return View(user);
             }
-
+            await SendWelcomeEmailAsync(user);
 
             return RedirectToAction("LogIn");
         }
@@ -116,8 +118,27 @@ namespace E_commerce.Controllers
         {
             return View();
         }
+        [HttpPost]
+        private async Task SendWelcomeEmailAsync(UserDTO user)
+        
 
+            {
+                if (ModelState.IsValid)
+            {
+                string email = user.Email;
+                string subject = "Thank you for regestering. Enjoy Shopping with us :\n\n";
+                string HtmlMessage = "\n \nThanks For being A part of our coustomers , we will keep you update with our offers";
+
+
+                await _emailSender.SendEmailAsync(email, subject, HtmlMessage);
+            }
+
+
+
+            
+        }
     }
+
 }
 
     

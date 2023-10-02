@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public string Name { get; set; }
         //Navigation properties
-        public List<Product>? Products { get; set; }
+        public List<Products>? Products { get; set; }
 
     }
 }

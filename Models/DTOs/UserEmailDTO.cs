@@ -10,9 +10,7 @@ namespace E_commerce.Models.DTOs
         public string UserName { get; set; }
         [Required]
         public CartEmail ShoppingCart { get; set; }
-        public  string StreetAdress { get; set; }
-		public string City { get; set; }
-        public string PostalCode { get; set; }
+      
         public string Phone { get; set; }
     }
 }

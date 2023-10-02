@@ -9,7 +9,7 @@ namespace E_commerce.Models
 	
 		public string UserName { get; set; }
 		public int OrderId { get; set; }
-		public CartEmail ShoppingCart { get; set; }
+		public Cart ShoppingCart { get; set; }
 		public string StreetAdress { get; set; }
 		public string City { get; set; }
 		public DateTime OrderDate { get; set; }
