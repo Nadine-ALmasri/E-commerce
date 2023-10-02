@@ -227,7 +227,7 @@ namespace E_commerce.Controllers
 			};
 			StripeConfiguration.ApiKey = _configuration.GetSection("StripeSettings:SecretKey").Get<string>();
 
-			var domain = "https://localhost:44388/";
+			var domain = "https://localhost:44382/";
 
             var options = new SessionCreateOptions
             {

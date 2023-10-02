@@ -114,7 +114,9 @@
 										</td>
 										<td>@cartProduct.Quantity</td>
 										<td>@cartProduct.Product.Price</td>
-								
+								@if (@cartProduct.Quantity>1){
+													(@Model.ShoppingCart.Total) += @cartProduct.Product.Price * ((@cartProduct.Quantity) - 1);
+												}
 									</tr>
 								}
 									</tbody>

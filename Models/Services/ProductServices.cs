@@ -69,7 +69,7 @@ namespace E_commerce.Models.Services
                Description = pr.Description, 
                Price = pr.Price,
                categoryname=pr.Category.Name,
-               ImageUrl = pr.imageUrl
+               ImageUrl = pr.ImageUrl
            }).ToListAsync();
             return products;
         }
