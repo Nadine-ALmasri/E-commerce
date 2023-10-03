@@ -33,6 +33,7 @@ namespace E_commerce
             builder.Services.AddTransient<ICart,CartServices>();
             builder.Services.AddTransient<IProduct, ProductServices>();
             builder.Services.AddTransient<IUser, IdentityUserService>();
+            builder.Services.AddTransient<IOrder, OrderServices>();
             builder.Services.AddScoped<IEmailSender, EmailSender>();
             builder.Services.AddRazorPages();
             /// regstor the identty
