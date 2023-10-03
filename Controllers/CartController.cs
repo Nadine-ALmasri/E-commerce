@@ -11,7 +11,8 @@ using Stripe.Checkout;
 using Stripe;
 using System.Numerics;
 using System.Security.Claims;
-using Microsoft.CodeAnalysis;
+using E_commerce.Data;
+using static NuGet.Packaging.PackagingConstants;
 
 namespace E_commerce.Controllers
 {
@@ -21,12 +22,14 @@ namespace E_commerce.Controllers
         private UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
         private readonly IConfiguration _configuration;
-        public CartController(CartServices CartService, UserManager<ApplicationUser> userManager, IEmailSender emailSender , IConfiguration configuration)
+        private readonly E_commerceDbContext _context;
+        public CartController(CartServices CartService, UserManager<ApplicationUser> userManager, IEmailSender emailSender , IConfiguration configuration, E_commerceDbContext context)
         {
             _CartService = CartService;
             _userManager = userManager;
             _emailSender=emailSender;   
             _configuration = configuration;
+            _context=context;
         }
         [Authorize(Roles = "Administrator,Editor,User")]
         public async Task<IActionResult> Index(string layout)
@@ -133,17 +136,17 @@ namespace E_commerce.Controllers
             var shoppingCart = await _CartService.GetCart(userId);
             shoppingCart.Total = await CalculateTotal();
 
-            var cartProductsDTO = new List<CartProductDTO>(); 
+            var cartProductsDTO = new List<CartProducts>(); 
 
             foreach (var item in shoppingCart.CartProducts)
             {
                 
-                var cartProductDTO = new CartProductDTO
+                var cartProductDTO = new CartProducts
                 {
                     ProductId = item.ProductId,
                     
-                    Product = new ProductCategoryEmailDTO 
-                    {
+                    Product = new Products
+					{
                        Id=item.Product.Id,
                        Name=item.Product.Name,
                        Price = item.Product.Price,
@@ -159,7 +162,7 @@ namespace E_commerce.Controllers
             {UserId=user.Id ,
                 Email = user.Email,
                 UserName = user.UserName,
-                ShoppingCart = new CartEmail
+                ShoppingCart = new Cart
                 {
                     Total = shoppingCart.Total,
                     CartProducts = cartProductsDTO 
@@ -175,49 +178,46 @@ namespace E_commerce.Controllers
         public async Task<IActionResult> CheckoutPOST(Order order)
         {
 
-			var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-			if (string.IsNullOrEmpty(userId))
-			{
-				return RedirectToAction("Error");
-			}
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Error");
+            }
 
-			var user = await _userManager.FindByIdAsync(userId);
-			ViewBag.Email = user.Email;
-			var shoppingCart = await _CartService.GetCart(userId);
-			shoppingCart.Total = await CalculateTotal();
+            var user = await _userManager.FindByIdAsync(userId);
+            ViewBag.Email = user.Email;
+            var shoppingCart = await _CartService.GetCart(userId);
+            shoppingCart.Total = await CalculateTotal();
 
-			var cartProductsDTO = new List<CartProductDTO>();
+            var cartProductsDTO = new List<CartProducts>();
 
-			foreach (var item in shoppingCart.CartProducts)
-			{
+            foreach (var item in shoppingCart.CartProducts)
+            {
 
-				var cartProductDTO = new CartProductDTO
-				{
-					ProductId = item.ProductId,
+                var cartProductDTO = new CartProducts
+                {UserId= userId ,
+                    ProductId = item.ProductId,
+                    // Don't create a new 'Products' instance here
+                    // Instead, attach the existing one
+                    Product = _context.Product.Find(item.ProductId),
+                    Quantity = item.Quantity
+                };
 
-					Product = new ProductCategoryEmailDTO
-					{
-						Id = item.Product.Id,
-						Name = item.Product.Name,
-						Price = item.Product.Price,
+                cartProductsDTO.Add(cartProductDTO);
+            
+        }
 
-					},
-					Quantity = item.Quantity
-				};
-
-				cartProductsDTO.Add(cartProductDTO);
-			}
-           
 			var UserOrder = new Order
 			{
 				UserId = user.Id,
 				Email = user.Email,
 				UserName = user.UserName,
-				ShoppingCart = new CartEmail
-				{
+				ShoppingCart = new Cart
+				{UserId = shoppingCart.UserId,
 					Total = shoppingCart.Total,
 					CartProducts = cartProductsDTO
+                    
 				},
 				Phone = user.PhoneNumber,
                 OrderDate= DateTime.Now,
@@ -227,14 +227,15 @@ namespace E_commerce.Controllers
 			};
 			StripeConfiguration.ApiKey = _configuration.GetSection("StripeSettings:SecretKey").Get<string>();
 
-			var domain = "https://localhost:44388/";
+			var domain = "https://localhost:44382/";
 
-			var options = new SessionCreateOptions
-			{
-				SuccessUrl = domain + "Cart/Thanks",
-				CancelUrl = domain + "Cart/Index",
-				LineItems = new List<SessionLineItemOptions>(),
-				Mode = "payment",
+            var options = new SessionCreateOptions
+            {
+                SuccessUrl = "https://e-ccommerce.azurewebsites.net/Cart/OrderConfirmation",
+                CancelUrl = "https://e-ccommerce.azurewebsites.net/Cart",
+                LineItems = new List<SessionLineItemOptions>(),
+                Mode = "payment",
+               
 			};
 
 			foreach (var item in UserOrder.ShoppingCart.CartProducts)
@@ -265,11 +266,75 @@ namespace E_commerce.Controllers
 
 
 			Response.Headers.Add("Location", session.Url);
-
-			return new StatusCodeResult(303);
+            _context.Orders.Add(UserOrder);
+            await _context.SaveChangesAsync();
+            return new StatusCodeResult(303);
 
 		}
+        public async Task<IActionResult> OrderConfirmation()
+        {
+            var sessionId = TempData["sessionId"].ToString();
 
+            var service = new SessionService();
+
+            Session session = service.Get(sessionId);
+
+            if (session != null)
+            {
+                if (session.PaymentStatus.ToLower() == "paid")
+                {
+                    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                    if (string.IsNullOrEmpty(userId))
+                    {
+                        return RedirectToAction("Error");
+                    }
+
+                    var user = await _userManager.FindByIdAsync(userId);
+                    ViewBag.Email = user.Email;
+                    var shoppingCart = await _CartService.GetCart(userId);
+                    shoppingCart.Total = await CalculateTotal();
+                    var cartProductsDTO = new List<CartProductDTO>();
+                    foreach (var item in shoppingCart.CartProducts)
+                    {
+
+                        var cartProductDTO = new CartProductDTO
+                        {
+                            ProductId = item.ProductId,
+
+                            Product = new ProductCategoryEmailDTO
+                            {
+                                Id = item.Product.Id,
+                                Name = item.Product.Name,
+                                Price = item.Product.Price,
+                            },
+                            Quantity = item.Quantity
+                        };
+                        cartProductsDTO.Add(cartProductDTO);
+                    }
+                  
+                    var userWithEmailAndCart = new UserEmailDTO
+                    {
+                        Email = user.Email,
+                        UserName = user.UserName,
+                        ShoppingCart = new CartEmail
+                        {
+                            Total = shoppingCart.Total,
+                            CartProducts = cartProductsDTO
+                        },
+                        Phone = user.PhoneNumber,
+
+                    };
+
+ //RedirectToAction("ProcessOrder", userWithEmailAndCart);
+					return View("OrderConfirmation", userWithEmailAndCart);
+
+				}
+
+				return Content("Not completed successfully");
+			} 
+            return Content("Not completed successfully");
+        }
 		[HttpPost]
         public async Task<IActionResult> ProcessOrder(UserEmailDTO user)
         {
@@ -288,8 +353,29 @@ namespace E_commerce.Controllers
 
                 await _emailSender.SendEmailAsync(email, subject, HtmlMessage);
             }
+           /* var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var shoppingCart = await _CartService.GetCart(userId);
+            var order = new Order
+            {
+                Email = user.Email,
+                UserName = user.UserName,
 
-            return View("Thanks");
+
+
+                Phone = user.Phone,
+                ShoppingCart = shoppingCart,
+               
+                UserId = userId,
+
+
+
+
+
+
+            };*/
+
+            
+            return View("Check");
         }
     }
 }

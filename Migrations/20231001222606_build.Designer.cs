@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_commerce.Migrations
 {
     [DbContext(typeof(E_commerceDbContext))]
-    [Migration("20230927214619_Test16")]
-    partial class Test16
+    [Migration("20231001222606_build")]
+    partial class build
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,6 +164,117 @@ namespace E_commerce.Migrations
                             Id = 3,
                             Name = "Makeup"
                         });
+                });
+
+            modelBuilder.Entity("E_commerce.Models.DTOs.CartEmail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Total")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CartEmail");
+                });
+
+            modelBuilder.Entity("E_commerce.Models.DTOs.CartProductDTO", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CartEmailId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartEmailId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CartProductDTO");
+                });
+
+            modelBuilder.Entity("E_commerce.Models.DTOs.ProductCategoryEmailDTO", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductCategoryEmailDTO");
+                });
+
+            modelBuilder.Entity("E_commerce.Models.Order", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ShoppingCartId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StreetAdress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("ShoppingCartId");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("E_commerce.Models.Product", b =>
@@ -438,6 +549,32 @@ namespace E_commerce.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("E_commerce.Models.DTOs.CartProductDTO", b =>
+                {
+                    b.HasOne("E_commerce.Models.DTOs.CartEmail", null)
+                        .WithMany("CartProducts")
+                        .HasForeignKey("CartEmailId");
+
+                    b.HasOne("E_commerce.Models.DTOs.ProductCategoryEmailDTO", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("E_commerce.Models.Order", b =>
+                {
+                    b.HasOne("E_commerce.Models.DTOs.CartEmail", "ShoppingCart")
+                        .WithMany()
+                        .HasForeignKey("ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ShoppingCart");
+                });
+
             modelBuilder.Entity("E_commerce.Models.Product", b =>
                 {
                     b.HasOne("E_commerce.Models.Category", "Category")
@@ -508,6 +645,11 @@ namespace E_commerce.Migrations
             modelBuilder.Entity("E_commerce.Models.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("E_commerce.Models.DTOs.CartEmail", b =>
+                {
+                    b.Navigation("CartProducts");
                 });
 #pragma warning restore 612, 618
         }

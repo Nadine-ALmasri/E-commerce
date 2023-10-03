@@ -48,7 +48,7 @@ namespace E_commerce.Models.Services
             else
             {
                 // If the product is not in the Cart, add it.
-                Product pro = new Product
+                Products pro = new Products
                 { Description = product.Description,
                     imageUrl = product.ImageUrl,
                     Name = product.Name,

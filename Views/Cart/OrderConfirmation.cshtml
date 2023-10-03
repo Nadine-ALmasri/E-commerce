@@ -1,0 +1,25 @@
+﻿@model UserEmailDTO 
+
+<h1>Thank you for shopping with us , you will receive email with your purchase </h1>
+
+<form method="post" asp-action="ProcessOrder">
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" name="User.Email" value="@ViewBag.Email" required>
+        @for (int i = 0; i < Model.ShoppingCart.CartProducts.Count; i++)
+        {
+            <input type="hidden" name="User.ShoppingCart.CartProducts[@i].ProductId" value="@Model.ShoppingCart.CartProducts[i].ProductId" />
+            <input type="hidden" name="User.ShoppingCart.CartProducts[@i].Quantity" value="@Model.ShoppingCart.CartProducts[i].Quantity" />
+            <input type="hidden" name="User.ShoppingCart.CartProducts[@i].Product.Name" value="@Model.ShoppingCart.CartProducts[i].Product.Name" />
+            <input type="hidden" name="User.ShoppingCart.CartProducts[@i].Product.Price" value="@Model.ShoppingCart.CartProducts[i].Product.Price" />
+        }
+
+        <input type="hidden" name="User.ShoppingCart.Total" value="@Model.ShoppingCart.Total" />
+        <input type="hidden" name="User.Phone" value="@Model.Phone" />
+        <input type="hidden" name="User.UserName" value="@Model.UserName" />
+    </div>
+    <button type="submit" class="btn btn-outline-dark , m-4">Submit Email</button>
+</form>
+<div>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-dark , m-4">Back to home page</a>
+</div>

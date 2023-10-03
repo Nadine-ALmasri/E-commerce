@@ -10,8 +10,9 @@
     }
     public class CartEmail
     {
-        
-        public double Total { get; set; }
+
+		public int Id { get; set; }
+		public double Total { get; set; }
 
         public List<CartProductDTO> CartProducts { get; set; }
     }

@@ -26,7 +26,8 @@ namespace E_commerce.Models.Services
             msg.SetSubject(subject);
             msg.AddContent(MimeType.Html, HtmlMessage);
 
-            await client.SendEmailAsync(msg);
+        var res=    await client.SendEmailAsync(msg);
+
         }
     }
 }

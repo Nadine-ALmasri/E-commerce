@@ -9,7 +9,7 @@ namespace E_commerce.Models
         public Cart? Cart { get; set; }
 
         public string UserId { get; set; }
-        public Product? Product { get; set; }
+        public Products? Product{ get; set; }
 
         public int Quantity { get; set; }
     }

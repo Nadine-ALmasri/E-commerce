@@ -21,7 +21,7 @@ namespace E_commerce.Models.Services
          /// <returns>ProductCategoryDTO</returns>
         public async Task<ProductCategoryDTO> Create(ProductDTO product)
         {
-            var pro = new Product
+            var pro = new Products
             {
                 Name= product.Name,
                 Price= product.Price,
@@ -69,7 +69,7 @@ namespace E_commerce.Models.Services
                Description = pr.Description, 
                Price = pr.Price,
                categoryname=pr.Category.Name,
-               ImageUrl = pr.imageUrl
+               ImageUrl = pr.ImageUrl
            }).ToListAsync();
             return products;
         }

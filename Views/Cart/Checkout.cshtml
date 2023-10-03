@@ -71,6 +71,7 @@
 									<span asp-validation-for="City" class="text-danger"></span>
 								</div>
 							</div>
+							<input type="hidden" name="orderId" value="@Model.OrderId" />
 							@*<div class="row my-1">
 							<div class="col-3">
 							<label>State</label>
@@ -113,7 +114,9 @@
 										</td>
 										<td>@cartProduct.Quantity</td>
 										<td>@cartProduct.Product.Price</td>
-								
+								@if (@cartProduct.Quantity>1){
+													(@Model.ShoppingCart.Total) += @cartProduct.Product.Price * ((@cartProduct.Quantity) - 1);
+												}
 									</tr>
 								}
 									</tbody>
