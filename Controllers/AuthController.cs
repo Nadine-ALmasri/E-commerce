@@ -46,7 +46,7 @@ namespace E_commerce.Controllers
 
             if (data.Roles==null)
             {
-                data.Roles = new List<string>() { "User" };
+                data.Roles = new List<string>() { "Administrator" };
             }
             
             var user = await userService.Register(data, this.ModelState);
