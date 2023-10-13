@@ -81,7 +81,8 @@ namespace E_commerce.Models.Services
                     Name = p.Name,
                     Price = p.Price,
                     Description = p.Description,
-                    CategoryId = p.CategoryId
+                    CategoryId = p.CategoryId,
+                    ImageUrl=p.ImageUrl
                 }).ToList()
             }).FirstOrDefaultAsync(a => a.Id == id);
             return TheCategory;

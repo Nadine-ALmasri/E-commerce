@@ -31,6 +31,9 @@
     <Content Remove="wwwroot\images\Makeup.png" />
     <Content Remove="wwwroot\images\Makeup2.png" />
     <Content Remove="wwwroot\images\perfum.png" />
+    <Content Remove="wwwroot\lib\Makeup.png" />
+    <Content Remove="wwwroot\lib\Makeup2.png" />
+    <Content Remove="wwwroot\lib\perfum.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -75,6 +78,9 @@
     <None Include="wwwroot\images\Makeup.png" />
     <None Include="wwwroot\images\Makeup2.png" />
     <None Include="wwwroot\images\perfum.png" />
+    <None Include="wwwroot\lib\Makeup.png" />
+    <None Include="wwwroot\lib\Makeup2.png" />
+    <None Include="wwwroot\lib\perfum.png" />
   </ItemGroup>
 
 </Project>

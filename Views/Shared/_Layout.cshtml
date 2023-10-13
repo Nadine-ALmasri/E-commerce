@@ -13,7 +13,9 @@
     <link rel="stylesheet" href="~/E_commerce.styles.css" asp-append-version="true" />
     <style>
         /* Custom CSS for Navbar */
-        
+        .nav-item dropdown{
+            padding-right :600px ;
+        }
         .navbar {
             background-color:#8ef6e4; /* Navbar background color */
             margin-bottom: 0; /* Remove margin to make the navbar cover the whole width */
@@ -167,9 +169,9 @@
 
                         @if (signInManager.IsSignedIn(User))
                         {
-                            <li class="nav-item dropdown">
+                            <li class="nav-item dropdown  margin-top:40px" style=" margin-left:50px; margin-right:1000px  ; padding-top:15px;">
                                 <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    @User.Identity.Name
+                              <span style="color :black"> Welcome</span>     @User.Identity.Name
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" asp-area="" asp-controller="Category" asp-action="Index">Categories</a>
@@ -181,7 +183,7 @@
                             </li>
                             if(User.IsInRole("Administrator"))
                             {
-                            <li class="nav-link text-white">@Html.ActionLink("Orders", "Index", "Order", null, new { @class = "btn btn-light" })</li>
+                            <li class="nav-link text-white  margin-top:20px ;">@Html.ActionLink("Orders", "Index", "Order", null, new { @class = "btn btn-light" })</li>
                             }
                         }
                         else
@@ -191,9 +193,11 @@
                             <li class="nav-link text-white">@Html.ActionLink("Log In", "LogIn", "Auth", null, new { @class = "btn btn-light" })</li>
                         }
                         <li>
-                            <div class="mini-cart">     
-                                <a href="" id="mini-cart-button"> <i class="fa-solid fa-cart-shopping" style="color:blue;"></i></a>
-                                <div id="cart-preview" class="cart-preview"></div>
+                          <div class="mini-cart" style="display: flex; align-items: center; margin-top:20px ;">   
+    <a href="" id="mini-cart-button">
+        <i class="fas fa-shopping-bag" style="font-size: 24px; color: #9896f1;"></i>
+    </a>
+    <div id="cart-preview" class="cart-preview"></div>
                                 @*<span class="cart-products-count" data-cartproducts="">ItemsCount </span>*@
                             </div>
                         </li>
