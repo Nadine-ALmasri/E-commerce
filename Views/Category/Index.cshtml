@@ -6,23 +6,40 @@
 <h4>Category Page</h4>
 <hr />
 
-@if (signInManager.IsSignedIn(User) && (User.IsInRole("Administrator")))
+@if (signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
 {
     <p>
-        <a asp-action="Create" class="btn btn-primary">Create New</a>
+        <a asp-action="Create" class="btn btn-primary">Create New Category</a>
     </p>
 }
 
 <div class="row">
+    <div class="col-md-12 mb-3">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="./images/Makeup.png" class="img-fluid" alt="Category 1">
+            </div>
+            <div class="col-md-3">
+                <img src="./images/Makeup2.png" class="img-fluid" alt="Category 2">
+            </div>
+            <div class="col-md-3">
+                <img src="./images/Haircare.png" class="img-fluid" alt="Category 3">
+            </div>
+            <div class="col-md-3">
+                <img src="./images/perfum.png" class="img-fluid" alt="Category 4">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     @foreach (var item in Model)
     {
-        <div class="col-md-4 mb-3">
-            <div class="card" style="background-color: #343a40;">
-                <div class="card-body">
-                    <h5 class="card-title text-white">@item.Name</h5>
-                    <p class="card-text text-white">@item.Id</p>
-                    <a asp-controller="Category" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
-                </div>
+        <div class="col-md-3 mb-3">
+            <div style="background-color: #9896f1; padding: 15px; border-radius: 5px;">
+                <h5 class="text-white">@item.Name</h5>
+                <p class="text-white">ID: @item.Id</p>
+                <a asp-controller="Category" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
             </div>
         </div>
     }

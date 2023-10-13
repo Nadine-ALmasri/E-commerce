@@ -1,122 +1,83 @@
-﻿@model List<Order>
-@{
-    int counter = 1;
-}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orders Page</title>
-    <style>
-        /* Reset some default styles */
-        body, h1, ul {
-            margin: 0;
-            padding: 0;
-        }
+﻿<style>
+    /* Reset some default styles */
+    body, h1, ul {
+        margin: 0;
+        padding: 0;
+    }
 
-        /* Basic page styles */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-        }
+    /* Basic page styles */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+    }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #333; /* Text color */
+    }
 
-        /* Order list styles */
-        .order-list {
-            list-style: none;
-            padding: 0;
-        }
+    /* Order list styles */
+    .order-list {
+        list-style: none;
+        padding: 0;
+    }
 
-        .order-item {
-            border: 1px solid #ddd;
-            background-color: #fff;
-            margin-bottom: 20px;
-            padding: 10px;
-        }
+    .order-item {
+        border: 1px solid #ddd;
+        background-color: #fff;
+        margin-bottom: 20px;
+        padding: 20px;
+        border-radius: 5px; /* Rounded corners */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    }
 
         .order-item h2 {
             font-size: 20px;
             margin-bottom: 10px;
+            color: #333; /* Text color */
         }
 
         .order-item p {
             font-size: 16px;
-            margin-bottom: 5px;
+            margin-bottom: 10px; /* Increased spacing */
+            color: #555; /* Slightly muted text color */
         }
 
-        /* Button styles */
-        .view-details-button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 16px;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
+    /* Button styles */
+    .view-details-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 16px;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+        display: inline-block;
+        transition: background-color 0.3s; /* Smooth hover effect */
+    }
+
+        .view-details-button:hover {
+            background-color: #0056b3; /* Darker color on hover */
         }
 
-        /* Responsive styles */
-        @@media (max-width: 600px) {
-            .container {
-                padding: 10px;
-            }
+    /* Responsive styles */
+    .container {
+        padding: 10px;
+    }
 
-            .order-item {
-                padding: 8px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Orders</h1>
-        @if (Model.Count == 0)
-        {
-            <div class="row" style="min-height: 100vh ;">
-                <p>There are no Orders.</p>
-            </div>
-        }
-        else
-        {
-            <ul class="order-list">
-                @*<li class="order-item">
-            <h2>Order #001</h2>
-            <p>Customer: John Doe</p>
-            <p>Order Date: January 15, 2023</p>
-            <p>Total Amount: $100.00</p>
-            <a href="#" class="view-details-button">View Details</a>
-            </li>*@
-                @foreach (var item in Model)
-                {
-                    <li class="order-item">
-                        <h2>Order #@(counter++)</h2>
-                        <p>Customer: @item.UserName</p>
-                        <p>Email: @item.Email</p>
-                        <p>City: @item.City</p>
-                        <p>Order Date: @item.OrderDate</p>
-                        <p>Total Amount: @item.ShoppingCart.Total</p>
-                        @*<a href="#" class="view-details-button">View Details</a>*@
-                    </li>
-                }
-                <!-- Add more order items as needed -->
-            </ul>
-        }
-    </div>
-</body>
-</html>
+    .order-item {
+        padding: 12px; /* Increased padding */
+    }
+</style>
