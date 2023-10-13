@@ -1,25 +1,83 @@
-﻿@model UserEmailDTO 
+﻿@model UserEmailDTO
 
-<h1>Thank you for shopping with us , you will receive email with your purchase </h1>
+<style>
+    /* Container to center content */
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
 
-<form method="post" asp-action="ProcessOrder">
-    <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" class="form-control" id="email" name="User.Email" value="@ViewBag.Email" required>
-        @for (int i = 0; i < Model.ShoppingCart.CartProducts.Count; i++)
-        {
-            <input type="hidden" name="User.ShoppingCart.CartProducts[@i].ProductId" value="@Model.ShoppingCart.CartProducts[i].ProductId" />
-            <input type="hidden" name="User.ShoppingCart.CartProducts[@i].Quantity" value="@Model.ShoppingCart.CartProducts[i].Quantity" />
-            <input type="hidden" name="User.ShoppingCart.CartProducts[@i].Product.Name" value="@Model.ShoppingCart.CartProducts[i].Product.Name" />
-            <input type="hidden" name="User.ShoppingCart.CartProducts[@i].Product.Price" value="@Model.ShoppingCart.CartProducts[i].Product.Price" />
+    /* Form styles */
+    .form-container {
+        background-color: #f4f4f4;
+        padding: 20px;
+        border: 1px solid #ddd;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        text-align: center;
+    }
+
+        .form-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
         }
 
-        <input type="hidden" name="User.ShoppingCart.Total" value="@Model.ShoppingCart.Total" />
-        <input type="hidden" name="User.Phone" value="@Model.Phone" />
-        <input type="hidden" name="User.UserName" value="@Model.UserName" />
+    .form-group {
+        margin: 10px 0;
+    }
+
+        .form-group label {
+            display: block;
+            text-align: left;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .btn {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 16px;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+</style>
+
+<div class="container">
+    <div class="form-container">
+        <h1>We extend our heartfelt gratitude for choosing to shop with us. Rest assured, an email containing details of your purchase will be promptly dispatched to your inbox</h1>
+
+        <form method="post" asp-action="ProcessOrder">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="User.Email" value="@ViewBag.Email" required>
+            </div>
+
+            @for (int i = 0; i < Model.ShoppingCart.CartProducts.Count; i++)
+            {
+                <input type="hidden" name="User.ShoppingCart.CartProducts[@i].ProductId" value="@Model.ShoppingCart.CartProducts[i].ProductId" />
+                <input type="hidden" name="User.ShoppingCart.CartProducts[@i].Quantity" value="@Model.ShoppingCart.CartProducts[i].Quantity" />
+                <input type="hidden" name="User.ShoppingCart.CartProducts[@i].Product.Name" value="@Model.ShoppingCart.CartProducts[i].Product.Name" />
+                <input type="hidden" name="User.ShoppingCart.CartProducts[@i].Product.Price" value="@Model.ShoppingCart.CartProducts[i].Product.Price" />
+            }
+
+            <input type="hidden" name="User.ShoppingCart.Total" value="@Model.ShoppingCart.Total" />
+            <input type="hidden" name="User.Phone" value="@Model.Phone" />
+            <input type="hidden" name="User.UserName" value="@Model.UserName" />
+
+            <button type="submit" class="btn m-4">Submit Email</button>
+        </form>
+
+        <a asp-controller="Home" asp-action="Index" class="btn m-4">Back to home page</a>
     </div>
-    <button type="submit" class="btn btn-outline-dark , m-4">Submit Email</button>
-</form>
-<div>
-    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-dark , m-4">Back to home page</a>
 </div>

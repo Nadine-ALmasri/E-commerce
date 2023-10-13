@@ -1,83 +1,131 @@
-﻿<style>
-    /* Reset some default styles */
-    body, h1, ul {
-        margin: 0;
-        padding: 0;
-    }
+﻿@model List<Order>
+@{
+    int counter = 1;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders Page</title>
 
-    /* Basic page styles */
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-    }
-
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-        font-size: 24px;
-        margin-bottom: 20px;
-        color: #333; /* Text color */
-    }
-
-    /* Order list styles */
-    .order-list {
-        list-style: none;
-        padding: 0;
-    }
-
-    .order-item {
-        border: 1px solid #ddd;
-        background-color: #fff;
-        margin-bottom: 20px;
-        padding: 20px;
-        border-radius: 5px; /* Rounded corners */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    }
-
-        .order-item h2 {
-            font-size: 20px;
-            margin-bottom: 10px;
-            color: #333; /* Text color */
+    <style>
+        /* Reset some default styles */
+        body, h1, ul {
+            margin: 0 !important;
+            padding: 0 !important;
         }
 
-        .order-item p {
-            font-size: 16px;
-            margin-bottom: 10px; /* Increased spacing */
-            color: #555; /* Slightly muted text color */
+        /* Basic page styles */
+        body {
+            font-family: Arial, sans-serif !important;
+            background-color: #f4f4f4 !important;
         }
 
-    /* Button styles */
-    .view-details-button {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        cursor: pointer;
-        font-size: 16px;
-        text-align: center;
-        text-decoration: none;
-        border-radius: 5px;
-        display: inline-block;
-        transition: background-color 0.3s; /* Smooth hover effect */
-    }
-
-        .view-details-button:hover {
-            background-color: #0056b3; /* Darker color on hover */
+        .container2 {
+            max-width: 800px !important;
+            margin: 0 auto !important;
+            padding: 20px !important;
+            background-color: #8ef6e4 !important; /* Updated background color */
         }
 
-    /* Responsive styles */
-    .container {
-        padding: 10px;
-    }
+        h1 {
+            font-size: 24px !important;
+            margin-bottom: 20px !important;
+            text-align: center !important;
+            color: #333 !important; /* Text color */
+        }
 
-    .order-item {
-        padding: 12px; /* Increased padding */
-    }
-</style>
+        /* Order card styles */
+        .order-card {
+            background-color: #fff !important;
+            margin-bottom: 20px !important;
+            padding: 20px !important;
+            border-radius: 5px !important; /* Rounded corners */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important; /* Subtle shadow */
+            font-family: 'Arial', sans-serif !important; /* Custom font style */
+            color: #333 !important; /* Text color */
+        }
+
+            .order-card h2 {
+                font-size: 20px !important;
+                margin-bottom: 10px !important;
+                color: #333 !important; /* Text color */
+            }
+
+            .order-card p {
+                font-size: 16px !important;
+                margin-bottom: 10px !important; /* Increased spacing */
+            }
+
+        /* Info boxes */
+        .info-box {
+            background-color: #9896f1 !important; /* Background color for info boxes */
+            color: #fff !important; /* Text color for info boxes */
+            padding: 10px 20px !important;
+            border-radius: 5px !important;
+            margin-bottom: 10px !important;
+        }
+
+        /* Button styles */
+        .view-details-button {
+            background-color: #007bff !important;
+            color: #fff !important;
+            border: none !important;
+            padding: 10px 20px !important;
+            cursor: pointer !important;
+            font-size: 16px !important;
+            text-align: center !important;
+            text-decoration: none !important;
+            border-radius: 5px !important;
+            display: inline-block !important;
+            transition: background-color 0.3s !important; /* Smooth hover effect */
+        }
+
+            .view-details-button:hover {
+                background-color: #0056b3 !important; /* Darker color on hover */
+            }
+
+        /* Responsive styles */
+        .container {
+            padding: 10px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container2">
+        <h1>Orders</h1>
+        @if (Model.Count == 0)
+        {
+            <div class="row" style="min-height: 100vh;">
+                <p>There are no Orders.</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var item in Model)
+            {
+                <div class="order-card">
+                    <h2>Order #@(counter++)</h2>
+                    <div class="info-box">
+                        <p><strong>Customer:</strong> @item.UserName</p>
+                    </div>
+                    <div class="info-box">
+                        <p><strong>Email:</strong> @item.Email</p>
+                    </div>
+                    <div class="info-box">
+                        <p><strong>City:</strong> @item.City</p>
+                    </div>
+                    <div class="info-box">
+                        <p><strong>Order Date:</strong> @item.OrderDate</p>
+                    </div>
+                    <div class="info-box">
+                        <p><strong>Total Amount:</strong> @item.ShoppingCart.Total</p>
+                    </div>
+                    <a href="#" class="view-details-button">View Details</a>
+                </div>
+            }
+        }
+    </div>
+</body>
+</html>

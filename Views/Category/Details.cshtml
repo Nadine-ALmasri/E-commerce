@@ -15,7 +15,6 @@
         else if (signInManager.IsSignedIn(User) && (User.IsInRole("Administrator")))
         {
             <a asp-controller="Category" asp-action="Delete" asp-route-id=@Model.Id class="btn btn-danger">Delete</a>
-
         }
     </div>
 
@@ -25,8 +24,9 @@
         @foreach (var item in Model.Products)
         {
             <div class="col-md-4 mb-3">
-                <div class="card h-100" style="background-color: #343a40;">
+                <div class="card h-100" style="background-color: #9896f1;">
                     <div class="card-body">
+                        <img src="@item.ImageUrl" class="card-img-top" alt="Product Image" style="width:100%; height:50%;">
                         <h5 class="card-title text-white">@item.Name</h5>
                         <p class="card-text text-white">Price: $@item.Price</p>
                         <p class="card-text text-muted">@item.Description</p>
@@ -35,13 +35,12 @@
                 </div>
             </div>
         }
-      </div>
-        </tbody>
-    </table>
+    </div>
+
     @if (signInManager.IsSignedIn(User) && (User.IsInRole("Administrator") || User.IsInRole("Editor")))
     {
-    <div>
-        <a class="btn btn-primary" asp-controller="Product" asp-action="Create" asp-route-id="@Model.Id">Add new Product</a>
-    </div>
+        <div>
+            <a class="btn btn-primary" asp-controller="Product" asp-action="Create" asp-route-id="@Model.Id">Add new Product</a>
+        </div>
     }
 </div>
