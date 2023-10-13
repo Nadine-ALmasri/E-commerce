@@ -28,11 +28,13 @@ namespace E_commerce.Controllers
         {
             return View();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> SignUp()
         {
-            //var Roles = await _roleManager.Roles.ToListAsync();
-            //ViewBag.RolesList = new SelectList(Roles, "Id", "Name");
-
+           
             return View();
 
         }
@@ -113,7 +115,7 @@ namespace E_commerce.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-
+        ///
         [HttpGet("Account/AccessDenied")]
         public IActionResult AccessDenied()
         {
