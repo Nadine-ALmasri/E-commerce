@@ -28,6 +28,9 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\images\back2.png" />
+    <Content Remove="wwwroot\images\Makeup.png" />
+    <Content Remove="wwwroot\images\Makeup2.png" />
+    <Content Remove="wwwroot\images\perfum.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -68,6 +71,10 @@
 
   <ItemGroup>
     <None Include="wwwroot\images\back2.png" />
+    <None Include="wwwroot\images\Haircare.png" />
+    <None Include="wwwroot\images\Makeup.png" />
+    <None Include="wwwroot\images\Makeup2.png" />
+    <None Include="wwwroot\images\perfum.png" />
   </ItemGroup>
 
 </Project>
