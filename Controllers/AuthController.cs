@@ -29,7 +29,7 @@ namespace E_commerce.Controllers
             return View();
         }
         /// <summary>
-        /// 
+        /// singup method 
         /// </summary>
         /// <returns></returns>
         public async Task<IActionResult> SignUp()
@@ -43,6 +43,9 @@ namespace E_commerce.Controllers
             return View();
         }
         [HttpPost]
+        /// <summary>
+        /// Action to handle user registration and sign-up process.
+        /// </summary>
         public async Task<ActionResult<UserDTO>> SignUp(RegisterUserDTO data)
         {
 
@@ -63,6 +66,9 @@ namespace E_commerce.Controllers
             return RedirectToAction("LogIn");
         }
         [HttpPost]
+        /// <summary>
+        /// Action to handle user login and authentication.
+        /// </summary>
         public async Task<ActionResult<UserDTO>> LogIn(LogInDTO loginData)
         {
 
@@ -108,14 +114,18 @@ namespace E_commerce.Controllers
 
 
         }
-      
+       /// <summary>
+        /// Action to handle user logout.
+        /// </summary>
         public async Task<IActionResult> Logout()
         {
             await userService.Logout();
 
             return RedirectToAction("Index", "Home");
         }
-        ///
+        /// <summary>
+        /// Action to handle access denied scenarios.
+        /// </summary>
         [HttpGet("Account/AccessDenied")]
         public IActionResult AccessDenied()
         {

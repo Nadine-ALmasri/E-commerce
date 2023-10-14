@@ -7,7 +7,10 @@ namespace E_commerce.Controllers
 {
     public class HomeController : Controller
     {
-      
+      /// <summary>
+      /// to display the home page
+      /// </summary>
+      /// <returns></returns>
         public async Task<IActionResult> Index()
         {
             return View();

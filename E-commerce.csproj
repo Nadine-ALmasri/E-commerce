@@ -37,6 +37,54 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Images\login.jpeg" />
+    <None Remove="Images\order.png" />
+    <None Remove="Images\pay.png" />
+    <None Remove="Images\prod.png" />
+    <None Remove="Images\shopping.png" />
+    <None Remove="Images\sign.jpeg" />
+    <None Remove="Images\thanks.png" />
+    <None Remove="Images\web.jpeg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\cate.png" />
+    <Content Include="Images\email2.png" />
+    <Content Include="Images\login.jpeg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Images\order.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Images\pay.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Images\prod.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Images\shopping.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Images\sign.jpeg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Images\thanks.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Images\web.jpeg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspNetCore.Authentication.Cookies.Owin" Version="1.0.0" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.18.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />

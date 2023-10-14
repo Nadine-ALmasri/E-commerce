@@ -15,7 +15,10 @@ namespace E_commerce.Controllers
             {
                 _category = category;
             }
-
+        /// <summary>
+        /// to display category  list
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         public async Task<IActionResult> Index()
             {
@@ -29,6 +32,11 @@ namespace E_commerce.Controllers
 
                 return View(category);
             }
+        /// <summary>
+        /// to delete category
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Administrator")]
         [HttpGet]
         [ActionName("Delete")]
@@ -57,7 +65,11 @@ namespace E_commerce.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
+        /// <summary>
+        /// to edit a category
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = "Editor")]
         public async Task<IActionResult> Edit(int id)
@@ -88,8 +100,11 @@ namespace E_commerce.Controllers
                 return RedirectToAction(nameof(Details), updated);
             }
             return View(category);
-
-        }
+           
+        }/// <summary>
+        /// to create new product
+        /// </summary>
+        /// <returns></returns>
         [Authorize(Roles = "Administrator")]
         [HttpGet]
         public async Task<IActionResult> Create()

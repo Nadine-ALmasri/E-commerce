@@ -12,7 +12,10 @@ namespace E_commerce.Controllers
         public OrderController(IOrder order)
         {
             _order = order;
-        }
+        }/// <summary>
+        /// to get all the orders
+        /// </summary>
+        /// <returns></returns>
 
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Index()

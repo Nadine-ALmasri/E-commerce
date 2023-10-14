@@ -11,7 +11,13 @@ namespace E_commerce.Models.Services
         public EmailSender(IConfiguration configuration)
         {
             _configuration = configuration;
-        }
+        }/// <summary>
+        /// to implement sending email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="subject"></param>
+        /// <param name="HtmlMessage"></param>
+        /// <returns></returns>
         public async Task SendEmailAsync(string email, string subject, string HtmlMessage)
         {
             string apiKey = _configuration["SendGrid:Key"];

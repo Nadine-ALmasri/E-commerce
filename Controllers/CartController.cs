@@ -31,7 +31,13 @@ namespace E_commerce.Controllers
             _configuration = configuration;
             _context=context;
         }
+        /// <summary>
+        /// to display the user cart
+        /// </summary>
+        /// <param name="layout"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Administrator,Editor,User")]
+        
         public async Task<IActionResult> Index(string layout)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -49,7 +55,11 @@ namespace E_commerce.Controllers
             else
                 ViewBag.Layout = "_Layout";
             return View(cart);
-        }
+        }/// <summary>
+        /// to delete product from user cart
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 
         [ActionName("DeleteProductFromCart")]
         public async Task<IActionResult> DeleteProductFromCartGet(int id)
@@ -79,7 +89,11 @@ namespace E_commerce.Controllers
             await _CartService.DeleteProduct(id);
             return RedirectToAction("Index");
         }
-
+        /// <summary>
+        /// to decrize the quentity
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Administrator,Editor,User")]
         [HttpPost]
         public async Task<IActionResult> LessQuantityCon(int id)
@@ -96,7 +110,10 @@ namespace E_commerce.Controllers
         }
 
         
-
+        /// <summary>
+        /// /to get the total 
+        /// </summary>
+        /// <returns></returns>
         public async Task<double> CalculateTotal()
         {
             Cart UserCart = null;
@@ -121,7 +138,10 @@ namespace E_commerce.Controllers
                 }
             }
             return total;
-        }
+        }/// <summary>
+        /// to checkout
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Checkout()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -270,7 +290,10 @@ namespace E_commerce.Controllers
             await _context.SaveChangesAsync();
             return new StatusCodeResult(303);
 
-		}
+		}/// <summary>
+        /// to confirm the order and send email
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> OrderConfirmation()
         {
             var sessionId = TempData["sessionId"].ToString();
@@ -335,6 +358,11 @@ namespace E_commerce.Controllers
 			} 
             return Content("Not completed successfully");
         }
+        /// <summary>
+        /// to senf email after confirm the order
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
 		[HttpPost]
         public async Task<IActionResult> ProcessOrder(UserEmailDTO user)
         {

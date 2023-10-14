@@ -29,6 +29,10 @@ namespace E_commerce.Controllers
             _configuration = configuration;
         }
         //[Authorize(Roles = "Administrator,Editor,User")]
+        /// <summary>
+        /// this method is to get all the products
+        /// </summary>
+        /// <returns><List<ProductCategoryDTO></returns>
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
@@ -43,6 +47,11 @@ namespace E_commerce.Controllers
 
             return View(product);
         }
+        /// <summary>
+        /// this method is to creat new product
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns>ProductCategoryDTO</returns>
         [Authorize(Roles = "Administrator,Editor")]
         [HttpGet]
         public async Task<IActionResult> Create(int id)
@@ -56,7 +65,11 @@ namespace E_commerce.Controllers
             var CategoriesDTO = await _category.GetAllCategories();
             ViewBag.CategoriesDTO = new SelectList(CategoriesDTO, "Id", "Name");
             return View();
-        }
+        }/// <summary>
+         /// this method is to creat new product
+         /// </summary>
+         /// <param name="product"></param>
+         /// <returns>ProductCategoryDTO</returns>
 
         [HttpPost]
         [Authorize(Roles = "Administrator,Editor")]
@@ -112,6 +125,11 @@ namespace E_commerce.Controllers
             var product = await _prouduct.GetProductById(id);
             return View(product);
         }
+        /// <summary>
+        /// to delete product
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
@@ -123,6 +141,11 @@ namespace E_commerce.Controllers
             await _prouduct.Delete(product.Id);
             return RedirectToAction(nameof(Details), "Category", category);
         }
+        /// <summary>
+        /// to edite product details
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = "Editor")]
         public async Task<IActionResult> Edit(int id)
@@ -151,6 +174,11 @@ namespace E_commerce.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Editor")]
+        /// <summary>
+        /// to edite product details
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Edit(int id, ProductDTO product)
         {
             if (id != product.Id)
@@ -176,7 +204,12 @@ namespace E_commerce.Controllers
             var CategoriesDTO = await _category.GetAllCategories();
             ViewBag.CategoriesDTO = new SelectList(CategoriesDTO, "Id", "Name");
             return View(product);
-        }
+        }/// <summary>
+        /// to upload img
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="productId"></param>
+        /// <returns></returns>
 
         [Authorize(Roles = "Editor ,Administrator")]
         [HttpPost]
@@ -264,7 +297,11 @@ namespace E_commerce.Controllers
                     return "application/octet-stream"; // Default to binary data if format is unknown
             }
         }
-        
+        /// <summary>
+        /// /to add product to cart
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
         public async Task<IActionResult> AddProductToCart(int product)
         {
            

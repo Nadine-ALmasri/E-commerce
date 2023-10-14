@@ -11,7 +11,10 @@ namespace E_commerce.Models.Services
         public OrderServices(E_commerceDbContext context)
         {
             _context = context;
-        }
+        }/// <summary>
+        /// /to get and display all orders
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<Order>> GetAllOrders()
         {
             var Orders= await _context.Orders.Include(c=>c.ShoppingCart).ToListAsync();

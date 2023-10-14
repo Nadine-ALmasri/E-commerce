@@ -15,13 +15,23 @@ namespace E_commerce.Models.Services
         private readonly E_commerceDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly SignInManager<ApplicationUser> _signInManager;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="httpContextAccessor"></param>
+        /// <param name="signInManager"></param>
         public CartServices(E_commerceDbContext context, IHttpContextAccessor httpContextAccessor, SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
             _signInManager=signInManager;
         }
+        /// <summary>
+        /// to implement adding item to the cart
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<List<CartProducts>> AddToCart(ProductCategoryDTO product)
         {
@@ -69,20 +79,17 @@ namespace E_commerce.Models.Services
                 await _context.SaveChangesAsync();
             }
 
-            // Update the Cart total.
            
-
-            // Save the changes to the database.
             await _context.SaveChangesAsync();
-            //var CartofUser = _context.Cart.Where(x => x.UserId == userId).SelectMany(x => x.CartProducts).ToList();
-            /*var cartprice = CartofUser[0].Cart.CartProducts;
-            foreach (var item in cartprice)
-            {
-                userCart.Total += item.Product.Price;
-            }*/
+          
+          
             return userCart.CartProducts;
         }
-
+        /// <summary>
+        /// to implement geting a cart data
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
          public async Task<Cart> GetCart(string userId)
           {
               var userCart = await _context.Cart
@@ -98,12 +105,11 @@ namespace E_commerce.Models.Services
               
           }
 
-
-        //public async Task<List<CartProducts>> GetAlProductsInCart()
-        //{
-        //    var user = _signInManager.IsSignedIn()
-        //    var CartProducts = await _context.Cart.Include(cp=>cp.CartProducts).ThenInclude(p=>p.Product).ThenInclude(c=>c.Category).Where();
-        //}
+        /// <summary>
+        /// to implement deleting item from the cart
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task DeleteProduct(int id)
         {
             var userId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -122,7 +128,11 @@ namespace E_commerce.Models.Services
                 await _context.SaveChangesAsync();
             }
         }
-
+        /// <summary>
+        /// to implement decreasing the quntuty 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task LessQuantity(int id)
         {
             var userId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
