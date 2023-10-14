@@ -10,7 +10,10 @@ Our application is a luxurious and all-encompassing destination for beauty enthu
 
 - User Authentication: Users can create accounts, log in, and securely manage their profiles.
 
-![](./images/sign.jpeg)                 ![](./images/login.jpeg)
+
+![](./Images/sign.jpeg)       
+
+![](./Images/login.jpeg)
 - Category Catalog: A comprehensive Category catalog with  product listings.
 
 ![](./images/cate.png)
