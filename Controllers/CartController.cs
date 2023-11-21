@@ -251,7 +251,7 @@ namespace E_commerce.Controllers
 
             var options = new SessionCreateOptions
             {
-                SuccessUrl = "https://e-ccommerce.azurewebsites.net/Cart/OrderConfirmation",
+                SuccessUrl = "https://localhost:7261/Cart/OrderConfirmation",
                 CancelUrl = "https://e-ccommerce.azurewebsites.net/Cart",
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
