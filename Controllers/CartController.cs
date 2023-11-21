@@ -247,11 +247,11 @@ namespace E_commerce.Controllers
 			};
 			StripeConfiguration.ApiKey = _configuration.GetSection("StripeSettings:SecretKey").Get<string>();
 
-			var domain = "https://localhost:44382/";
+			var domain = "https://e-ccommerce.azurewebsites.net/";
 
             var options = new SessionCreateOptions
             {
-                SuccessUrl = "https://localhost:7261/Cart/OrderConfirmation",
+                SuccessUrl = "https://e-ccommerce.azurewebsites.net/Cart/OrderConfirmation",
                 CancelUrl = "https://e-ccommerce.azurewebsites.net/Cart",
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
